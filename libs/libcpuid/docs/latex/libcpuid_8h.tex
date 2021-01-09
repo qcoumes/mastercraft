@@ -1,0 +1,337 @@
+\doxysection{libcpuid/libcpuid.h File Reference}
+\label{libcpuid_8h}\index{libcpuid/libcpuid.h@{libcpuid/libcpuid.h}}
+{\ttfamily \#include \char`\"{}libcpuid\+\_\+types.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}libcpuid\+\_\+constants.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ cpu\+\_\+raw\+\_\+data\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Contains just the raw C\+P\+U\+ID data. \end{DoxyCompactList}\item 
+struct \textbf{ cpu\+\_\+sgx\+\_\+t}
+\begin{DoxyCompactList}\small\item\em This contains information about S\+GX features of the processor Example usage\+: \end{DoxyCompactList}\item 
+struct \textbf{ cpu\+\_\+id\+\_\+t}
+\begin{DoxyCompactList}\small\item\em This contains the recognized C\+PU features/info. \end{DoxyCompactList}\item 
+struct \textbf{ cpu\+\_\+mark\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Internal structure, used in cpu\+\_\+tsc\+\_\+mark, cpu\+\_\+tsc\+\_\+unmark and cpu\+\_\+clock\+\_\+by\+\_\+mark. \end{DoxyCompactList}\item 
+struct \textbf{ cpu\+\_\+epc\+\_\+t}
+\begin{DoxyCompactList}\small\item\em The return value of \doxyref{cpuid\+\_\+get\+\_\+epc()}{p.}{group__libcpuid_gad973835515aa3b0d807b07279f03b965}. \end{DoxyCompactList}\item 
+struct \textbf{ cpu\+\_\+list\+\_\+t}
+\begin{DoxyCompactList}\small\item\em a structure that holds a list of processor names \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bfseries N\+U\+M\+\_\+\+C\+P\+U\+\_\+\+V\+E\+N\+D\+O\+RS}~N\+U\+M\+\_\+\+C\+P\+U\+\_\+\+V\+E\+N\+D\+O\+RS
+\item 
+\#define {\bfseries C\+P\+U\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+V\+A\+L\+UE}~0x3fffffff
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef void($\ast$ {\bfseries libcpuid\+\_\+warn\+\_\+fn\+\_\+t}) (const char $\ast$msg)
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \textbf{ cpu\+\_\+vendor\+\_\+t} \{ \newline
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+I\+N\+T\+EL} = 0, 
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+A\+MD}, 
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+C\+Y\+R\+IX}, 
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+N\+E\+X\+G\+EN}, 
+\newline
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+T\+R\+A\+N\+S\+M\+E\+TA}, 
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+U\+MC}, 
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+C\+E\+N\+T\+A\+UR}, 
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+R\+I\+SE}, 
+\newline
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+S\+IS}, 
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+N\+SC}, 
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+H\+Y\+G\+ON}, 
+\textbf{ N\+U\+M\+\_\+\+C\+P\+U\+\_\+\+V\+E\+N\+D\+O\+RS}, 
+\newline
+{\bfseries V\+E\+N\+D\+O\+R\+\_\+\+U\+N\+K\+N\+O\+WN} = -\/1
+ \}
+\begin{DoxyCompactList}\small\item\em C\+PU vendor, as guessed from the Vendor String. \end{DoxyCompactList}\item 
+enum \textbf{ cpu\+\_\+feature\+\_\+t} \{ \newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F\+PU} = 0, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+V\+ME}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+DE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+SE}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+SC}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+SR}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+AE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+CE}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+X8}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+P\+IC}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+T\+RR}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+EP}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+GE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+CA}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+M\+OV}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+AT}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+S\+E36}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+PN}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+L\+F\+L\+U\+SH}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+D\+TS}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+C\+PI}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+MX}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F\+X\+SR}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+SE}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+S\+E2}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+SS}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+HT}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+TM}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+I\+A64}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+BE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+NI}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+C\+L\+M\+UL}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+D\+T\+S64}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+O\+N\+I\+T\+OR}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+D\+S\+\_\+\+C\+PL}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+V\+MX}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+MX}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+E\+ST}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+M2}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+S\+S\+E3}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+ID}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+X16}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+X\+T\+PR}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+D\+CM}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+D\+CA}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+S\+E4\+\_\+1}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+S\+E4\+\_\+2}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+Y\+S\+C\+A\+LL}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+XD}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+O\+V\+BE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+O\+P\+C\+NT}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+ES}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+X\+S\+A\+VE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+O\+S\+X\+S\+A\+VE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+VX}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+M\+X\+E\+XT}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+3\+D\+N\+OW}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+3\+D\+N\+O\+W\+E\+XT}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+NX}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F\+X\+S\+R\+\_\+\+O\+PT}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+R\+D\+T\+S\+CP}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+LM}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+L\+A\+H\+F\+\_\+\+LM}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+M\+P\+\_\+\+L\+E\+G\+A\+CY}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+VM}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+BM}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+I\+S\+A\+L\+I\+G\+N\+S\+SE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+S\+E4A}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+3\+D\+N\+O\+W\+P\+R\+E\+F\+E\+T\+CH}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+O\+S\+VW}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+I\+BS}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+S\+E5}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+K\+I\+N\+IT}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+W\+DT}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+TS}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F\+ID}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+V\+ID}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+TP}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+M\+\_\+\+A\+MD}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+TC}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+100\+M\+H\+Z\+S\+T\+E\+PS}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+H\+W\+P\+S\+T\+A\+TE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+T\+SC}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+X\+OP}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F\+M\+A3}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F\+M\+A4}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+BM}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F16C}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+R\+D\+R\+A\+ND}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+X2\+A\+P\+IC}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+PB}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+P\+E\+R\+F\+M\+P\+E\+RF}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+FI}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+PA}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X2}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+B\+M\+I1}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+B\+M\+I2}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+H\+LE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+R\+TM}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512F}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+DQ}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+PF}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+ER}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+CD}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+H\+A\+\_\+\+NI}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+BW}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+VL}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+GX}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+R\+D\+S\+E\+ED}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+DX}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+V\+N\+NI}, 
+{\bfseries N\+U\+M\+\_\+\+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+ES}
+ \}
+\begin{DoxyCompactList}\small\item\em C\+PU feature identifiers. \end{DoxyCompactList}\item 
+enum \textbf{ cpu\+\_\+hint\+\_\+t} \{ \textbf{ C\+P\+U\+\_\+\+H\+I\+N\+T\+\_\+\+S\+S\+E\+\_\+\+S\+I\+Z\+E\+\_\+\+A\+U\+TH} = 0, 
+{\bfseries N\+U\+M\+\_\+\+C\+P\+U\+\_\+\+H\+I\+N\+TS}
+ \}
+\begin{DoxyCompactList}\small\item\em C\+PU detection hints identifiers. \end{DoxyCompactList}\item 
+enum \textbf{ cpu\+\_\+sgx\+\_\+feature\+\_\+t} \{ \textbf{ I\+N\+T\+E\+L\+\_\+\+S\+G\+X1}, 
+\textbf{ I\+N\+T\+E\+L\+\_\+\+S\+G\+X2}, 
+{\bfseries N\+U\+M\+\_\+\+S\+G\+X\+\_\+\+F\+E\+A\+T\+U\+R\+ES}
+ \}
+\begin{DoxyCompactList}\small\item\em S\+GX features flags. \end{DoxyCompactList}\item 
+enum \textbf{ cpu\+\_\+error\+\_\+t} \{ \newline
+\textbf{ E\+R\+R\+\_\+\+OK} = 0, 
+\textbf{ E\+R\+R\+\_\+\+N\+O\+\_\+\+C\+P\+U\+ID} = -\/1, 
+\textbf{ E\+R\+R\+\_\+\+N\+O\+\_\+\+R\+D\+T\+SC} = -\/2, 
+\textbf{ E\+R\+R\+\_\+\+N\+O\+\_\+\+M\+EM} = -\/3, 
+\newline
+\textbf{ E\+R\+R\+\_\+\+O\+P\+EN} = -\/4, 
+\textbf{ E\+R\+R\+\_\+\+B\+A\+D\+F\+MT} = -\/5, 
+\textbf{ E\+R\+R\+\_\+\+N\+O\+T\+\_\+\+I\+MP} = -\/6, 
+\textbf{ E\+R\+R\+\_\+\+C\+P\+U\+\_\+\+U\+N\+KN} = -\/7, 
+\newline
+\textbf{ E\+R\+R\+\_\+\+N\+O\+\_\+\+R\+D\+M\+SR} = -\/8, 
+\textbf{ E\+R\+R\+\_\+\+N\+O\+\_\+\+D\+R\+I\+V\+ER} = -\/9, 
+\textbf{ E\+R\+R\+\_\+\+N\+O\+\_\+\+P\+E\+R\+MS} = -\/10, 
+\textbf{ E\+R\+R\+\_\+\+E\+X\+T\+R\+A\+CT} = -\/11, 
+\newline
+\textbf{ E\+R\+R\+\_\+\+H\+A\+N\+D\+LE} = -\/12, 
+\textbf{ E\+R\+R\+\_\+\+I\+N\+V\+M\+SR} = -\/13, 
+\textbf{ E\+R\+R\+\_\+\+I\+N\+V\+C\+NB} = -\/14, 
+\textbf{ E\+R\+R\+\_\+\+H\+A\+N\+D\+L\+E\+\_\+R} = -\/15, 
+\newline
+\textbf{ E\+R\+R\+\_\+\+I\+N\+V\+R\+A\+N\+GE} = -\/16
+ \}
+\begin{DoxyCompactList}\small\item\em Describes common library error codes. \end{DoxyCompactList}\item 
+enum \textbf{ cpu\+\_\+msrinfo\+\_\+request\+\_\+t} \{ \newline
+\textbf{ I\+N\+F\+O\+\_\+\+M\+P\+E\+RF}, 
+\textbf{ I\+N\+F\+O\+\_\+\+A\+P\+E\+RF}, 
+\textbf{ I\+N\+F\+O\+\_\+\+M\+I\+N\+\_\+\+M\+U\+L\+T\+I\+P\+L\+I\+ER}, 
+\textbf{ I\+N\+F\+O\+\_\+\+C\+U\+R\+\_\+\+M\+U\+L\+T\+I\+P\+L\+I\+ER}, 
+\newline
+\textbf{ I\+N\+F\+O\+\_\+\+M\+A\+X\+\_\+\+M\+U\+L\+T\+I\+P\+L\+I\+ER}, 
+\textbf{ I\+N\+F\+O\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+RE}, 
+\textbf{ I\+N\+F\+O\+\_\+\+T\+H\+R\+O\+T\+T\+L\+I\+NG}, 
+\textbf{ I\+N\+F\+O\+\_\+\+V\+O\+L\+T\+A\+GE}, 
+\newline
+\textbf{ I\+N\+F\+O\+\_\+\+B\+C\+LK}, 
+\textbf{ I\+N\+F\+O\+\_\+\+B\+U\+S\+\_\+\+C\+L\+O\+CK}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \textbf{ cpuid\+\_\+get\+\_\+total\+\_\+cpus} (void)
+\begin{DoxyCompactList}\small\item\em Returns the total number of logical C\+PU threads (even if C\+P\+U\+ID is not present). \end{DoxyCompactList}\item 
+int \textbf{ cpuid\+\_\+present} (void)
+\begin{DoxyCompactList}\small\item\em Checks if the C\+P\+U\+ID instruction is supported. \end{DoxyCompactList}\item 
+void \textbf{ cpu\+\_\+exec\+\_\+cpuid} (uint32\+\_\+t eax, uint32\+\_\+t $\ast$regs)
+\begin{DoxyCompactList}\small\item\em Executes the C\+P\+U\+ID instruction. \end{DoxyCompactList}\item 
+void \textbf{ cpu\+\_\+exec\+\_\+cpuid\+\_\+ext} (uint32\+\_\+t $\ast$regs)
+\begin{DoxyCompactList}\small\item\em Executes the C\+P\+U\+ID instruction with the given input registers. \end{DoxyCompactList}\item 
+int \textbf{ cpuid\+\_\+get\+\_\+raw\+\_\+data} (struct \textbf{ cpu\+\_\+raw\+\_\+data\+\_\+t} $\ast$data)
+\begin{DoxyCompactList}\small\item\em Obtains the raw C\+P\+U\+ID data from the current C\+PU. \end{DoxyCompactList}\item 
+int \textbf{ cpuid\+\_\+serialize\+\_\+raw\+\_\+data} (struct \textbf{ cpu\+\_\+raw\+\_\+data\+\_\+t} $\ast$data, const char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Writes the raw C\+P\+U\+ID data to a text file. \end{DoxyCompactList}\item 
+int \textbf{ cpuid\+\_\+deserialize\+\_\+raw\+\_\+data} (struct \textbf{ cpu\+\_\+raw\+\_\+data\+\_\+t} $\ast$data, const char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Reads raw C\+P\+U\+ID data from file. \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+identify} (struct \textbf{ cpu\+\_\+raw\+\_\+data\+\_\+t} $\ast$raw, struct \textbf{ cpu\+\_\+id\+\_\+t} $\ast$data)
+\begin{DoxyCompactList}\small\item\em Identifies the C\+PU. \end{DoxyCompactList}\item 
+const char $\ast$ \textbf{ cpu\+\_\+feature\+\_\+str} (\textbf{ cpu\+\_\+feature\+\_\+t} feature)
+\begin{DoxyCompactList}\small\item\em Returns the short textual representation of a C\+PU flag. \end{DoxyCompactList}\item 
+const char $\ast$ \textbf{ cpuid\+\_\+error} (void)
+\begin{DoxyCompactList}\small\item\em Returns textual description of the last error. \end{DoxyCompactList}\item 
+void \textbf{ cpu\+\_\+rdtsc} (uint64\+\_\+t $\ast$result)
+\begin{DoxyCompactList}\small\item\em Executes R\+D\+T\+SC. \end{DoxyCompactList}\item 
+void \textbf{ cpu\+\_\+tsc\+\_\+mark} (struct \textbf{ cpu\+\_\+mark\+\_\+t} $\ast$mark)
+\begin{DoxyCompactList}\small\item\em Store T\+SC and timing info. \end{DoxyCompactList}\item 
+void \textbf{ cpu\+\_\+tsc\+\_\+unmark} (struct \textbf{ cpu\+\_\+mark\+\_\+t} $\ast$mark)
+\begin{DoxyCompactList}\small\item\em Calculate T\+SC and timing difference. \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+clock\+\_\+by\+\_\+mark} (struct \textbf{ cpu\+\_\+mark\+\_\+t} $\ast$mark)
+\begin{DoxyCompactList}\small\item\em Calculates the C\+PU clock. \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+clock\+\_\+by\+\_\+os} (void)
+\begin{DoxyCompactList}\small\item\em Returns the C\+PU clock, as reported by the OS. \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+clock\+\_\+measure} (int millis, int quad\+\_\+check)
+\begin{DoxyCompactList}\small\item\em Measure the C\+PU clock frequency. \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+clock\+\_\+by\+\_\+ic} (int millis, int runs)
+\begin{DoxyCompactList}\small\item\em Measure the C\+PU clock frequency using instruction-\/counting. \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+clock} (void)
+\begin{DoxyCompactList}\small\item\em Get the C\+PU clock frequency (all-\/in-\/one method) \end{DoxyCompactList}\item 
+struct \textbf{ cpu\+\_\+epc\+\_\+t} \textbf{ cpuid\+\_\+get\+\_\+epc} (int index, const struct \textbf{ cpu\+\_\+raw\+\_\+data\+\_\+t} $\ast$raw)
+\begin{DoxyCompactList}\small\item\em Fetches information about an E\+PC (Enclave Page Cache) area. \end{DoxyCompactList}\item 
+const char $\ast$ \textbf{ cpuid\+\_\+lib\+\_\+version} (void)
+\begin{DoxyCompactList}\small\item\em Returns the libcpuid version. \end{DoxyCompactList}\item 
+libcpuid\+\_\+warn\+\_\+fn\+\_\+t \textbf{ cpuid\+\_\+set\+\_\+warn\+\_\+function} (libcpuid\+\_\+warn\+\_\+fn\+\_\+t warn\+\_\+fun)
+\begin{DoxyCompactList}\small\item\em Sets the warning print function. \end{DoxyCompactList}\item 
+void \textbf{ cpuid\+\_\+set\+\_\+verbosiness\+\_\+level} (int level)
+\begin{DoxyCompactList}\small\item\em Sets the verbosiness level. \end{DoxyCompactList}\item 
+\textbf{ cpu\+\_\+vendor\+\_\+t} \textbf{ cpuid\+\_\+get\+\_\+vendor} (void)
+\begin{DoxyCompactList}\small\item\em Obtains the C\+PU vendor from C\+P\+U\+ID from the current C\+PU. \end{DoxyCompactList}\item 
+void \textbf{ cpuid\+\_\+get\+\_\+cpu\+\_\+list} (\textbf{ cpu\+\_\+vendor\+\_\+t} vendor, struct \textbf{ cpu\+\_\+list\+\_\+t} $\ast$list)
+\begin{DoxyCompactList}\small\item\em Gets a list of all known C\+PU names from a specific vendor. \end{DoxyCompactList}\item 
+void \textbf{ cpuid\+\_\+free\+\_\+cpu\+\_\+list} (struct \textbf{ cpu\+\_\+list\+\_\+t} $\ast$list)
+\begin{DoxyCompactList}\small\item\em Frees a C\+PU list. \end{DoxyCompactList}\item 
+struct msr\+\_\+driver\+\_\+t $\ast$ \textbf{ cpu\+\_\+msr\+\_\+driver\+\_\+open} (void)
+\begin{DoxyCompactList}\small\item\em Starts/opens a driver, needed to read M\+S\+Rs (Model Specific Registers) \end{DoxyCompactList}\item 
+struct msr\+\_\+driver\+\_\+t $\ast$ \textbf{ cpu\+\_\+msr\+\_\+driver\+\_\+open\+\_\+core} (unsigned core\+\_\+num)
+\begin{DoxyCompactList}\small\item\em Similar to \doxyref{cpu\+\_\+msr\+\_\+driver\+\_\+open}{p.}{group__libcpuid_gab99453e100b3b502ca15b8a79198828a}, but accept one parameter. \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+rdmsr} (struct msr\+\_\+driver\+\_\+t $\ast$handle, uint32\+\_\+t msr\+\_\+index, uint64\+\_\+t $\ast$result)
+\begin{DoxyCompactList}\small\item\em Reads a Model-\/\+Specific Register (M\+SR) \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+rdmsr\+\_\+range} (struct msr\+\_\+driver\+\_\+t $\ast$handle, uint32\+\_\+t msr\+\_\+index, uint8\+\_\+t highbit, uint8\+\_\+t lowbit, uint64\+\_\+t $\ast$result)
+\begin{DoxyCompactList}\small\item\em Similar to \doxyref{cpu\+\_\+rdmsr}{p.}{group__libcpuid_ga0eddf30c99a094aa9942265948a13007}, but extract a range of bits. \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+msrinfo} (struct msr\+\_\+driver\+\_\+t $\ast$handle, \textbf{ cpu\+\_\+msrinfo\+\_\+request\+\_\+t} which)
+\begin{DoxyCompactList}\small\item\em Reads extended C\+PU information from Model-\/\+Specific Registers. \end{DoxyCompactList}\item 
+int \textbf{ msr\+\_\+serialize\+\_\+raw\+\_\+data} (struct msr\+\_\+driver\+\_\+t $\ast$handle, const char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Writes the raw M\+SR data to a text file. \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+msr\+\_\+driver\+\_\+close} (struct msr\+\_\+driver\+\_\+t $\ast$handle)
+\begin{DoxyCompactList}\small\item\em Closes an open M\+SR driver. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Veselin Georgiev 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+Oct 2008 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+0.\+4.\+1
+\end{DoxyVersion}
+Version history\+:
+
+
+\begin{DoxyItemize}
+\item 0.\+1.\+0 (2008-\/10-\/15)\+: initial adaptation from wxfractgui sources
+\item 0.\+1.\+1 (2009-\/07-\/06)\+: Added intel\+\_\+fn11 fields to \doxyref{cpu\+\_\+raw\+\_\+data\+\_\+t}{p.}{structcpu__raw__data__t} to handle new processor topology enumeration required on Core i7
+\item 0.\+1.\+2 (2009-\/09-\/26)\+: Added support for M\+SR reading through self-\/extracting kernel driver on Win32.
+\item 0.\+1.\+3 (2010-\/04-\/20)\+: Added support for greater more accurate C\+PU clock measurements with \doxyref{cpu\+\_\+clock\+\_\+by\+\_\+ic()}{p.}{group__libcpuid_ga4d23d7b9c774ad92b2d30a3798434224}
+\item 0.\+2.\+0 (2011-\/10-\/11)\+: Support for A\+MD Bulldozer C\+P\+Us, 128-\/bit S\+SE unit size checking. A backwards-\/incompatible change, since the sizeof \doxyref{cpu\+\_\+id\+\_\+t}{p.}{structcpu__id__t} is now different.
+\item 0.\+2.\+1 (2012-\/05-\/26)\+: Support for Ivy Bridge, and detecting the presence of the Rd\+Rand instruction.
+\item 0.\+2.\+2 (2015-\/11-\/04)\+: Support for newer processors up to Haswell and Vishera. Fix clock detection in \doxyref{cpu\+\_\+clock\+\_\+by\+\_\+ic()}{p.}{group__libcpuid_ga4d23d7b9c774ad92b2d30a3798434224} for Bulldozer. More entries supported in \doxyref{cpu\+\_\+msrinfo()}{p.}{group__libcpuid_gac977cbb78e00058098778411d7f784cf}. $\ast$\+B\+SD and Solaris support (unofficial).
+\item 0.\+3.\+0 (2016-\/07-\/09)\+: Support for Skylake; M\+SR ops in Free\+B\+SD; I\+N\+F\+O\+\_\+\+V\+O\+L\+T\+A\+GE for A\+MD C\+P\+Us. Level 4 cache support for Crystalwell (a backwards-\/incompatible change since the sizeof \doxyref{cpu\+\_\+raw\+\_\+data\+\_\+t}{p.}{structcpu__raw__data__t} is now different).
+\item 0.\+4.\+0 (2016-\/09-\/30)\+: Better detection of A\+MD clock multiplier with msrinfo. Support for Intel S\+GX detection (a backwards-\/incompatible change since the sizeof \doxyref{cpu\+\_\+raw\+\_\+data\+\_\+t}{p.}{structcpu__raw__data__t} and \doxyref{cpu\+\_\+id\+\_\+t}{p.}{structcpu__id__t} is now different).
+\item 0.\+4.\+1 (2019-\/02-\/05)\+: A lot of DB updates, and better R\+D\+M\+SR 
+\end{DoxyItemize}

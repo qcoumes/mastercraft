@@ -1,0 +1,19 @@
+Command line interface to libcpuid
+
+\begin{DoxyDate}{Date}
+2008-\/11-\/19 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Veselin Georgiev
+\end{DoxyAuthor}
+This file is provides a direct interface to libcpuid. See the usage() function (or just run the program with the `-\/-\/help' switch) for a short command line options reference.
+
+This file has several purposes\+:
+
+
+\begin{DoxyEnumerate}
+\item When started with no arguments, the program outputs the R\+AW and decoded C\+PU data to files (`raw.\+txt' and `report.\+txt', respectively) -\/ this is intended to be a dumb, doubleclicky tool for non-\/developer users, that can provide debug info about unrecognized processors to libcpuid developers.
+\item When operated from the terminal with the `-\/-\/report' option, it is a generic C\+P\+U-\/info utility.
+\item Can be used in shell scripts, e.\+g. to get the name of the C\+PU, cache sizes, features, with query options like `-\/-\/cache', `-\/-\/brandstr', etc.
+\item Finally, it serves to self-\/document libcpiud itself \+:) 
+\end{DoxyEnumerate}

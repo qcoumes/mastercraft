@@ -1,0 +1,75 @@
+\doxysection{cpu\+\_\+raw\+\_\+data\+\_\+t Struct Reference}
+\label{structcpu__raw__data__t}\index{cpu\_raw\_data\_t@{cpu\_raw\_data\_t}}
+
+
+Contains just the raw C\+P\+U\+ID data.  
+
+
+
+
+{\ttfamily \#include $<$libcpuid.\+h$>$}
+
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \textbf{ basic\+\_\+cpuid} [M\+A\+X\+\_\+\+C\+P\+U\+I\+D\+\_\+\+L\+E\+V\+EL][4]
+\item 
+uint32\+\_\+t \textbf{ ext\+\_\+cpuid} [M\+A\+X\+\_\+\+E\+X\+T\+\_\+\+C\+P\+U\+I\+D\+\_\+\+L\+E\+V\+EL][4]
+\item 
+uint32\+\_\+t \textbf{ intel\+\_\+fn4} [M\+A\+X\+\_\+\+I\+N\+T\+E\+L\+F\+N4\+\_\+\+L\+E\+V\+EL][4]
+\item 
+uint32\+\_\+t \textbf{ intel\+\_\+fn11} [M\+A\+X\+\_\+\+I\+N\+T\+E\+L\+F\+N11\+\_\+\+L\+E\+V\+EL][4]
+\item 
+uint32\+\_\+t \textbf{ intel\+\_\+fn12h} [M\+A\+X\+\_\+\+I\+N\+T\+E\+L\+F\+N12\+H\+\_\+\+L\+E\+V\+EL][4]
+\item 
+uint32\+\_\+t \textbf{ intel\+\_\+fn14h} [M\+A\+X\+\_\+\+I\+N\+T\+E\+L\+F\+N14\+H\+\_\+\+L\+E\+V\+EL][4]
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Contains just the raw C\+P\+U\+ID data. 
+
+This contains only the most basic C\+PU data, required to do identification and feature recognition. Every processor should be identifiable using this data only. 
+
+\doxysubsection{Field Documentation}
+\mbox{\label{structcpu__raw__data__t_aeaddf8a29d1ec99e88f4fac0472dde34}} 
+\index{cpu\_raw\_data\_t@{cpu\_raw\_data\_t}!basic\_cpuid@{basic\_cpuid}}
+\index{basic\_cpuid@{basic\_cpuid}!cpu\_raw\_data\_t@{cpu\_raw\_data\_t}}
+\doxysubsubsection{basic\_cpuid}
+{\footnotesize\ttfamily uint32\+\_\+t cpu\+\_\+raw\+\_\+data\+\_\+t\+::basic\+\_\+cpuid[M\+A\+X\+\_\+\+C\+P\+U\+I\+D\+\_\+\+L\+E\+V\+EL][4]}
+
+contains results of C\+P\+U\+ID for eax = 0, 1, ... \mbox{\label{structcpu__raw__data__t_a85fc99e490c7d61ee3a6860c029c6828}} 
+\index{cpu\_raw\_data\_t@{cpu\_raw\_data\_t}!ext\_cpuid@{ext\_cpuid}}
+\index{ext\_cpuid@{ext\_cpuid}!cpu\_raw\_data\_t@{cpu\_raw\_data\_t}}
+\doxysubsubsection{ext\_cpuid}
+{\footnotesize\ttfamily uint32\+\_\+t cpu\+\_\+raw\+\_\+data\+\_\+t\+::ext\+\_\+cpuid[M\+A\+X\+\_\+\+E\+X\+T\+\_\+\+C\+P\+U\+I\+D\+\_\+\+L\+E\+V\+EL][4]}
+
+contains results of C\+P\+U\+ID for eax = 0x80000000, 0x80000001, ... \mbox{\label{structcpu__raw__data__t_a3b038c71ad8235ec60c483149dc338c8}} 
+\index{cpu\_raw\_data\_t@{cpu\_raw\_data\_t}!intel\_fn11@{intel\_fn11}}
+\index{intel\_fn11@{intel\_fn11}!cpu\_raw\_data\_t@{cpu\_raw\_data\_t}}
+\doxysubsubsection{intel\_fn11}
+{\footnotesize\ttfamily uint32\+\_\+t cpu\+\_\+raw\+\_\+data\+\_\+t\+::intel\+\_\+fn11[M\+A\+X\+\_\+\+I\+N\+T\+E\+L\+F\+N11\+\_\+\+L\+E\+V\+EL][4]}
+
+when the C\+PU is intel and it supports leaf 0Bh (Extended Topology enumeration leaf), this stores the result of C\+P\+U\+ID with eax = 11 and ecx = 0, 1, 2... \mbox{\label{structcpu__raw__data__t_a986986d3e42c744b48767f3d72cddd1c}} 
+\index{cpu\_raw\_data\_t@{cpu\_raw\_data\_t}!intel\_fn12h@{intel\_fn12h}}
+\index{intel\_fn12h@{intel\_fn12h}!cpu\_raw\_data\_t@{cpu\_raw\_data\_t}}
+\doxysubsubsection{intel\_fn12h}
+{\footnotesize\ttfamily uint32\+\_\+t cpu\+\_\+raw\+\_\+data\+\_\+t\+::intel\+\_\+fn12h[M\+A\+X\+\_\+\+I\+N\+T\+E\+L\+F\+N12\+H\+\_\+\+L\+E\+V\+EL][4]}
+
+when the C\+PU is intel and supports leaf 12h (S\+GX enumeration leaf), this stores the result of C\+P\+U\+ID with eax = 0x12 and ecx = 0, 1, 2... \mbox{\label{structcpu__raw__data__t_a526e9889ed5df9a643ec7c54dcac37d8}} 
+\index{cpu\_raw\_data\_t@{cpu\_raw\_data\_t}!intel\_fn14h@{intel\_fn14h}}
+\index{intel\_fn14h@{intel\_fn14h}!cpu\_raw\_data\_t@{cpu\_raw\_data\_t}}
+\doxysubsubsection{intel\_fn14h}
+{\footnotesize\ttfamily uint32\+\_\+t cpu\+\_\+raw\+\_\+data\+\_\+t\+::intel\+\_\+fn14h[M\+A\+X\+\_\+\+I\+N\+T\+E\+L\+F\+N14\+H\+\_\+\+L\+E\+V\+EL][4]}
+
+when the C\+PU is intel and supports leaf 14h (Intel Processor Trace capabilities leaf). this stores the result of C\+P\+U\+ID with eax = 0x12 and ecx = 0, 1, 2... \mbox{\label{structcpu__raw__data__t_a4a1ab39d1137ee8438f41114675c53ca}} 
+\index{cpu\_raw\_data\_t@{cpu\_raw\_data\_t}!intel\_fn4@{intel\_fn4}}
+\index{intel\_fn4@{intel\_fn4}!cpu\_raw\_data\_t@{cpu\_raw\_data\_t}}
+\doxysubsubsection{intel\_fn4}
+{\footnotesize\ttfamily uint32\+\_\+t cpu\+\_\+raw\+\_\+data\+\_\+t\+::intel\+\_\+fn4[M\+A\+X\+\_\+\+I\+N\+T\+E\+L\+F\+N4\+\_\+\+L\+E\+V\+EL][4]}
+
+when the C\+PU is intel and it supports deterministic cache information\+: this contains the results of C\+P\+U\+ID for eax = 4 and ecx = 0, 1, ... 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+libcpuid/\textbf{ libcpuid.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,1748 @@
+\doxysection{Lib\+C\+P\+U\+ID}
+\label{group__libcpuid}\index{LibCPUID@{LibCPUID}}
+
+
+Lib\+C\+P\+U\+ID provides C\+PU identification.  
+
+
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ cpu\+\_\+raw\+\_\+data\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Contains just the raw C\+P\+U\+ID data. \end{DoxyCompactList}\item 
+struct \textbf{ cpu\+\_\+sgx\+\_\+t}
+\begin{DoxyCompactList}\small\item\em This contains information about S\+GX features of the processor Example usage\+: \end{DoxyCompactList}\item 
+struct \textbf{ cpu\+\_\+id\+\_\+t}
+\begin{DoxyCompactList}\small\item\em This contains the recognized C\+PU features/info. \end{DoxyCompactList}\item 
+struct \textbf{ cpu\+\_\+mark\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Internal structure, used in cpu\+\_\+tsc\+\_\+mark, cpu\+\_\+tsc\+\_\+unmark and cpu\+\_\+clock\+\_\+by\+\_\+mark. \end{DoxyCompactList}\item 
+struct \textbf{ cpu\+\_\+epc\+\_\+t}
+\begin{DoxyCompactList}\small\item\em The return value of \doxyref{cpuid\+\_\+get\+\_\+epc()}{p.}{group__libcpuid_gad973835515aa3b0d807b07279f03b965}. \end{DoxyCompactList}\item 
+struct \textbf{ cpu\+\_\+list\+\_\+t}
+\begin{DoxyCompactList}\small\item\em a structure that holds a list of processor names \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\label{group__libcpuid_gad4a022c32a50d38207631862560a1aab}} 
+\#define {\bfseries N\+U\+M\+\_\+\+C\+P\+U\+\_\+\+V\+E\+N\+D\+O\+RS}~N\+U\+M\+\_\+\+C\+P\+U\+\_\+\+V\+E\+N\+D\+O\+RS
+\item 
+\mbox{\label{group__libcpuid_gae6bede587b8d4922704f2cad3e629754}} 
+\#define {\bfseries C\+P\+U\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+V\+A\+L\+UE}~0x3fffffff
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\label{group__libcpuid_gad15ed59794d43f419af14f78f130d3d4}} 
+typedef void($\ast$ {\bfseries libcpuid\+\_\+warn\+\_\+fn\+\_\+t}) (const char $\ast$msg)
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \textbf{ cpu\+\_\+vendor\+\_\+t} \{ \newline
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+I\+N\+T\+EL} = 0, 
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+A\+MD}, 
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+C\+Y\+R\+IX}, 
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+N\+E\+X\+G\+EN}, 
+\newline
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+T\+R\+A\+N\+S\+M\+E\+TA}, 
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+U\+MC}, 
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+C\+E\+N\+T\+A\+UR}, 
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+R\+I\+SE}, 
+\newline
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+S\+IS}, 
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+N\+SC}, 
+\textbf{ V\+E\+N\+D\+O\+R\+\_\+\+H\+Y\+G\+ON}, 
+\textbf{ N\+U\+M\+\_\+\+C\+P\+U\+\_\+\+V\+E\+N\+D\+O\+RS}, 
+\newline
+{\bfseries V\+E\+N\+D\+O\+R\+\_\+\+U\+N\+K\+N\+O\+WN} = -\/1
+ \}
+\begin{DoxyCompactList}\small\item\em C\+PU vendor, as guessed from the Vendor String. \end{DoxyCompactList}\item 
+enum \textbf{ cpu\+\_\+feature\+\_\+t} \{ \newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F\+PU} = 0, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+V\+ME}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+DE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+SE}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+SC}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+SR}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+AE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+CE}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+X8}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+P\+IC}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+T\+RR}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+EP}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+GE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+CA}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+M\+OV}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+AT}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+S\+E36}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+PN}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+L\+F\+L\+U\+SH}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+D\+TS}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+C\+PI}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+MX}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F\+X\+SR}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+SE}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+S\+E2}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+SS}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+HT}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+TM}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+I\+A64}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+BE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+NI}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+C\+L\+M\+UL}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+D\+T\+S64}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+O\+N\+I\+T\+OR}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+D\+S\+\_\+\+C\+PL}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+V\+MX}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+MX}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+E\+ST}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+M2}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+S\+S\+E3}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+ID}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+X16}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+X\+T\+PR}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+D\+CM}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+D\+CA}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+S\+E4\+\_\+1}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+S\+E4\+\_\+2}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+Y\+S\+C\+A\+LL}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+XD}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+O\+V\+BE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+O\+P\+C\+NT}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+ES}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+X\+S\+A\+VE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+O\+S\+X\+S\+A\+VE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+VX}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+M\+X\+E\+XT}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+3\+D\+N\+OW}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+3\+D\+N\+O\+W\+E\+XT}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+NX}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F\+X\+S\+R\+\_\+\+O\+PT}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+R\+D\+T\+S\+CP}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+LM}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+L\+A\+H\+F\+\_\+\+LM}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+M\+P\+\_\+\+L\+E\+G\+A\+CY}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+VM}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+BM}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+I\+S\+A\+L\+I\+G\+N\+S\+SE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+S\+E4A}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+3\+D\+N\+O\+W\+P\+R\+E\+F\+E\+T\+CH}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+O\+S\+VW}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+I\+BS}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+S\+E5}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+K\+I\+N\+IT}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+W\+DT}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+TS}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F\+ID}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+V\+ID}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+TP}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+M\+\_\+\+A\+MD}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+TC}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+100\+M\+H\+Z\+S\+T\+E\+PS}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+H\+W\+P\+S\+T\+A\+TE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+T\+SC}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+X\+OP}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F\+M\+A3}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F\+M\+A4}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+BM}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F16C}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+R\+D\+R\+A\+ND}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+X2\+A\+P\+IC}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+PB}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+P\+E\+R\+F\+M\+P\+E\+RF}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+FI}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+PA}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X2}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+B\+M\+I1}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+B\+M\+I2}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+H\+LE}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+R\+TM}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512F}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+DQ}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+PF}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+ER}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+CD}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+H\+A\+\_\+\+NI}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+BW}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+VL}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+GX}, 
+\newline
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+R\+D\+S\+E\+ED}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+DX}, 
+\textbf{ C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+V\+N\+NI}, 
+{\bfseries N\+U\+M\+\_\+\+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+ES}
+ \}
+\begin{DoxyCompactList}\small\item\em C\+PU feature identifiers. \end{DoxyCompactList}\item 
+enum \textbf{ cpu\+\_\+hint\+\_\+t} \{ \textbf{ C\+P\+U\+\_\+\+H\+I\+N\+T\+\_\+\+S\+S\+E\+\_\+\+S\+I\+Z\+E\+\_\+\+A\+U\+TH} = 0, 
+{\bfseries N\+U\+M\+\_\+\+C\+P\+U\+\_\+\+H\+I\+N\+TS}
+ \}
+\begin{DoxyCompactList}\small\item\em C\+PU detection hints identifiers. \end{DoxyCompactList}\item 
+enum \textbf{ cpu\+\_\+sgx\+\_\+feature\+\_\+t} \{ \textbf{ I\+N\+T\+E\+L\+\_\+\+S\+G\+X1}, 
+\textbf{ I\+N\+T\+E\+L\+\_\+\+S\+G\+X2}, 
+{\bfseries N\+U\+M\+\_\+\+S\+G\+X\+\_\+\+F\+E\+A\+T\+U\+R\+ES}
+ \}
+\begin{DoxyCompactList}\small\item\em S\+GX features flags. \end{DoxyCompactList}\item 
+enum \textbf{ cpu\+\_\+error\+\_\+t} \{ \newline
+\textbf{ E\+R\+R\+\_\+\+OK} = 0, 
+\textbf{ E\+R\+R\+\_\+\+N\+O\+\_\+\+C\+P\+U\+ID} = -\/1, 
+\textbf{ E\+R\+R\+\_\+\+N\+O\+\_\+\+R\+D\+T\+SC} = -\/2, 
+\textbf{ E\+R\+R\+\_\+\+N\+O\+\_\+\+M\+EM} = -\/3, 
+\newline
+\textbf{ E\+R\+R\+\_\+\+O\+P\+EN} = -\/4, 
+\textbf{ E\+R\+R\+\_\+\+B\+A\+D\+F\+MT} = -\/5, 
+\textbf{ E\+R\+R\+\_\+\+N\+O\+T\+\_\+\+I\+MP} = -\/6, 
+\textbf{ E\+R\+R\+\_\+\+C\+P\+U\+\_\+\+U\+N\+KN} = -\/7, 
+\newline
+\textbf{ E\+R\+R\+\_\+\+N\+O\+\_\+\+R\+D\+M\+SR} = -\/8, 
+\textbf{ E\+R\+R\+\_\+\+N\+O\+\_\+\+D\+R\+I\+V\+ER} = -\/9, 
+\textbf{ E\+R\+R\+\_\+\+N\+O\+\_\+\+P\+E\+R\+MS} = -\/10, 
+\textbf{ E\+R\+R\+\_\+\+E\+X\+T\+R\+A\+CT} = -\/11, 
+\newline
+\textbf{ E\+R\+R\+\_\+\+H\+A\+N\+D\+LE} = -\/12, 
+\textbf{ E\+R\+R\+\_\+\+I\+N\+V\+M\+SR} = -\/13, 
+\textbf{ E\+R\+R\+\_\+\+I\+N\+V\+C\+NB} = -\/14, 
+\textbf{ E\+R\+R\+\_\+\+H\+A\+N\+D\+L\+E\+\_\+R} = -\/15, 
+\newline
+\textbf{ E\+R\+R\+\_\+\+I\+N\+V\+R\+A\+N\+GE} = -\/16
+ \}
+\begin{DoxyCompactList}\small\item\em Describes common library error codes. \end{DoxyCompactList}\item 
+enum \textbf{ cpu\+\_\+msrinfo\+\_\+request\+\_\+t} \{ \newline
+\textbf{ I\+N\+F\+O\+\_\+\+M\+P\+E\+RF}, 
+\textbf{ I\+N\+F\+O\+\_\+\+A\+P\+E\+RF}, 
+\textbf{ I\+N\+F\+O\+\_\+\+M\+I\+N\+\_\+\+M\+U\+L\+T\+I\+P\+L\+I\+ER}, 
+\textbf{ I\+N\+F\+O\+\_\+\+C\+U\+R\+\_\+\+M\+U\+L\+T\+I\+P\+L\+I\+ER}, 
+\newline
+\textbf{ I\+N\+F\+O\+\_\+\+M\+A\+X\+\_\+\+M\+U\+L\+T\+I\+P\+L\+I\+ER}, 
+\textbf{ I\+N\+F\+O\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+RE}, 
+\textbf{ I\+N\+F\+O\+\_\+\+T\+H\+R\+O\+T\+T\+L\+I\+NG}, 
+\textbf{ I\+N\+F\+O\+\_\+\+V\+O\+L\+T\+A\+GE}, 
+\newline
+\textbf{ I\+N\+F\+O\+\_\+\+B\+C\+LK}, 
+\textbf{ I\+N\+F\+O\+\_\+\+B\+U\+S\+\_\+\+C\+L\+O\+CK}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \textbf{ cpuid\+\_\+get\+\_\+total\+\_\+cpus} (void)
+\begin{DoxyCompactList}\small\item\em Returns the total number of logical C\+PU threads (even if C\+P\+U\+ID is not present). \end{DoxyCompactList}\item 
+int \textbf{ cpuid\+\_\+present} (void)
+\begin{DoxyCompactList}\small\item\em Checks if the C\+P\+U\+ID instruction is supported. \end{DoxyCompactList}\item 
+void \textbf{ cpu\+\_\+exec\+\_\+cpuid} (uint32\+\_\+t eax, uint32\+\_\+t $\ast$regs)
+\begin{DoxyCompactList}\small\item\em Executes the C\+P\+U\+ID instruction. \end{DoxyCompactList}\item 
+void \textbf{ cpu\+\_\+exec\+\_\+cpuid\+\_\+ext} (uint32\+\_\+t $\ast$regs)
+\begin{DoxyCompactList}\small\item\em Executes the C\+P\+U\+ID instruction with the given input registers. \end{DoxyCompactList}\item 
+int \textbf{ cpuid\+\_\+get\+\_\+raw\+\_\+data} (struct \textbf{ cpu\+\_\+raw\+\_\+data\+\_\+t} $\ast$data)
+\begin{DoxyCompactList}\small\item\em Obtains the raw C\+P\+U\+ID data from the current C\+PU. \end{DoxyCompactList}\item 
+int \textbf{ cpuid\+\_\+serialize\+\_\+raw\+\_\+data} (struct \textbf{ cpu\+\_\+raw\+\_\+data\+\_\+t} $\ast$data, const char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Writes the raw C\+P\+U\+ID data to a text file. \end{DoxyCompactList}\item 
+int \textbf{ cpuid\+\_\+deserialize\+\_\+raw\+\_\+data} (struct \textbf{ cpu\+\_\+raw\+\_\+data\+\_\+t} $\ast$data, const char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Reads raw C\+P\+U\+ID data from file. \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+identify} (struct \textbf{ cpu\+\_\+raw\+\_\+data\+\_\+t} $\ast$raw, struct \textbf{ cpu\+\_\+id\+\_\+t} $\ast$data)
+\begin{DoxyCompactList}\small\item\em Identifies the C\+PU. \end{DoxyCompactList}\item 
+const char $\ast$ \textbf{ cpu\+\_\+feature\+\_\+str} (\textbf{ cpu\+\_\+feature\+\_\+t} feature)
+\begin{DoxyCompactList}\small\item\em Returns the short textual representation of a C\+PU flag. \end{DoxyCompactList}\item 
+const char $\ast$ \textbf{ cpuid\+\_\+error} (void)
+\begin{DoxyCompactList}\small\item\em Returns textual description of the last error. \end{DoxyCompactList}\item 
+void \textbf{ cpu\+\_\+rdtsc} (uint64\+\_\+t $\ast$result)
+\begin{DoxyCompactList}\small\item\em Executes R\+D\+T\+SC. \end{DoxyCompactList}\item 
+void \textbf{ cpu\+\_\+tsc\+\_\+mark} (struct \textbf{ cpu\+\_\+mark\+\_\+t} $\ast$mark)
+\begin{DoxyCompactList}\small\item\em Store T\+SC and timing info. \end{DoxyCompactList}\item 
+void \textbf{ cpu\+\_\+tsc\+\_\+unmark} (struct \textbf{ cpu\+\_\+mark\+\_\+t} $\ast$mark)
+\begin{DoxyCompactList}\small\item\em Calculate T\+SC and timing difference. \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+clock\+\_\+by\+\_\+mark} (struct \textbf{ cpu\+\_\+mark\+\_\+t} $\ast$mark)
+\begin{DoxyCompactList}\small\item\em Calculates the C\+PU clock. \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+clock\+\_\+by\+\_\+os} (void)
+\begin{DoxyCompactList}\small\item\em Returns the C\+PU clock, as reported by the OS. \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+clock\+\_\+measure} (int millis, int quad\+\_\+check)
+\begin{DoxyCompactList}\small\item\em Measure the C\+PU clock frequency. \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+clock\+\_\+by\+\_\+ic} (int millis, int runs)
+\begin{DoxyCompactList}\small\item\em Measure the C\+PU clock frequency using instruction-\/counting. \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+clock} (void)
+\begin{DoxyCompactList}\small\item\em Get the C\+PU clock frequency (all-\/in-\/one method) \end{DoxyCompactList}\item 
+struct \textbf{ cpu\+\_\+epc\+\_\+t} \textbf{ cpuid\+\_\+get\+\_\+epc} (int index, const struct \textbf{ cpu\+\_\+raw\+\_\+data\+\_\+t} $\ast$raw)
+\begin{DoxyCompactList}\small\item\em Fetches information about an E\+PC (Enclave Page Cache) area. \end{DoxyCompactList}\item 
+const char $\ast$ \textbf{ cpuid\+\_\+lib\+\_\+version} (void)
+\begin{DoxyCompactList}\small\item\em Returns the libcpuid version. \end{DoxyCompactList}\item 
+libcpuid\+\_\+warn\+\_\+fn\+\_\+t \textbf{ cpuid\+\_\+set\+\_\+warn\+\_\+function} (libcpuid\+\_\+warn\+\_\+fn\+\_\+t warn\+\_\+fun)
+\begin{DoxyCompactList}\small\item\em Sets the warning print function. \end{DoxyCompactList}\item 
+void \textbf{ cpuid\+\_\+set\+\_\+verbosiness\+\_\+level} (int level)
+\begin{DoxyCompactList}\small\item\em Sets the verbosiness level. \end{DoxyCompactList}\item 
+\textbf{ cpu\+\_\+vendor\+\_\+t} \textbf{ cpuid\+\_\+get\+\_\+vendor} (void)
+\begin{DoxyCompactList}\small\item\em Obtains the C\+PU vendor from C\+P\+U\+ID from the current C\+PU. \end{DoxyCompactList}\item 
+void \textbf{ cpuid\+\_\+get\+\_\+cpu\+\_\+list} (\textbf{ cpu\+\_\+vendor\+\_\+t} vendor, struct \textbf{ cpu\+\_\+list\+\_\+t} $\ast$list)
+\begin{DoxyCompactList}\small\item\em Gets a list of all known C\+PU names from a specific vendor. \end{DoxyCompactList}\item 
+void \textbf{ cpuid\+\_\+free\+\_\+cpu\+\_\+list} (struct \textbf{ cpu\+\_\+list\+\_\+t} $\ast$list)
+\begin{DoxyCompactList}\small\item\em Frees a C\+PU list. \end{DoxyCompactList}\item 
+struct msr\+\_\+driver\+\_\+t $\ast$ \textbf{ cpu\+\_\+msr\+\_\+driver\+\_\+open} (void)
+\begin{DoxyCompactList}\small\item\em Starts/opens a driver, needed to read M\+S\+Rs (Model Specific Registers) \end{DoxyCompactList}\item 
+struct msr\+\_\+driver\+\_\+t $\ast$ \textbf{ cpu\+\_\+msr\+\_\+driver\+\_\+open\+\_\+core} (unsigned core\+\_\+num)
+\begin{DoxyCompactList}\small\item\em Similar to \doxyref{cpu\+\_\+msr\+\_\+driver\+\_\+open}{p.}{group__libcpuid_gab99453e100b3b502ca15b8a79198828a}, but accept one parameter. \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+rdmsr} (struct msr\+\_\+driver\+\_\+t $\ast$handle, uint32\+\_\+t msr\+\_\+index, uint64\+\_\+t $\ast$result)
+\begin{DoxyCompactList}\small\item\em Reads a Model-\/\+Specific Register (M\+SR) \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+rdmsr\+\_\+range} (struct msr\+\_\+driver\+\_\+t $\ast$handle, uint32\+\_\+t msr\+\_\+index, uint8\+\_\+t highbit, uint8\+\_\+t lowbit, uint64\+\_\+t $\ast$result)
+\begin{DoxyCompactList}\small\item\em Similar to \doxyref{cpu\+\_\+rdmsr}{p.}{group__libcpuid_ga0eddf30c99a094aa9942265948a13007}, but extract a range of bits. \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+msrinfo} (struct msr\+\_\+driver\+\_\+t $\ast$handle, \textbf{ cpu\+\_\+msrinfo\+\_\+request\+\_\+t} which)
+\begin{DoxyCompactList}\small\item\em Reads extended C\+PU information from Model-\/\+Specific Registers. \end{DoxyCompactList}\item 
+int \textbf{ msr\+\_\+serialize\+\_\+raw\+\_\+data} (struct msr\+\_\+driver\+\_\+t $\ast$handle, const char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Writes the raw M\+SR data to a text file. \end{DoxyCompactList}\item 
+int \textbf{ cpu\+\_\+msr\+\_\+driver\+\_\+close} (struct msr\+\_\+driver\+\_\+t $\ast$handle)
+\begin{DoxyCompactList}\small\item\em Closes an open M\+SR driver. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Lib\+C\+P\+U\+ID provides C\+PU identification. 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\label{group__libcpuid_gaaaad3aee57ed8705424f5884fb15849f}} 
+\index{LibCPUID@{LibCPUID}!cpu\_error\_t@{cpu\_error\_t}}
+\index{cpu\_error\_t@{cpu\_error\_t}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_error\_t}
+{\footnotesize\ttfamily enum \textbf{ cpu\+\_\+error\+\_\+t}}
+
+
+
+Describes common library error codes. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERR\_OK@{ERR\_OK}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!ERR\_OK@{ERR\_OK}}}\mbox{\label{group__libcpuid_ggaaaad3aee57ed8705424f5884fb15849faa26c163b80b1f6786ca81dadc14b00fb}} 
+E\+R\+R\+\_\+\+OK&No error \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERR\_NO\_CPUID@{ERR\_NO\_CPUID}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!ERR\_NO\_CPUID@{ERR\_NO\_CPUID}}}\mbox{\label{group__libcpuid_ggaaaad3aee57ed8705424f5884fb15849fa606d51bab169e05a118d986f34e2ac24}} 
+E\+R\+R\+\_\+\+N\+O\+\_\+\+C\+P\+U\+ID&C\+P\+U\+ID instruction is not supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERR\_NO\_RDTSC@{ERR\_NO\_RDTSC}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!ERR\_NO\_RDTSC@{ERR\_NO\_RDTSC}}}\mbox{\label{group__libcpuid_ggaaaad3aee57ed8705424f5884fb15849fa97b10b1d6816df08f3d6ac947c7177e0}} 
+E\+R\+R\+\_\+\+N\+O\+\_\+\+R\+D\+T\+SC&R\+D\+T\+SC instruction is not supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERR\_NO\_MEM@{ERR\_NO\_MEM}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!ERR\_NO\_MEM@{ERR\_NO\_MEM}}}\mbox{\label{group__libcpuid_ggaaaad3aee57ed8705424f5884fb15849fa1859972576f52b73a9661d101a6328a1}} 
+E\+R\+R\+\_\+\+N\+O\+\_\+\+M\+EM&Memory allocation failed \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERR\_OPEN@{ERR\_OPEN}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!ERR\_OPEN@{ERR\_OPEN}}}\mbox{\label{group__libcpuid_ggaaaad3aee57ed8705424f5884fb15849fa7235954be32cd0166432c3f7a5d61bb5}} 
+E\+R\+R\+\_\+\+O\+P\+EN&File open operation failed \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERR\_BADFMT@{ERR\_BADFMT}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!ERR\_BADFMT@{ERR\_BADFMT}}}\mbox{\label{group__libcpuid_ggaaaad3aee57ed8705424f5884fb15849fa0dd33d6ae54908e2f361f9f0bc7cf64f}} 
+E\+R\+R\+\_\+\+B\+A\+D\+F\+MT&Bad file format \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERR\_NOT\_IMP@{ERR\_NOT\_IMP}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!ERR\_NOT\_IMP@{ERR\_NOT\_IMP}}}\mbox{\label{group__libcpuid_ggaaaad3aee57ed8705424f5884fb15849fa6ba069bd5e69d2abb4b0afd1ee2637e8}} 
+E\+R\+R\+\_\+\+N\+O\+T\+\_\+\+I\+MP&Not implemented \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERR\_CPU\_UNKN@{ERR\_CPU\_UNKN}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!ERR\_CPU\_UNKN@{ERR\_CPU\_UNKN}}}\mbox{\label{group__libcpuid_ggaaaad3aee57ed8705424f5884fb15849fa231b5ba999016056b60e42d7e50efb2e}} 
+E\+R\+R\+\_\+\+C\+P\+U\+\_\+\+U\+N\+KN&Unsupported processor \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERR\_NO\_RDMSR@{ERR\_NO\_RDMSR}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!ERR\_NO\_RDMSR@{ERR\_NO\_RDMSR}}}\mbox{\label{group__libcpuid_ggaaaad3aee57ed8705424f5884fb15849fa379883983dfe8ed4433d1ea5abf37d1d}} 
+E\+R\+R\+\_\+\+N\+O\+\_\+\+R\+D\+M\+SR&R\+D\+M\+SR instruction is not supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERR\_NO\_DRIVER@{ERR\_NO\_DRIVER}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!ERR\_NO\_DRIVER@{ERR\_NO\_DRIVER}}}\mbox{\label{group__libcpuid_ggaaaad3aee57ed8705424f5884fb15849fa87e406a43767ad4c28a746e6bc3a1112}} 
+E\+R\+R\+\_\+\+N\+O\+\_\+\+D\+R\+I\+V\+ER&R\+D\+M\+SR driver error (generic) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERR\_NO\_PERMS@{ERR\_NO\_PERMS}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!ERR\_NO\_PERMS@{ERR\_NO\_PERMS}}}\mbox{\label{group__libcpuid_ggaaaad3aee57ed8705424f5884fb15849fa1a2c6d04958fb4436318f6460e1b5f1b}} 
+E\+R\+R\+\_\+\+N\+O\+\_\+\+P\+E\+R\+MS&No permissions to install R\+D\+M\+SR driver \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERR\_EXTRACT@{ERR\_EXTRACT}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!ERR\_EXTRACT@{ERR\_EXTRACT}}}\mbox{\label{group__libcpuid_ggaaaad3aee57ed8705424f5884fb15849faad3e8c13adfc55ea1cd105e92972dd33}} 
+E\+R\+R\+\_\+\+E\+X\+T\+R\+A\+CT&Cannot extract R\+D\+M\+SR driver (read only media?) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERR\_HANDLE@{ERR\_HANDLE}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!ERR\_HANDLE@{ERR\_HANDLE}}}\mbox{\label{group__libcpuid_ggaaaad3aee57ed8705424f5884fb15849fad84654b76a5ac772f3463e055702a360}} 
+E\+R\+R\+\_\+\+H\+A\+N\+D\+LE&Bad handle \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERR\_INVMSR@{ERR\_INVMSR}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!ERR\_INVMSR@{ERR\_INVMSR}}}\mbox{\label{group__libcpuid_ggaaaad3aee57ed8705424f5884fb15849fa666f5844a2eeffd7f4e3333e4bfd0d6a}} 
+E\+R\+R\+\_\+\+I\+N\+V\+M\+SR&Invalid M\+SR \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERR\_INVCNB@{ERR\_INVCNB}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!ERR\_INVCNB@{ERR\_INVCNB}}}\mbox{\label{group__libcpuid_ggaaaad3aee57ed8705424f5884fb15849fad0b3acac21097e986877db7c9f9f631b}} 
+E\+R\+R\+\_\+\+I\+N\+V\+C\+NB&Invalid core number \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERR\_HANDLE\_R@{ERR\_HANDLE\_R}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!ERR\_HANDLE\_R@{ERR\_HANDLE\_R}}}\mbox{\label{group__libcpuid_ggaaaad3aee57ed8705424f5884fb15849fac00bab796cfece6df01a01538b7f5b17}} 
+E\+R\+R\+\_\+\+H\+A\+N\+D\+L\+E\+\_\+R&Error on handle read \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERR\_INVRANGE@{ERR\_INVRANGE}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!ERR\_INVRANGE@{ERR\_INVRANGE}}}\mbox{\label{group__libcpuid_ggaaaad3aee57ed8705424f5884fb15849fa717b2cb8ca3bcc737f8c76ee657558ae}} 
+E\+R\+R\+\_\+\+I\+N\+V\+R\+A\+N\+GE&Invalid given range \\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\label{group__libcpuid_ga4c0b398deee739a645387c7329a4c289}} 
+\index{LibCPUID@{LibCPUID}!cpu\_feature\_t@{cpu\_feature\_t}}
+\index{cpu\_feature\_t@{cpu\_feature\_t}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_feature\_t}
+{\footnotesize\ttfamily enum \textbf{ cpu\+\_\+feature\+\_\+t}}
+
+
+
+C\+PU feature identifiers. 
+
+Usage\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{...}
+\DoxyCodeLine{struct cpu\_raw\_data\_t raw;}
+\DoxyCodeLine{\textcolor{keyword}{struct }cpu\_id\_t id;}
+\DoxyCodeLine{\textcolor{keywordflow}{if} (cpuid\_get\_raw\_data(\&raw) == 0 \&\& cpu\_identify(\&raw, \&\textcolor{keywordtype}{id}) == 0) \{}
+\DoxyCodeLine{    \textcolor{keywordflow}{if} (\textcolor{keywordtype}{id}.flags[CPU\_FEATURE\_SSE2]) \{}
+\DoxyCodeLine{        \textcolor{comment}{// The CPU has SSE2...}}
+\DoxyCodeLine{        ...}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{        \textcolor{comment}{// no SSE2}}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{  \textcolor{comment}{// processor cannot be determined.}}
+\DoxyCodeLine{\}}
+\end{DoxyCode}
+ \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_FPU@{CPU\_FEATURE\_FPU}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_FPU@{CPU\_FEATURE\_FPU}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a453849150533658bb299b8a6dceb4363}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F\+PU&Floating point unit \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_VME@{CPU\_FEATURE\_VME}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_VME@{CPU\_FEATURE\_VME}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a25f411f7e138c5d268e70045c6158329}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+V\+ME&Virtual mode extension \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_DE@{CPU\_FEATURE\_DE}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_DE@{CPU\_FEATURE\_DE}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289ab562af0f4bc281ff2ee36b122ff88058}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+DE&Debugging extension \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_PSE@{CPU\_FEATURE\_PSE}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_PSE@{CPU\_FEATURE\_PSE}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a55fdf1520915f360865af0e33769845e}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+SE&Page size extension \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_TSC@{CPU\_FEATURE\_TSC}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_TSC@{CPU\_FEATURE\_TSC}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a48ff7bd2f3e866b0cc33591a49f52e73}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+SC&Time-\/stamp counter \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_MSR@{CPU\_FEATURE\_MSR}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_MSR@{CPU\_FEATURE\_MSR}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a1865c515f1dfe0e7d6a57827fc83cbd9}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+SR&Model-\/specific regsisters, R\+D\+M\+S\+R/\+W\+R\+M\+SR supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_PAE@{CPU\_FEATURE\_PAE}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_PAE@{CPU\_FEATURE\_PAE}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289acc96bbaefe5f0d4d11dbe191dc8926f4}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+AE&Physical address extension \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_MCE@{CPU\_FEATURE\_MCE}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_MCE@{CPU\_FEATURE\_MCE}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a17ec983ccfddedbc7a9b00d20a665685}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+CE&Machine check exception \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_CX8@{CPU\_FEATURE\_CX8}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_CX8@{CPU\_FEATURE\_CX8}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a8f942324f3c7e6b2977a0799736b8874}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+X8&C\+M\+P\+X\+C\+H\+G8B instruction supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_APIC@{CPU\_FEATURE\_APIC}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_APIC@{CPU\_FEATURE\_APIC}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a1acd5ed0fd11f8181ee5355620d1df31}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+P\+IC&A\+P\+IC support \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_MTRR@{CPU\_FEATURE\_MTRR}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_MTRR@{CPU\_FEATURE\_MTRR}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289aa385b21280ba8b58e96e4cf93b21f21e}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+T\+RR&Memory type range registers \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_SEP@{CPU\_FEATURE\_SEP}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_SEP@{CPU\_FEATURE\_SEP}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a3390256a622bd4baf24e023b99515fde}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+EP&S\+Y\+S\+E\+N\+T\+ER / S\+Y\+S\+E\+X\+IT instructions supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_PGE@{CPU\_FEATURE\_PGE}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_PGE@{CPU\_FEATURE\_PGE}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289ac0244dd1443fcf61782e534a964b2cb8}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+GE&Page global enable \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_MCA@{CPU\_FEATURE\_MCA}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_MCA@{CPU\_FEATURE\_MCA}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289ac869b2e0261d320839fc87bebddf2734}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+CA&Machine check architecture \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_CMOV@{CPU\_FEATURE\_CMOV}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_CMOV@{CPU\_FEATURE\_CMOV}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289aa52edbfedff12ef2634779677d2616de}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+M\+OV&C\+M\+O\+Vxx instructions supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_PAT@{CPU\_FEATURE\_PAT}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_PAT@{CPU\_FEATURE\_PAT}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a90640b8f73923c881388e796b46d0f61}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+AT&Page attribute table \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_PSE36@{CPU\_FEATURE\_PSE36}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_PSE36@{CPU\_FEATURE\_PSE36}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a5ac632d942e4e05daea1277e4a9501d4}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+S\+E36&36-\/bit page address extension \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_PN@{CPU\_FEATURE\_PN}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_PN@{CPU\_FEATURE\_PN}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289adf54ae06b9144822b18aad09b56aa24f}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+PN&Processor serial \# implemented (Intel P3 only) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_CLFLUSH@{CPU\_FEATURE\_CLFLUSH}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_CLFLUSH@{CPU\_FEATURE\_CLFLUSH}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a3a9f860c11b538507396b52d9b87103a}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+L\+F\+L\+U\+SH&C\+L\+F\+L\+U\+SH instruction supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_DTS@{CPU\_FEATURE\_DTS}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_DTS@{CPU\_FEATURE\_DTS}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289af2c956245b6c27448453374f5f3835de}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+D\+TS&Debug store supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_ACPI@{CPU\_FEATURE\_ACPI}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_ACPI@{CPU\_FEATURE\_ACPI}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a3cca7d5d4dbba92daf3458e925363004}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+C\+PI&A\+C\+PI support (power states) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_MMX@{CPU\_FEATURE\_MMX}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_MMX@{CPU\_FEATURE\_MMX}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a85890ccf3243ad847a94c4af7d74f5bb}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+MX&M\+MX instruction set supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_FXSR@{CPU\_FEATURE\_FXSR}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_FXSR@{CPU\_FEATURE\_FXSR}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289ae9a107e859c13e63568f820bcd9c85ad}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F\+X\+SR&F\+X\+S\+A\+VE / F\+X\+R\+S\+T\+OR supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_SSE@{CPU\_FEATURE\_SSE}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_SSE@{CPU\_FEATURE\_SSE}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289aa68e99c4dc5a309e093e9dfa72bb39ca}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+SE&Streaming-\/\+S\+I\+MD Extensions (S\+SE) supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_SSE2@{CPU\_FEATURE\_SSE2}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_SSE2@{CPU\_FEATURE\_SSE2}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a4256f8c13070e3b8bd6be3010a5c1226}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+S\+E2&S\+S\+E2 instructions supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_SS@{CPU\_FEATURE\_SS}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_SS@{CPU\_FEATURE\_SS}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289abb1a066840045516b62bcaa0abf8f654}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+SS&Self-\/snoop \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_HT@{CPU\_FEATURE\_HT}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_HT@{CPU\_FEATURE\_HT}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a67dfcf32f2458471da57a087220566ac}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+HT&Hyper-\/threading supported (but might be disabled) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_TM@{CPU\_FEATURE\_TM}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_TM@{CPU\_FEATURE\_TM}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a41a6517364e91773f80379a00a4cc926}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+TM&Thermal monitor \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_IA64@{CPU\_FEATURE\_IA64}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_IA64@{CPU\_FEATURE\_IA64}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289ae035f6e3adc1cb92a313792cdd074e72}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+I\+A64&I\+A64 supported (Itanium only) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_PBE@{CPU\_FEATURE\_PBE}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_PBE@{CPU\_FEATURE\_PBE}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289aeb144ddd3365cba1798b3c32a09089a9}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+BE&Pending-\/break enable \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_PNI@{CPU\_FEATURE\_PNI}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_PNI@{CPU\_FEATURE\_PNI}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a2000e3d103c50e66ae00f59d8adcc355}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+NI&P\+NI (S\+S\+E3) instructions supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_PCLMUL@{CPU\_FEATURE\_PCLMUL}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_PCLMUL@{CPU\_FEATURE\_PCLMUL}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a4fbe032106b78197602cc65e38499524}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+C\+L\+M\+UL&P\+C\+L\+M\+U\+L\+Q\+DQ instruction supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_DTS64@{CPU\_FEATURE\_DTS64}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_DTS64@{CPU\_FEATURE\_DTS64}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289ad37850e3455312b32bdfa815cdd860b7}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+D\+T\+S64&64-\/bit Debug store supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_MONITOR@{CPU\_FEATURE\_MONITOR}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_MONITOR@{CPU\_FEATURE\_MONITOR}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a1b9e596067a149fd5d4e8f5ccf5ed5d1}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+O\+N\+I\+T\+OR&M\+O\+N\+I\+T\+OR / M\+W\+A\+IT supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_DS\_CPL@{CPU\_FEATURE\_DS\_CPL}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_DS\_CPL@{CPU\_FEATURE\_DS\_CPL}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289ab84f0cfd4a8e324f180017c3e390f82d}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+D\+S\+\_\+\+C\+PL&C\+PL Qualified Debug Store \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_VMX@{CPU\_FEATURE\_VMX}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_VMX@{CPU\_FEATURE\_VMX}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a3575a558eccc8193a1d8fe8f74a30152}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+V\+MX&Virtualization technology supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_SMX@{CPU\_FEATURE\_SMX}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_SMX@{CPU\_FEATURE\_SMX}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a89f81845a90b08193b19352f75787cf9}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+MX&Safer mode exceptions \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_EST@{CPU\_FEATURE\_EST}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_EST@{CPU\_FEATURE\_EST}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a7a4eb4645b87f3e1f71a757652278afd}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+E\+ST&Enhanced Speed\+Step \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_TM2@{CPU\_FEATURE\_TM2}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_TM2@{CPU\_FEATURE\_TM2}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a96f6a665327dda077698d896a52f9ec0}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+M2&Thermal monitor 2 \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_SSSE3@{CPU\_FEATURE\_SSSE3}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_SSSE3@{CPU\_FEATURE\_SSSE3}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a7d6981f45c7c0782c35ed3a2e7a1360c}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+S\+S\+E3&S\+S\+S\+E3 instructionss supported (this is different from S\+S\+E3!) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_CID@{CPU\_FEATURE\_CID}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_CID@{CPU\_FEATURE\_CID}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a55ca5e131471a2da71b80f0cd4606063}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+ID&Context ID supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_CX16@{CPU\_FEATURE\_CX16}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_CX16@{CPU\_FEATURE\_CX16}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a46b3cc99edc475b1af401ce11bb74f72}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+X16&C\+M\+P\+X\+C\+H\+G16B instruction supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_XTPR@{CPU\_FEATURE\_XTPR}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_XTPR@{CPU\_FEATURE\_XTPR}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289ae4a1cf449ea63c0fd241eb71de6241d8}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+X\+T\+PR&Send Task Priority Messages disable \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_PDCM@{CPU\_FEATURE\_PDCM}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_PDCM@{CPU\_FEATURE\_PDCM}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a98bfdf89c13198320684165a90bdf823}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+D\+CM&Performance capabilities M\+SR supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_DCA@{CPU\_FEATURE\_DCA}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_DCA@{CPU\_FEATURE\_DCA}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a8e37ce7e2ac8218888431702e6206f85}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+D\+CA&Direct cache access supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_SSE4\_1@{CPU\_FEATURE\_SSE4\_1}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_SSE4\_1@{CPU\_FEATURE\_SSE4\_1}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a8608d346e0c702d740d03ce42c87f186}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+S\+E4\+\_\+1&S\+SE 4.\+1 instructions supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_SSE4\_2@{CPU\_FEATURE\_SSE4\_2}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_SSE4\_2@{CPU\_FEATURE\_SSE4\_2}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a24c4a542403f6a3399d58ecf7bbe2493}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+S\+E4\+\_\+2&S\+SE 4.\+2 instructions supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_SYSCALL@{CPU\_FEATURE\_SYSCALL}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_SYSCALL@{CPU\_FEATURE\_SYSCALL}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a6415775054c1b1225d286ebf6b2b873b}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+Y\+S\+C\+A\+LL&S\+Y\+S\+C\+A\+LL / S\+Y\+S\+R\+ET instructions supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_XD@{CPU\_FEATURE\_XD}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_XD@{CPU\_FEATURE\_XD}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289ad0aadd272ee5f176561d19b630ccd0ab}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+XD&Execute disable bit supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_MOVBE@{CPU\_FEATURE\_MOVBE}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_MOVBE@{CPU\_FEATURE\_MOVBE}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289acafda352a331b5091996f50ca62ec404}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+O\+V\+BE&M\+O\+V\+BE instruction supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_POPCNT@{CPU\_FEATURE\_POPCNT}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_POPCNT@{CPU\_FEATURE\_POPCNT}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a8a950b6d548ea934f26e1f8118d284f6}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+O\+P\+C\+NT&P\+O\+P\+C\+NT instruction supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_AES@{CPU\_FEATURE\_AES}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_AES@{CPU\_FEATURE\_AES}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289ae612eb3cc570f400c2542c0de6b6079d}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+ES&A\+E\+S$\ast$ instructions supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_XSAVE@{CPU\_FEATURE\_XSAVE}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_XSAVE@{CPU\_FEATURE\_XSAVE}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a490e07c3f0e90180e2fe3d833f7fc00a}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+X\+S\+A\+VE&X\+S\+A\+V\+E/\+X\+R\+S\+T\+O\+R/etc instructions supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_OSXSAVE@{CPU\_FEATURE\_OSXSAVE}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_OSXSAVE@{CPU\_FEATURE\_OSXSAVE}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a52f44e2b623c249be3bdeee523221e92}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+O\+S\+X\+S\+A\+VE&non-\/privileged copy of O\+S\+X\+S\+A\+VE supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_AVX@{CPU\_FEATURE\_AVX}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_AVX@{CPU\_FEATURE\_AVX}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289acfd03e7e97fa2fcf234cf88dd250eaa5}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+VX&Advanced vector extensions supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_MMXEXT@{CPU\_FEATURE\_MMXEXT}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_MMXEXT@{CPU\_FEATURE\_MMXEXT}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289ace6439b05c8e49701e281fab54adef47}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+M\+X\+E\+XT&A\+MD M\+M\+X-\/extended instructions supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_3DNOW@{CPU\_FEATURE\_3DNOW}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_3DNOW@{CPU\_FEATURE\_3DNOW}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289ad196550729f133d1a5a5ad2372a1d36f}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+3\+D\+N\+OW&A\+MD 3D\+Now! instructions supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_3DNOWEXT@{CPU\_FEATURE\_3DNOWEXT}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_3DNOWEXT@{CPU\_FEATURE\_3DNOWEXT}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a63bad125f7d98decb95f8f7caa6ab382}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+3\+D\+N\+O\+W\+E\+XT&A\+MD 3D\+Now! extended instructions supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_NX@{CPU\_FEATURE\_NX}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_NX@{CPU\_FEATURE\_NX}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a4bd0778d9173fedb1901455d04d5d625}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+NX&No-\/execute bit supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_FXSR\_OPT@{CPU\_FEATURE\_FXSR\_OPT}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_FXSR\_OPT@{CPU\_FEATURE\_FXSR\_OPT}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289ac8cf5bd2c03e7cbebd5c9b92ca048809}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F\+X\+S\+R\+\_\+\+O\+PT&F\+F\+X\+SR\+: F\+X\+S\+A\+VE and F\+X\+R\+S\+T\+OR optimizations \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_RDTSCP@{CPU\_FEATURE\_RDTSCP}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_RDTSCP@{CPU\_FEATURE\_RDTSCP}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a9bc3a4d9d238ae8a0827b206ad8914d9}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+R\+D\+T\+S\+CP&R\+D\+T\+S\+CP instruction supported (A\+M\+D-\/only) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_LM@{CPU\_FEATURE\_LM}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_LM@{CPU\_FEATURE\_LM}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289acc02143e1c19a07321131d2435f98cae}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+LM&Long mode (x86\+\_\+64/\+E\+M64T) supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_LAHF\_LM@{CPU\_FEATURE\_LAHF\_LM}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_LAHF\_LM@{CPU\_FEATURE\_LAHF\_LM}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a8d6f0cef0aaa5ae341bd9a57e5c2f453}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+L\+A\+H\+F\+\_\+\+LM&L\+A\+H\+F/\+S\+A\+HF supported in 64-\/bit mode \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_CMP\_LEGACY@{CPU\_FEATURE\_CMP\_LEGACY}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_CMP\_LEGACY@{CPU\_FEATURE\_CMP\_LEGACY}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a518d74659dc7c7f6c6286e8b7af5b2f4}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+M\+P\+\_\+\+L\+E\+G\+A\+CY&core multi-\/processing legacy mode \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_SVM@{CPU\_FEATURE\_SVM}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_SVM@{CPU\_FEATURE\_SVM}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a4f10a68bc2590a75ec9cd1079c137f97}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+VM&A\+MD Secure virtual machine \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_ABM@{CPU\_FEATURE\_ABM}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_ABM@{CPU\_FEATURE\_ABM}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a65f25f348ca56a8acf114125021cc61f}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+BM&L\+Z\+C\+NT instruction support \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_MISALIGNSSE@{CPU\_FEATURE\_MISALIGNSSE}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_MISALIGNSSE@{CPU\_FEATURE\_MISALIGNSSE}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289af7d43dab2ccad4c9aaae131adb16d24d}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+I\+S\+A\+L\+I\+G\+N\+S\+SE&Misaligned S\+SE supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_SSE4A@{CPU\_FEATURE\_SSE4A}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_SSE4A@{CPU\_FEATURE\_SSE4A}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289aa452c85116a8be446cd76e14a15d5398}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+S\+E4A&S\+SE 4a from A\+MD \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_3DNOWPREFETCH@{CPU\_FEATURE\_3DNOWPREFETCH}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_3DNOWPREFETCH@{CPU\_FEATURE\_3DNOWPREFETCH}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289aa713ac40f60eb9879f3d67d0c76f67b6}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+3\+D\+N\+O\+W\+P\+R\+E\+F\+E\+T\+CH&P\+R\+E\+F\+E\+T\+C\+H/\+P\+R\+E\+F\+E\+T\+C\+HW support \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_OSVW@{CPU\_FEATURE\_OSVW}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_OSVW@{CPU\_FEATURE\_OSVW}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a622ddfde42bdf056fb833f3ea1db6a49}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+O\+S\+VW&OS Visible Workaround (A\+MD) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_IBS@{CPU\_FEATURE\_IBS}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_IBS@{CPU\_FEATURE\_IBS}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289ac5366b66425729071fe5e2a2728de632}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+I\+BS&Instruction-\/based sampling \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_SSE5@{CPU\_FEATURE\_SSE5}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_SSE5@{CPU\_FEATURE\_SSE5}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a179c10fda2621f4cfc6426d988da0876}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+S\+E5&S\+SE 5 instructions supported (deprecated, will never be 1) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_SKINIT@{CPU\_FEATURE\_SKINIT}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_SKINIT@{CPU\_FEATURE\_SKINIT}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a21cb4bb1b77f8a24873c6b7974efc704}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+K\+I\+N\+IT&S\+K\+I\+N\+IT / S\+T\+GI supported \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_WDT@{CPU\_FEATURE\_WDT}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_WDT@{CPU\_FEATURE\_WDT}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289aa1758a8841c2267e8581e5228491ca3d}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+W\+DT&Watchdog timer support \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_TS@{CPU\_FEATURE\_TS}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_TS@{CPU\_FEATURE\_TS}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a664c7e2732b847819c1a000717da652e}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+TS&Temperature sensor \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_FID@{CPU\_FEATURE\_FID}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_FID@{CPU\_FEATURE\_FID}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a2242333b009477a54a5807e9b972086a}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F\+ID&Frequency ID control \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_VID@{CPU\_FEATURE\_VID}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_VID@{CPU\_FEATURE\_VID}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a92fc0b056726842599cc54bd90b1a0be}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+V\+ID&Voltage ID control \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_TTP@{CPU\_FEATURE\_TTP}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_TTP@{CPU\_FEATURE\_TTP}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a27c791308415baaba9f751238b9f86ea}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+TP&T\+H\+E\+R\+M\+T\+R\+IP \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_TM\_AMD@{CPU\_FEATURE\_TM\_AMD}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_TM\_AMD@{CPU\_FEATURE\_TM\_AMD}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289ab79d96191ba266776b55b54818b66cd5}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+M\+\_\+\+A\+MD&A\+M\+D-\/specified hardware thermal control \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_STC@{CPU\_FEATURE\_STC}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_STC@{CPU\_FEATURE\_STC}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a26051b02eb1bd376da9e889bb9b8b154}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+TC&Software thermal control \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_100MHZSTEPS@{CPU\_FEATURE\_100MHZSTEPS}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_100MHZSTEPS@{CPU\_FEATURE\_100MHZSTEPS}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a470838a8e63aca9a48b3f3c33030cc54}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+100\+M\+H\+Z\+S\+T\+E\+PS&100 M\+Hz multiplier control \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_HWPSTATE@{CPU\_FEATURE\_HWPSTATE}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_HWPSTATE@{CPU\_FEATURE\_HWPSTATE}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a2cb12da6a5c22a8cf496137c2a1c368b}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+H\+W\+P\+S\+T\+A\+TE&Hardware P-\/state control \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_CONSTANT\_TSC@{CPU\_FEATURE\_CONSTANT\_TSC}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_CONSTANT\_TSC@{CPU\_FEATURE\_CONSTANT\_TSC}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a839020f8c8739dc5d753581205a94597}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+T\+SC&T\+SC ticks at constant rate \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_XOP@{CPU\_FEATURE\_XOP}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_XOP@{CPU\_FEATURE\_XOP}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a567aa09c705213218b85b78c8f6441a9}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+X\+OP&The X\+OP instruction set (same as the old C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+S\+E5) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_FMA3@{CPU\_FEATURE\_FMA3}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_FMA3@{CPU\_FEATURE\_FMA3}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289abfcf54efabb2bfef6912b82b5b40f69d}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F\+M\+A3&The F\+M\+A3 instruction set \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_FMA4@{CPU\_FEATURE\_FMA4}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_FMA4@{CPU\_FEATURE\_FMA4}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a43059146e6421866ef8011958f7f2572}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F\+M\+A4&The F\+M\+A4 instruction set \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_TBM@{CPU\_FEATURE\_TBM}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_TBM@{CPU\_FEATURE\_TBM}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289adf4ac8554a8467a61970083a54166340}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+BM&Trailing bit manipulation instruction support \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_F16C@{CPU\_FEATURE\_F16C}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_F16C@{CPU\_FEATURE\_F16C}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289afeda100f9de3f9e880c75593d3ac948c}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+F16C&16-\/bit FP convert instruction support \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_RDRAND@{CPU\_FEATURE\_RDRAND}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_RDRAND@{CPU\_FEATURE\_RDRAND}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a1e7557ccde6b429df4532384a1fa9f82}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+R\+D\+R\+A\+ND&Rd\+Rand instruction \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_X2APIC@{CPU\_FEATURE\_X2APIC}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_X2APIC@{CPU\_FEATURE\_X2APIC}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a6b31b846f054bbec14f8569a6086b00b}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+X2\+A\+P\+IC&x2\+A\+P\+IC, A\+P\+I\+C\+\_\+\+B\+A\+S\+E.\+E\+X\+TD, M\+S\+Rs 0000\+\_\+0800h...0000\+\_\+0\+B\+F\+Fh 64-\/bit I\+CR (+030h but not +031h), no D\+FR (+00Eh), S\+E\+L\+F\+\_\+\+I\+PI (+040h) also see standard level 0000\+\_\+000\+Bh \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_CPB@{CPU\_FEATURE\_CPB}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_CPB@{CPU\_FEATURE\_CPB}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289afa0842a9b99f9f77920239127c922d1c}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+PB&Core performance boost \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_APERFMPERF@{CPU\_FEATURE\_APERFMPERF}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_APERFMPERF@{CPU\_FEATURE\_APERFMPERF}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a8366a2ebea8cce37a8f9d921425ea09b}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+P\+E\+R\+F\+M\+P\+E\+RF&M\+P\+E\+R\+F/\+A\+P\+E\+RF M\+S\+Rs support \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_PFI@{CPU\_FEATURE\_PFI}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_PFI@{CPU\_FEATURE\_PFI}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289adfd99dbe1be50fa605c08b82fc85b8b8}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+P\+FI&Processor Feedback Interface support \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_PA@{CPU\_FEATURE\_PA}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_PA@{CPU\_FEATURE\_PA}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289aaeafcab708552f1e8aef36735e880c51}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+PA&Processor accumulator \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_AVX2@{CPU\_FEATURE\_AVX2}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_AVX2@{CPU\_FEATURE\_AVX2}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a18394e14e517073195b57ec9aee5ea15}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X2&A\+V\+X2 instructions \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_BMI1@{CPU\_FEATURE\_BMI1}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_BMI1@{CPU\_FEATURE\_BMI1}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289aea28e9015a5fa858eb34732881705450}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+B\+M\+I1&B\+M\+I1 instructions \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_BMI2@{CPU\_FEATURE\_BMI2}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_BMI2@{CPU\_FEATURE\_BMI2}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289ab83da08aec73311f80d303beadd14682}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+B\+M\+I2&B\+M\+I2 instructions \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_HLE@{CPU\_FEATURE\_HLE}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_HLE@{CPU\_FEATURE\_HLE}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a9f78f8ffbcc16a647381a4a48929e300}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+H\+LE&Hardware Lock Elision prefixes \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_RTM@{CPU\_FEATURE\_RTM}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_RTM@{CPU\_FEATURE\_RTM}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a2772648837f617553ba3e441b760a341}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+R\+TM&Restricted Transactional Memory instructions \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_AVX512F@{CPU\_FEATURE\_AVX512F}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_AVX512F@{CPU\_FEATURE\_AVX512F}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a87a7473d47e00e1cf07a424728ad1b67}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512F&A\+V\+X-\/512 Foundation \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_AVX512DQ@{CPU\_FEATURE\_AVX512DQ}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_AVX512DQ@{CPU\_FEATURE\_AVX512DQ}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a8814d6aa3b83f4c857f857a73952c4a4}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+DQ&A\+V\+X-\/512 Double/\+Quad granular insns \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_AVX512PF@{CPU\_FEATURE\_AVX512PF}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_AVX512PF@{CPU\_FEATURE\_AVX512PF}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a36ef43b0a41b9866757a3b3984197fbe}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+PF&A\+V\+X-\/512 Prefetch \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_AVX512ER@{CPU\_FEATURE\_AVX512ER}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_AVX512ER@{CPU\_FEATURE\_AVX512ER}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a5fc80b7adcd252d915a9c4fc850b8268}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+ER&A\+V\+X-\/512 Exponential/\+Reciprocal \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_AVX512CD@{CPU\_FEATURE\_AVX512CD}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_AVX512CD@{CPU\_FEATURE\_AVX512CD}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289ae901d15aac437570fc9f7cbddfdbafa2}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+CD&A\+V\+X-\/512 Conflict detection \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_SHA\_NI@{CPU\_FEATURE\_SHA\_NI}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_SHA\_NI@{CPU\_FEATURE\_SHA\_NI}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a650d153fab53759e4ea1a187effa9c8a}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+H\+A\+\_\+\+NI&S\+H\+A-\/1/\+S\+H\+A-\/256 instructions \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_AVX512BW@{CPU\_FEATURE\_AVX512BW}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_AVX512BW@{CPU\_FEATURE\_AVX512BW}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a3463b7c5837d2034380ef8b0c8ba9a8c}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+BW&A\+V\+X-\/512 Byte/\+Word granular insns \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_AVX512VL@{CPU\_FEATURE\_AVX512VL}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_AVX512VL@{CPU\_FEATURE\_AVX512VL}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289add282121c269c2763a1f7b1d3358b7cf}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+VL&A\+V\+X-\/512 128/256 vector length extensions \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_SGX@{CPU\_FEATURE\_SGX}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_SGX@{CPU\_FEATURE\_SGX}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a26c943581012c705d53af5800af60d16}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+GX&S\+GX extensions. Non-\/autoritative, check cpu\+\_\+id\+\_\+t\+::sgx\+::present to verify presence \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_RDSEED@{CPU\_FEATURE\_RDSEED}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_RDSEED@{CPU\_FEATURE\_RDSEED}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a9bf2318b5d28e37ad55b055692508c58}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+R\+D\+S\+E\+ED&R\+D\+S\+E\+ED instruction \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_ADX@{CPU\_FEATURE\_ADX}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_ADX@{CPU\_FEATURE\_ADX}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289a78800c3a6afc1cc3bcc5cf7b337e5e9a}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+DX&A\+DX extensions (arbitrary precision) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_FEATURE\_AVX512VNNI@{CPU\_FEATURE\_AVX512VNNI}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_FEATURE\_AVX512VNNI@{CPU\_FEATURE\_AVX512VNNI}}}\mbox{\label{group__libcpuid_gga4c0b398deee739a645387c7329a4c289aeb7e119b120a657920fc1e5214e36b0c}} 
+C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+V\+X512\+V\+N\+NI&A\+V\+X-\/512 Vector Neural Network Instructions \\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\label{group__libcpuid_gada395ff8a06f8f37d09a4a07926aa661}} 
+\index{LibCPUID@{LibCPUID}!cpu\_hint\_t@{cpu\_hint\_t}}
+\index{cpu\_hint\_t@{cpu\_hint\_t}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_hint\_t}
+{\footnotesize\ttfamily enum \textbf{ cpu\+\_\+hint\+\_\+t}}
+
+
+
+C\+PU detection hints identifiers. 
+
+Usage\+: similar to the flags usage \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CPU\_HINT\_SSE\_SIZE\_AUTH@{CPU\_HINT\_SSE\_SIZE\_AUTH}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!CPU\_HINT\_SSE\_SIZE\_AUTH@{CPU\_HINT\_SSE\_SIZE\_AUTH}}}\mbox{\label{group__libcpuid_ggada395ff8a06f8f37d09a4a07926aa661a590d513544b1eb01e67751085f22e1eb}} 
+C\+P\+U\+\_\+\+H\+I\+N\+T\+\_\+\+S\+S\+E\+\_\+\+S\+I\+Z\+E\+\_\+\+A\+U\+TH&S\+SE unit size is authoritative (not only a Family/\+Model guesswork, but based on an actual C\+P\+U\+ID bit) \\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\label{group__libcpuid_ga0e38033529430a12f20089b382d603a6}} 
+\index{LibCPUID@{LibCPUID}!cpu\_msrinfo\_request\_t@{cpu\_msrinfo\_request\_t}}
+\index{cpu\_msrinfo\_request\_t@{cpu\_msrinfo\_request\_t}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_msrinfo\_request\_t}
+{\footnotesize\ttfamily enum \textbf{ cpu\+\_\+msrinfo\+\_\+request\+\_\+t}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INFO\_MPERF@{INFO\_MPERF}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!INFO\_MPERF@{INFO\_MPERF}}}\mbox{\label{group__libcpuid_gga0e38033529430a12f20089b382d603a6a6341e3edd069ee19e9f74bdc0d6207fe}} 
+I\+N\+F\+O\+\_\+\+M\+P\+E\+RF&Maximum performance frequency clock. This is a counter, which increments as a proportion of the actual processor speed. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INFO\_APERF@{INFO\_APERF}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!INFO\_APERF@{INFO\_APERF}}}\mbox{\label{group__libcpuid_gga0e38033529430a12f20089b382d603a6ad366b181e477c5003915ddd6dd97a46b}} 
+I\+N\+F\+O\+\_\+\+A\+P\+E\+RF&Actual performance frequency clock. This accumulates the core clock counts when the core is active. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INFO\_MIN\_MULTIPLIER@{INFO\_MIN\_MULTIPLIER}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!INFO\_MIN\_MULTIPLIER@{INFO\_MIN\_MULTIPLIER}}}\mbox{\label{group__libcpuid_gga0e38033529430a12f20089b382d603a6a252a37590925f8b5b01fbd29984b2b2a}} 
+I\+N\+F\+O\+\_\+\+M\+I\+N\+\_\+\+M\+U\+L\+T\+I\+P\+L\+I\+ER&Minimum C\+PU\+:F\+SB ratio for this C\+PU, multiplied by 100. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INFO\_CUR\_MULTIPLIER@{INFO\_CUR\_MULTIPLIER}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!INFO\_CUR\_MULTIPLIER@{INFO\_CUR\_MULTIPLIER}}}\mbox{\label{group__libcpuid_gga0e38033529430a12f20089b382d603a6aa5299acc66aaa3426e921658d2a318d9}} 
+I\+N\+F\+O\+\_\+\+C\+U\+R\+\_\+\+M\+U\+L\+T\+I\+P\+L\+I\+ER&Current C\+PU\+:F\+SB ratio, multiplied by 100. e.\+g., a C\+PU\+:F\+SB value of 18.\+5 reads as \char`\"{}1850\char`\"{}. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INFO\_MAX\_MULTIPLIER@{INFO\_MAX\_MULTIPLIER}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!INFO\_MAX\_MULTIPLIER@{INFO\_MAX\_MULTIPLIER}}}\mbox{\label{group__libcpuid_gga0e38033529430a12f20089b382d603a6aef85eba90772abc57cb874aeacfb0f9d}} 
+I\+N\+F\+O\+\_\+\+M\+A\+X\+\_\+\+M\+U\+L\+T\+I\+P\+L\+I\+ER&Maximum C\+PU\+:F\+SB ratio for this C\+PU, multiplied by 100. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INFO\_TEMPERATURE@{INFO\_TEMPERATURE}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!INFO\_TEMPERATURE@{INFO\_TEMPERATURE}}}\mbox{\label{group__libcpuid_gga0e38033529430a12f20089b382d603a6ae8f05f1a8766aa8fec25051e5fffefe2}} 
+I\+N\+F\+O\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+RE&The current core temperature in Celsius. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INFO\_THROTTLING@{INFO\_THROTTLING}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!INFO\_THROTTLING@{INFO\_THROTTLING}}}\mbox{\label{group__libcpuid_gga0e38033529430a12f20089b382d603a6a6f67768463665d06172cebe58c9b02af}} 
+I\+N\+F\+O\+\_\+\+T\+H\+R\+O\+T\+T\+L\+I\+NG&1 if the current logical processor is throttling. 0 if it is running normally. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INFO\_VOLTAGE@{INFO\_VOLTAGE}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!INFO\_VOLTAGE@{INFO\_VOLTAGE}}}\mbox{\label{group__libcpuid_gga0e38033529430a12f20089b382d603a6a8b113e4509ae0df8110230fca5ec8266}} 
+I\+N\+F\+O\+\_\+\+V\+O\+L\+T\+A\+GE&The current core voltage in Volt, multiplied by 100. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INFO\_BCLK@{INFO\_BCLK}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!INFO\_BCLK@{INFO\_BCLK}}}\mbox{\label{group__libcpuid_gga0e38033529430a12f20089b382d603a6a1128829d5c5e8b2cab03e0ab93127f8b}} 
+I\+N\+F\+O\+\_\+\+B\+C\+LK&See \doxyref{I\+N\+F\+O\+\_\+\+B\+U\+S\+\_\+\+C\+L\+O\+CK}{p.}{group__libcpuid_gga0e38033529430a12f20089b382d603a6ae8599601c81d3fdc60c353fc95775f14}. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INFO\_BUS\_CLOCK@{INFO\_BUS\_CLOCK}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!INFO\_BUS\_CLOCK@{INFO\_BUS\_CLOCK}}}\mbox{\label{group__libcpuid_gga0e38033529430a12f20089b382d603a6ae8599601c81d3fdc60c353fc95775f14}} 
+I\+N\+F\+O\+\_\+\+B\+U\+S\+\_\+\+C\+L\+O\+CK&The main bus clock in M\+Hz, e.\+g., F\+S\+B/\+Q\+P\+I/\+D\+M\+I/\+HT base clock, multiplied by 100. \\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\label{group__libcpuid_gab7731d6f7447310c9a29d2c92c867d4f}} 
+\index{LibCPUID@{LibCPUID}!cpu\_sgx\_feature\_t@{cpu\_sgx\_feature\_t}}
+\index{cpu\_sgx\_feature\_t@{cpu\_sgx\_feature\_t}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_sgx\_feature\_t}
+{\footnotesize\ttfamily enum \textbf{ cpu\+\_\+sgx\+\_\+feature\+\_\+t}}
+
+
+
+S\+GX features flags. 
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{cpu\+\_\+sgx\+\_\+t}{p.}{structcpu__sgx__t}
+\end{DoxySeeAlso}
+Usage\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{...}
+\DoxyCodeLine{struct cpu\_raw\_data\_t raw;}
+\DoxyCodeLine{\textcolor{keyword}{struct }cpu\_id\_t id;}
+\DoxyCodeLine{\textcolor{keywordflow}{if} (cpuid\_get\_raw\_data(\&raw) == 0 \&\& cpu\_identify(\&raw, \&\textcolor{keywordtype}{id}) == 0 \&\& \textcolor{keywordtype}{id}.sgx.present) \{}
+\DoxyCodeLine{    \textcolor{keywordflow}{if} (\textcolor{keywordtype}{id}.sgx.flags[INTEL\_SGX1])}
+\DoxyCodeLine{        \textcolor{comment}{// The CPU has SGX1 instructions support...}}
+\DoxyCodeLine{        ...}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{        \textcolor{comment}{// no SGX}}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{  \textcolor{comment}{// processor cannot be determined.}}
+\DoxyCodeLine{\}}
+\end{DoxyCode}
+ \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INTEL\_SGX1@{INTEL\_SGX1}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!INTEL\_SGX1@{INTEL\_SGX1}}}\mbox{\label{group__libcpuid_ggab7731d6f7447310c9a29d2c92c867d4fa09de49d5e0772b8ee6e232f9aeefcf25}} 
+I\+N\+T\+E\+L\+\_\+\+S\+G\+X1&S\+G\+X1 instructions support \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INTEL\_SGX2@{INTEL\_SGX2}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!INTEL\_SGX2@{INTEL\_SGX2}}}\mbox{\label{group__libcpuid_ggab7731d6f7447310c9a29d2c92c867d4fa2943256b42664d19b46a7f086dab3488}} 
+I\+N\+T\+E\+L\+\_\+\+S\+G\+X2&S\+G\+X2 instructions support \\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\label{group__libcpuid_gaee3591049f485bb93dbd26dd91684d28}} 
+\index{LibCPUID@{LibCPUID}!cpu\_vendor\_t@{cpu\_vendor\_t}}
+\index{cpu\_vendor\_t@{cpu\_vendor\_t}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_vendor\_t}
+{\footnotesize\ttfamily enum \textbf{ cpu\+\_\+vendor\+\_\+t}}
+
+
+
+C\+PU vendor, as guessed from the Vendor String. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VENDOR\_INTEL@{VENDOR\_INTEL}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!VENDOR\_INTEL@{VENDOR\_INTEL}}}\mbox{\label{group__libcpuid_ggaee3591049f485bb93dbd26dd91684d28a0ff85c91faaad5edc40b8b13bf5872a9}} 
+V\+E\+N\+D\+O\+R\+\_\+\+I\+N\+T\+EL&Intel C\+PU \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VENDOR\_AMD@{VENDOR\_AMD}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!VENDOR\_AMD@{VENDOR\_AMD}}}\mbox{\label{group__libcpuid_ggaee3591049f485bb93dbd26dd91684d28a98f56d8179428f9ae8a673281e490fb7}} 
+V\+E\+N\+D\+O\+R\+\_\+\+A\+MD&A\+MD C\+PU \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VENDOR\_CYRIX@{VENDOR\_CYRIX}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!VENDOR\_CYRIX@{VENDOR\_CYRIX}}}\mbox{\label{group__libcpuid_ggaee3591049f485bb93dbd26dd91684d28ad78b1b4a1b336bba96d40cb511ca0739}} 
+V\+E\+N\+D\+O\+R\+\_\+\+C\+Y\+R\+IX&Cyrix C\+PU \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VENDOR\_NEXGEN@{VENDOR\_NEXGEN}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!VENDOR\_NEXGEN@{VENDOR\_NEXGEN}}}\mbox{\label{group__libcpuid_ggaee3591049f485bb93dbd26dd91684d28a0bbc1eea1798b997ef8a48c61eb87127}} 
+V\+E\+N\+D\+O\+R\+\_\+\+N\+E\+X\+G\+EN&Nex\+Gen C\+PU \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VENDOR\_TRANSMETA@{VENDOR\_TRANSMETA}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!VENDOR\_TRANSMETA@{VENDOR\_TRANSMETA}}}\mbox{\label{group__libcpuid_ggaee3591049f485bb93dbd26dd91684d28ae0f24610ed6f971e45376b01249400f2}} 
+V\+E\+N\+D\+O\+R\+\_\+\+T\+R\+A\+N\+S\+M\+E\+TA&Transmeta C\+PU \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VENDOR\_UMC@{VENDOR\_UMC}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!VENDOR\_UMC@{VENDOR\_UMC}}}\mbox{\label{group__libcpuid_ggaee3591049f485bb93dbd26dd91684d28a71ab6d3938d2ea3f53faf7583fb75314}} 
+V\+E\+N\+D\+O\+R\+\_\+\+U\+MC&x86 C\+PU by U\+MC \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VENDOR\_CENTAUR@{VENDOR\_CENTAUR}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!VENDOR\_CENTAUR@{VENDOR\_CENTAUR}}}\mbox{\label{group__libcpuid_ggaee3591049f485bb93dbd26dd91684d28aca19c521336c04c427d4bd4efcf20c88}} 
+V\+E\+N\+D\+O\+R\+\_\+\+C\+E\+N\+T\+A\+UR&x86 C\+PU by I\+DT \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VENDOR\_RISE@{VENDOR\_RISE}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!VENDOR\_RISE@{VENDOR\_RISE}}}\mbox{\label{group__libcpuid_ggaee3591049f485bb93dbd26dd91684d28a38cda576d1ef80f226b84c2c726fcaf4}} 
+V\+E\+N\+D\+O\+R\+\_\+\+R\+I\+SE&x86 C\+PU by Rise Technology \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VENDOR\_SIS@{VENDOR\_SIS}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!VENDOR\_SIS@{VENDOR\_SIS}}}\mbox{\label{group__libcpuid_ggaee3591049f485bb93dbd26dd91684d28a47ddfbe49b7c864e04acd13af0b384fb}} 
+V\+E\+N\+D\+O\+R\+\_\+\+S\+IS&x86 C\+PU by SiS \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VENDOR\_NSC@{VENDOR\_NSC}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!VENDOR\_NSC@{VENDOR\_NSC}}}\mbox{\label{group__libcpuid_ggaee3591049f485bb93dbd26dd91684d28aaaee595f5e3f1e06a5fa7a418aafe9c0}} 
+V\+E\+N\+D\+O\+R\+\_\+\+N\+SC&x86 C\+PU by National Semiconductor \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VENDOR\_HYGON@{VENDOR\_HYGON}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!VENDOR\_HYGON@{VENDOR\_HYGON}}}\mbox{\label{group__libcpuid_ggaee3591049f485bb93dbd26dd91684d28acdf07de1723fc7e21a80f5d4053ef150}} 
+V\+E\+N\+D\+O\+R\+\_\+\+H\+Y\+G\+ON&Hygon C\+PU \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NUM\_CPU\_VENDORS@{NUM\_CPU\_VENDORS}!LibCPUID@{LibCPUID}}\index{LibCPUID@{LibCPUID}!NUM\_CPU\_VENDORS@{NUM\_CPU\_VENDORS}}}\mbox{\label{group__libcpuid_ggaee3591049f485bb93dbd26dd91684d28a44775e86f4d8a7e1ca5f62175ff6f486}} 
+N\+U\+M\+\_\+\+C\+P\+U\+\_\+\+V\+E\+N\+D\+O\+RS&Valid C\+PU vendor ids\+: 0..N\+U\+M\+\_\+\+C\+P\+U\+\_\+\+V\+E\+N\+D\+O\+RS -\/ 1 \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\label{group__libcpuid_ga913d86d69748e282f94ee4d28dca078c}} 
+\index{LibCPUID@{LibCPUID}!cpu\_clock@{cpu\_clock}}
+\index{cpu\_clock@{cpu\_clock}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_clock()}
+{\footnotesize\ttfamily int cpu\+\_\+clock (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Get the C\+PU clock frequency (all-\/in-\/one method) 
+
+This is an all-\/in-\/one method for getting the C\+PU clock frequency. It tries to use the OS for that. If the OS doesn\textquotesingle{}t have this info, it uses cpu\+\_\+clock\+\_\+measure with 200ms time interval and quadruple checking.
+
+\begin{DoxyReturn}{Returns}
+the C\+PU clock frequency in M\+Hz. If every possible method fails, the result is -\/1. 
+\end{DoxyReturn}
+\mbox{\label{group__libcpuid_ga4d23d7b9c774ad92b2d30a3798434224}} 
+\index{LibCPUID@{LibCPUID}!cpu\_clock\_by\_ic@{cpu\_clock\_by\_ic}}
+\index{cpu\_clock\_by\_ic@{cpu\_clock\_by\_ic}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_clock\_by\_ic()}
+{\footnotesize\ttfamily int cpu\+\_\+clock\+\_\+by\+\_\+ic (\begin{DoxyParamCaption}\item[{int}]{millis,  }\item[{int}]{runs }\end{DoxyParamCaption})}
+
+
+
+Measure the C\+PU clock frequency using instruction-\/counting. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em millis} & -\/ how much time to allocate for each run, in milliseconds \\
+\hline
+{\em runs} & -\/ how many runs to perform\\
+\hline
+\end{DoxyParams}
+The function performs a busy-\/wait cycle using a known number of \char`\"{}heavy\char`\"{} (S\+SE) instructions. These instructions run at (more or less guaranteed) 1 I\+PC rate, so by running a busy loop for a fixed amount of time, and measuring the amount of instructions done, the C\+PU clock is accurately measured.
+
+Of course, this function is still affected by the power-\/saving schemes, so the warnings as of \doxyref{cpu\+\_\+clock\+\_\+measure()}{p.}{group__libcpuid_ga6ba20c7c72b6c943e0b3e664ede42b80} still apply. However, this function is immune to problems with detection, related to the Intel Nehalem\textquotesingle{}s \char`\"{}\+Turbo\char`\"{} mode, where the internal clock is raised, but the R\+D\+T\+SC rate is unaffected.
+
+The function will run for about (millis $\ast$ runs) milliseconds. You can make only a single busy-\/wait run (runs == 1); however, this can be affected by task scheduling (which will break the counting), so allowing more than one run is recommended. As run length is not imperative for accurate readings (e.\+g., 50ms is sufficient), you can afford a lot of short runs, e.\+g. 10 runs of 50ms or 20 runs of 25ms.
+
+Recommended values -\/ millis = 50, runs = 4. For more robustness, increase the number of runs.
+
+N\+O\+TE\+: on Bulldozer and later C\+P\+Us, the busy-\/wait cycle runs at 1.\+4 I\+PC, thus the results are skewed. This is corrected internally by dividing the resulting value by 1.\+4. However, this only occurs if the thread is executed on a single C\+MT module -\/ if there are other threads competing for resources, the results are unpredictable. Make sure you run \doxyref{cpu\+\_\+clock\+\_\+by\+\_\+ic()}{p.}{group__libcpuid_ga4d23d7b9c774ad92b2d30a3798434224} on a C\+PU that is free from competing threads, or if there are such threads, they shouldn\textquotesingle{}t exceed the number of modules. On a Bulldozer X8, that means 4 threads.
+
+\begin{DoxyReturn}{Returns}
+the C\+PU clock frequency in M\+Hz (within some measurement error margin). If S\+SE is not supported, the result is -\/1. If the input parameters are incorrect, or some other internal fault is detected, the result is -\/2. 
+\end{DoxyReturn}
+\mbox{\label{group__libcpuid_ga55d3419eeac6d46d957875f1c302ca44}} 
+\index{LibCPUID@{LibCPUID}!cpu\_clock\_by\_mark@{cpu\_clock\_by\_mark}}
+\index{cpu\_clock\_by\_mark@{cpu\_clock\_by\_mark}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_clock\_by\_mark()}
+{\footnotesize\ttfamily int cpu\+\_\+clock\+\_\+by\+\_\+mark (\begin{DoxyParamCaption}\item[{struct \textbf{ cpu\+\_\+mark\+\_\+t} $\ast$}]{mark }\end{DoxyParamCaption})}
+
+
+
+Calculates the C\+PU clock. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mark} & -\/ pointer to a \doxyref{cpu\+\_\+mark\+\_\+t}{p.}{structcpu__mark__t} structure, which has been initialized with cpu\+\_\+tsc\+\_\+mark and later `stopped' with cpu\+\_\+tsc\+\_\+unmark.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+For reliable results, the marked time interval should be at least about 10 ms.
+\end{DoxyNote}
+\begin{DoxyReturn}{Returns}
+the C\+PU clock frequency, in M\+Hz. Due to measurement error, it will differ from the true value in a few least-\/significant bits. Accuracy depends on the timing interval -\/ the more, the better. If the timing interval is insufficient, the result is -\/1. Also, see the comment on cpu\+\_\+clock\+\_\+measure for additional issues and pitfalls in using R\+D\+T\+SC for C\+PU frequency measurements. 
+\end{DoxyReturn}
+\mbox{\label{group__libcpuid_gae14aec8ba2ccbda9ae385370a6bd5361}} 
+\index{LibCPUID@{LibCPUID}!cpu\_clock\_by\_os@{cpu\_clock\_by\_os}}
+\index{cpu\_clock\_by\_os@{cpu\_clock\_by\_os}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_clock\_by\_os()}
+{\footnotesize\ttfamily int cpu\+\_\+clock\+\_\+by\+\_\+os (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns the C\+PU clock, as reported by the OS. 
+
+This function uses O\+S-\/specific functions to obtain the C\+PU clock. It may differ from the true clock for several reasons\+:~\newline
+~\newline
+
+
+i) The C\+PU might be in some power saving state, while the OS reports its full-\/power frequency, or vice-\/versa.~\newline
+ ii) In some cases you can raise or lower the C\+PU frequency with overclocking utilities and the OS will not notice.
+
+\begin{DoxyReturn}{Returns}
+the C\+PU clock frequency in M\+Hz. If the OS is not (yet) supported or lacks the necessary reporting machinery, the return value is -\/1 
+\end{DoxyReturn}
+\mbox{\label{group__libcpuid_ga6ba20c7c72b6c943e0b3e664ede42b80}} 
+\index{LibCPUID@{LibCPUID}!cpu\_clock\_measure@{cpu\_clock\_measure}}
+\index{cpu\_clock\_measure@{cpu\_clock\_measure}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_clock\_measure()}
+{\footnotesize\ttfamily int cpu\+\_\+clock\+\_\+measure (\begin{DoxyParamCaption}\item[{int}]{millis,  }\item[{int}]{quad\+\_\+check }\end{DoxyParamCaption})}
+
+
+
+Measure the C\+PU clock frequency. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em millis} & -\/ How much time to waste in the busy-\/wait cycle. In millisecs. Useful values 10 -\/ 1000 \\
+\hline
+{\em quad\+\_\+check} & -\/ Do a more thorough measurement if nonzero (see the explanation).\\
+\hline
+\end{DoxyParams}
+The function performs a busy-\/wait cycle for the given time and calculates the C\+PU frequency by the difference of the T\+SC values. The accuracy of the calculation depends on the length of the busy-\/wait cycle\+: more is better, but 100ms should be enough for most purposes.
+
+While this will calculate the C\+PU frequency correctly in most cases, there are several reasons why it might be incorrect\+:~\newline
+
+
+i) R\+D\+T\+SC doesn\textquotesingle{}t guarantee it will run at the same clock as the C\+PU. Apparently there aren\textquotesingle{}t C\+P\+Us at the moment, but still, there\textquotesingle{}s no guarantee.~\newline
+ ii) The C\+PU might be in a low-\/frequency power saving mode, and the C\+PU might be switched to higher frequency at any time. If this happens during the measurement, the result can be anywhere between the low and high frequencies. Also, if you\textquotesingle{}re interested in the high frequency value only, this function might return the low one instead.~\newline
+ iii) On S\+MP systems exhibiting T\+SC drift (see \doxyref{cpu\+\_\+rdtsc}{p.}{group__libcpuid_ga08fe7335dd44017d8a653b6e2dc8977e})
+
+the quad\+\_\+check option will run four consecutive measurements and then return the average of the two most-\/consistent results. The total runtime of the function will still be `millis' -\/ consider using a bit more time for the timing interval.
+
+Finally, for benchmarking / C\+PU intensive applications, the best strategy is to use the \doxyref{cpu\+\_\+tsc\+\_\+mark()}{p.}{group__libcpuid_ga236be57c231aa5433416bd60c887a14a} / \doxyref{cpu\+\_\+tsc\+\_\+unmark()}{p.}{group__libcpuid_gae69abf89db76d95039dc9338c4c5a697} / \doxyref{cpu\+\_\+clock\+\_\+by\+\_\+mark()}{p.}{group__libcpuid_ga55d3419eeac6d46d957875f1c302ca44} method. Begin by mark()-\/ing about one second after application startup (allowing the power-\/saving manager to kick in and rise the frequency during that time), then unmark() just before application finishing. The result will most acurately represent at what frequency your app was running.
+
+\begin{DoxyReturn}{Returns}
+the C\+PU clock frequency in M\+Hz (within some measurement error margin). If R\+D\+T\+SC is not supported, the result is -\/1. 
+\end{DoxyReturn}
+\mbox{\label{group__libcpuid_ga43b66c6c5b7cb18218fd39fee60a72d2}} 
+\index{LibCPUID@{LibCPUID}!cpu\_exec\_cpuid@{cpu\_exec\_cpuid}}
+\index{cpu\_exec\_cpuid@{cpu\_exec\_cpuid}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_exec\_cpuid()}
+{\footnotesize\ttfamily void cpu\+\_\+exec\+\_\+cpuid (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{eax,  }\item[{uint32\+\_\+t $\ast$}]{regs }\end{DoxyParamCaption})}
+
+
+
+Executes the C\+P\+U\+ID instruction. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em eax} & -\/ the value of the E\+AX register when executing C\+P\+U\+ID \\
+\hline
+{\em regs} & -\/ the results will be stored here. regs[0] = E\+AX, regs[1] = E\+BX, ... \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+C\+P\+U\+ID will be executed with E\+AX set to the given value and E\+BX, E\+CX, E\+DX set to zero. 
+\end{DoxyNote}
+\mbox{\label{group__libcpuid_ga8ca716b437d82b2cfc97bc9f5cd1254a}} 
+\index{LibCPUID@{LibCPUID}!cpu\_exec\_cpuid\_ext@{cpu\_exec\_cpuid\_ext}}
+\index{cpu\_exec\_cpuid\_ext@{cpu\_exec\_cpuid\_ext}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_exec\_cpuid\_ext()}
+{\footnotesize\ttfamily void cpu\+\_\+exec\+\_\+cpuid\+\_\+ext (\begin{DoxyParamCaption}\item[{uint32\+\_\+t $\ast$}]{regs }\end{DoxyParamCaption})}
+
+
+
+Executes the C\+P\+U\+ID instruction with the given input registers. 
+
+\begin{DoxyNote}{Note}
+This is just a bit more generic version of cpu\+\_\+exec\+\_\+cpuid -\/ it allows you to control all the registers. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em regs} & -\/ Input/output. Prior to executing C\+P\+U\+ID, E\+AX, E\+BX, E\+CX and E\+DX will be set to regs[0], regs[1], regs[2] and regs[3]. After C\+P\+U\+ID, this array will contain the results. \\
+\hline
+\end{DoxyParams}
+\mbox{\label{group__libcpuid_ga1e55a2581749333e4cfe3aad291e3889}} 
+\index{LibCPUID@{LibCPUID}!cpu\_feature\_str@{cpu\_feature\_str}}
+\index{cpu\_feature\_str@{cpu\_feature\_str}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_feature\_str()}
+{\footnotesize\ttfamily const char$\ast$ cpu\+\_\+feature\+\_\+str (\begin{DoxyParamCaption}\item[{\textbf{ cpu\+\_\+feature\+\_\+t}}]{feature }\end{DoxyParamCaption})}
+
+
+
+Returns the short textual representation of a C\+PU flag. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em feature} & -\/ the feature, whose textual representation is wanted. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a constant string like \char`\"{}fpu\char`\"{}, \char`\"{}tsc\char`\"{}, \char`\"{}sse2\char`\"{}, etc. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+the names of the returned flags are compatible with those from /proc/cpuinfo in Linux, with the exception of `tm\+\_\+amd' 
+\end{DoxyNote}
+\mbox{\label{group__libcpuid_gaa0b5bcc626ff3dd0482553657f9d600e}} 
+\index{LibCPUID@{LibCPUID}!cpu\_identify@{cpu\_identify}}
+\index{cpu\_identify@{cpu\_identify}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_identify()}
+{\footnotesize\ttfamily int cpu\+\_\+identify (\begin{DoxyParamCaption}\item[{struct \textbf{ cpu\+\_\+raw\+\_\+data\+\_\+t} $\ast$}]{raw,  }\item[{struct \textbf{ cpu\+\_\+id\+\_\+t} $\ast$}]{data }\end{DoxyParamCaption})}
+
+
+
+Identifies the C\+PU. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em raw} & -\/ Input -\/ a pointer to the raw C\+P\+U\+ID data, which is obtained either by cpuid\+\_\+get\+\_\+raw\+\_\+data or cpuid\+\_\+deserialize\+\_\+raw\+\_\+data. Can also be N\+U\+LL, in which case the functions calls cpuid\+\_\+get\+\_\+raw\+\_\+data itself. \\
+\hline
+{\em data} & -\/ Output -\/ the decoded C\+PU features/info is written here. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The function will not fail, even if some of the information cannot be obtained. Even when the C\+PU is new and thus unknown to libcpuid, some generic info, such as \char`\"{}\+A\+M\+D K9 family C\+P\+U\char`\"{} will be written to data.\+cpu\+\_\+codename, and most other things, such as the C\+PU flags, cache sizes, etc. should be detected correctly anyway. However, the function C\+AN fail, if the C\+PU is completely alien to libcpuid. 
+
+While \doxyref{cpu\+\_\+identify()}{p.}{group__libcpuid_gaa0b5bcc626ff3dd0482553657f9d600e} and \doxyref{cpuid\+\_\+get\+\_\+raw\+\_\+data()}{p.}{group__libcpuid_gacfc107ea367e6b918ca17fdf2c492746} are fast for most purposes, running them several thousand times per second can hamper performance significantly. Specifically, avoid writing \char`\"{}cpu feature
+      checker\char`\"{} wrapping function, which calls cpu\+\_\+identify and returns the value of some flag, if that function is going to be called frequently. 
+\end{DoxyNote}
+\begin{DoxyReturn}{Returns}
+zero if successful, and some negative number on error. The error message can be obtained by calling \doxyref{cpuid\+\_\+error}{p.}{group__libcpuid_gaa9e877c240b70b78f0781aad37f4c169}. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\doxyref{cpu\+\_\+error\+\_\+t}{p.}{group__libcpuid_gaaaad3aee57ed8705424f5884fb15849f} 
+\end{DoxySeeAlso}
+\mbox{\label{group__libcpuid_gaf84c8636236dacb88fc06f987dcae766}} 
+\index{LibCPUID@{LibCPUID}!cpu\_msr\_driver\_close@{cpu\_msr\_driver\_close}}
+\index{cpu\_msr\_driver\_close@{cpu\_msr\_driver\_close}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_msr\_driver\_close()}
+{\footnotesize\ttfamily int cpu\+\_\+msr\+\_\+driver\+\_\+close (\begin{DoxyParamCaption}\item[{struct msr\+\_\+driver\+\_\+t $\ast$}]{handle }\end{DoxyParamCaption})}
+
+
+
+Closes an open M\+SR driver. 
+
+This function unloads the M\+SR driver opened by cpu\+\_\+msr\+\_\+driver\+\_\+open and frees any resources associated with it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & -\/ a handle to the M\+SR reader driver, as created by cpu\+\_\+msr\+\_\+driver\+\_\+open\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+zero if successful, and some negative number on error. The error message can be obtained by calling \doxyref{cpuid\+\_\+error}{p.}{group__libcpuid_gaa9e877c240b70b78f0781aad37f4c169}. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\doxyref{cpu\+\_\+error\+\_\+t}{p.}{group__libcpuid_gaaaad3aee57ed8705424f5884fb15849f} 
+\end{DoxySeeAlso}
+\mbox{\label{group__libcpuid_gab99453e100b3b502ca15b8a79198828a}} 
+\index{LibCPUID@{LibCPUID}!cpu\_msr\_driver\_open@{cpu\_msr\_driver\_open}}
+\index{cpu\_msr\_driver\_open@{cpu\_msr\_driver\_open}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_msr\_driver\_open()}
+{\footnotesize\ttfamily struct msr\+\_\+driver\+\_\+t$\ast$ cpu\+\_\+msr\+\_\+driver\+\_\+open (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Starts/opens a driver, needed to read M\+S\+Rs (Model Specific Registers) 
+
+On systems that support it, this function will create a temporary system driver, that has privileges to execute the R\+D\+M\+SR instruction. After the driver is created, you can read M\+S\+Rs by calling \doxyref{cpu\+\_\+rdmsr}{p.}{group__libcpuid_ga0eddf30c99a094aa9942265948a13007}
+
+\begin{DoxyReturn}{Returns}
+a handle to the driver on success, and N\+U\+LL on error. The error message can be obtained by calling \doxyref{cpuid\+\_\+error}{p.}{group__libcpuid_gaa9e877c240b70b78f0781aad37f4c169}. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\doxyref{cpu\+\_\+error\+\_\+t}{p.}{group__libcpuid_gaaaad3aee57ed8705424f5884fb15849f} 
+\end{DoxySeeAlso}
+\mbox{\label{group__libcpuid_ga238b88d0db89dc89d0d78fb27e06feb3}} 
+\index{LibCPUID@{LibCPUID}!cpu\_msr\_driver\_open\_core@{cpu\_msr\_driver\_open\_core}}
+\index{cpu\_msr\_driver\_open\_core@{cpu\_msr\_driver\_open\_core}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_msr\_driver\_open\_core()}
+{\footnotesize\ttfamily struct msr\+\_\+driver\+\_\+t$\ast$ cpu\+\_\+msr\+\_\+driver\+\_\+open\+\_\+core (\begin{DoxyParamCaption}\item[{unsigned}]{core\+\_\+num }\end{DoxyParamCaption})}
+
+
+
+Similar to \doxyref{cpu\+\_\+msr\+\_\+driver\+\_\+open}{p.}{group__libcpuid_gab99453e100b3b502ca15b8a79198828a}, but accept one parameter. 
+
+This function works on certain operating systems (G\+N\+U/\+Linux, Free\+B\+SD)
+
+
+\begin{DoxyParams}{Parameters}
+{\em core\+\_\+num} & specify the core number for M\+SR. The first core number is 0. The last core number is \doxyref{cpuid\+\_\+get\+\_\+total\+\_\+cpus}{p.}{group__libcpuid_ga1951ec0d29f43037df5e2e14cbae44b3} -\/ 1.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a handle to the driver on success, and N\+U\+LL on error. The error message can be obtained by calling \doxyref{cpuid\+\_\+error}{p.}{group__libcpuid_gaa9e877c240b70b78f0781aad37f4c169}. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\doxyref{cpu\+\_\+error\+\_\+t}{p.}{group__libcpuid_gaaaad3aee57ed8705424f5884fb15849f} 
+\end{DoxySeeAlso}
+\mbox{\label{group__libcpuid_gac977cbb78e00058098778411d7f784cf}} 
+\index{LibCPUID@{LibCPUID}!cpu\_msrinfo@{cpu\_msrinfo}}
+\index{cpu\_msrinfo@{cpu\_msrinfo}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_msrinfo()}
+{\footnotesize\ttfamily int cpu\+\_\+msrinfo (\begin{DoxyParamCaption}\item[{struct msr\+\_\+driver\+\_\+t $\ast$}]{handle,  }\item[{\textbf{ cpu\+\_\+msrinfo\+\_\+request\+\_\+t}}]{which }\end{DoxyParamCaption})}
+
+
+
+Reads extended C\+PU information from Model-\/\+Specific Registers. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & -\/ a handle to an open M\+SR driver, \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\doxyref{cpu\+\_\+msr\+\_\+driver\+\_\+open}{p.}{group__libcpuid_gab99453e100b3b502ca15b8a79198828a} 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em which} & -\/ which info field should be returned. A list of available information entities is listed in the cpu\+\_\+msrinfo\+\_\+request\+\_\+t enum. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em -\/} & if the requested information is available for the current processor model, the respective value is returned. if no information is available, or the C\+PU doesn\textquotesingle{}t support the query, the special value C\+P\+U\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+V\+A\+L\+UE is returned \\
+\hline
+\end{DoxyRetVals}
+\begin{DoxyNote}{Note}
+This function is not M\+T-\/safe. If you intend to call it from multiple threads, guard it through a mutex or a similar primitive. 
+\end{DoxyNote}
+\mbox{\label{group__libcpuid_ga0eddf30c99a094aa9942265948a13007}} 
+\index{LibCPUID@{LibCPUID}!cpu\_rdmsr@{cpu\_rdmsr}}
+\index{cpu\_rdmsr@{cpu\_rdmsr}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_rdmsr()}
+{\footnotesize\ttfamily int cpu\+\_\+rdmsr (\begin{DoxyParamCaption}\item[{struct msr\+\_\+driver\+\_\+t $\ast$}]{handle,  }\item[{uint32\+\_\+t}]{msr\+\_\+index,  }\item[{uint64\+\_\+t $\ast$}]{result }\end{DoxyParamCaption})}
+
+
+
+Reads a Model-\/\+Specific Register (M\+SR) 
+
+If the C\+PU has M\+S\+Rs (as indicated by the C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+SR flag), you can read a M\+SR with the given index by calling this function.
+
+There are several prerequisites you must do before reading M\+S\+Rs\+: 1) You must ensure the C\+PU has R\+D\+M\+SR. Check the C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+M\+SR flag in \doxyref{cpu\+\_\+id\+\_\+t\+::flags}{p.}{structcpu__id__t_afe7f0f779b5986f1a89f02aa53d842a8} 2) You must ensure that the C\+PU implements the specific M\+SR you intend to read. 3) You must open a M\+S\+R-\/reader driver. R\+D\+M\+SR is a privileged instruction and needs ring-\/0 access in order to work. This temporary driver is created by calling \doxyref{cpu\+\_\+msr\+\_\+driver\+\_\+open}{p.}{group__libcpuid_gab99453e100b3b502ca15b8a79198828a}
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & -\/ a handle to the M\+SR reader driver, as created by cpu\+\_\+msr\+\_\+driver\+\_\+open \\
+\hline
+{\em msr\+\_\+index} & -\/ the numeric ID of the M\+SR you want to read \\
+\hline
+{\em result} & -\/ a pointer to a 64-\/bit integer, where the M\+SR value is stored\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+zero if successful, and some negative number on error. The error message can be obtained by calling \doxyref{cpuid\+\_\+error}{p.}{group__libcpuid_gaa9e877c240b70b78f0781aad37f4c169}. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\doxyref{cpu\+\_\+error\+\_\+t}{p.}{group__libcpuid_gaaaad3aee57ed8705424f5884fb15849f} 
+\end{DoxySeeAlso}
+\mbox{\label{group__libcpuid_gae2056d06fd9ea3338535157e40ca6359}} 
+\index{LibCPUID@{LibCPUID}!cpu\_rdmsr\_range@{cpu\_rdmsr\_range}}
+\index{cpu\_rdmsr\_range@{cpu\_rdmsr\_range}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_rdmsr\_range()}
+{\footnotesize\ttfamily int cpu\+\_\+rdmsr\+\_\+range (\begin{DoxyParamCaption}\item[{struct msr\+\_\+driver\+\_\+t $\ast$}]{handle,  }\item[{uint32\+\_\+t}]{msr\+\_\+index,  }\item[{uint8\+\_\+t}]{highbit,  }\item[{uint8\+\_\+t}]{lowbit,  }\item[{uint64\+\_\+t $\ast$}]{result }\end{DoxyParamCaption})}
+
+
+
+Similar to \doxyref{cpu\+\_\+rdmsr}{p.}{group__libcpuid_ga0eddf30c99a094aa9942265948a13007}, but extract a range of bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & -\/ a handle to the M\+SR reader driver, as created by cpu\+\_\+msr\+\_\+driver\+\_\+open \\
+\hline
+{\em msr\+\_\+index} & -\/ the numeric ID of the M\+SR you want to read \\
+\hline
+{\em highbit} & -\/ the high bit in range, must be inferior to 64 \\
+\hline
+{\em lowbit} & -\/ the low bit in range, must be equal or superior to 0 \\
+\hline
+{\em result} & -\/ a pointer to a 64-\/bit integer, where the M\+SR value is stored\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+zero if successful, and some negative number on error. The error message can be obtained by calling \doxyref{cpuid\+\_\+error}{p.}{group__libcpuid_gaa9e877c240b70b78f0781aad37f4c169}. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\doxyref{cpu\+\_\+error\+\_\+t}{p.}{group__libcpuid_gaaaad3aee57ed8705424f5884fb15849f} 
+\end{DoxySeeAlso}
+\mbox{\label{group__libcpuid_ga08fe7335dd44017d8a653b6e2dc8977e}} 
+\index{LibCPUID@{LibCPUID}!cpu\_rdtsc@{cpu\_rdtsc}}
+\index{cpu\_rdtsc@{cpu\_rdtsc}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_rdtsc()}
+{\footnotesize\ttfamily void cpu\+\_\+rdtsc (\begin{DoxyParamCaption}\item[{uint64\+\_\+t $\ast$}]{result }\end{DoxyParamCaption})}
+
+
+
+Executes R\+D\+T\+SC. 
+
+The R\+D\+T\+SC (ReaD Time Stamp Counter) instruction gives access to an internal 64-\/bit counter, which usually increments at each clock cycle. This can be used for various timing routines, and as a very precise clock source. It is set to zero on system startup. Beware that may not increment at the same frequency as the C\+PU. Consecutive calls of R\+D\+T\+SC are, however, guaranteed to return monotonically-\/increasing values.
+
+
+\begin{DoxyParams}{Parameters}
+{\em result} & -\/ a pointer to a 64-\/bit unsigned integer, where the T\+SC value will be stored\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+If 100\% compatibility is a concern, you must first check if the R\+D\+T\+SC instruction is present (if it is not, your program will crash with \char`\"{}invalid opcode\char`\"{} exception). Only some very old processors (i486, early A\+MD K5 and some Cyrix C\+P\+Us) lack that instruction -\/ they should have become exceedingly rare these days. To verify R\+D\+T\+SC presence, run \doxyref{cpu\+\_\+identify()}{p.}{group__libcpuid_gaa0b5bcc626ff3dd0482553657f9d600e} and check flags[C\+P\+U\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+SC].
+
+The monotonically increasing nature of the T\+SC may be violated on S\+MP systems, if their T\+SC clocks run at different rate. If the OS doesn\textquotesingle{}t account for that, the T\+SC drift may become arbitrary large. 
+\end{DoxyNote}
+\mbox{\label{group__libcpuid_ga236be57c231aa5433416bd60c887a14a}} 
+\index{LibCPUID@{LibCPUID}!cpu\_tsc\_mark@{cpu\_tsc\_mark}}
+\index{cpu\_tsc\_mark@{cpu\_tsc\_mark}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_tsc\_mark()}
+{\footnotesize\ttfamily void cpu\+\_\+tsc\+\_\+mark (\begin{DoxyParamCaption}\item[{struct \textbf{ cpu\+\_\+mark\+\_\+t} $\ast$}]{mark }\end{DoxyParamCaption})}
+
+
+
+Store T\+SC and timing info. 
+
+This function stores the current T\+SC value and current time info from a precise O\+S-\/specific clock source in the \doxyref{cpu\+\_\+mark\+\_\+t}{p.}{structcpu__mark__t} structure. The sys\+\_\+clock field contains time with microsecond resolution. The values can later be used to measure time intervals, number of clocks, F\+PU frequency, etc. \begin{DoxySeeAlso}{See also}
+\doxyref{cpu\+\_\+rdtsc}{p.}{group__libcpuid_ga08fe7335dd44017d8a653b6e2dc8977e}
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em mark} & [out] -\/ a pointer to a \doxyref{cpu\+\_\+mark\+\_\+t}{p.}{structcpu__mark__t} structure \\
+\hline
+\end{DoxyParams}
+\mbox{\label{group__libcpuid_gae69abf89db76d95039dc9338c4c5a697}} 
+\index{LibCPUID@{LibCPUID}!cpu\_tsc\_unmark@{cpu\_tsc\_unmark}}
+\index{cpu\_tsc\_unmark@{cpu\_tsc\_unmark}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpu\_tsc\_unmark()}
+{\footnotesize\ttfamily void cpu\+\_\+tsc\+\_\+unmark (\begin{DoxyParamCaption}\item[{struct \textbf{ cpu\+\_\+mark\+\_\+t} $\ast$}]{mark }\end{DoxyParamCaption})}
+
+
+
+Calculate T\+SC and timing difference. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mark} & -\/ input/output\+: a pointer to a \doxyref{cpu\+\_\+mark\+\_\+t}{p.}{structcpu__mark__t} structure, which has already been initialized by cpu\+\_\+tsc\+\_\+mark. The difference in T\+SC and time will be written here.\\
+\hline
+\end{DoxyParams}
+This function calculates the T\+SC and time difference, by obtaining the current T\+SC and timing values and subtracting the contents of the `mark' structure from them. Results are written in the same structure.
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{...}
+\DoxyCodeLine{struct cpu\_mark\_t mark;}
+\DoxyCodeLine{cpu\_tsc\_mark(\&mark);}
+\DoxyCodeLine{foo();}
+\DoxyCodeLine{cpu\_tsc\_unmark(\&mark);}
+\DoxyCodeLine{printf(\textcolor{stringliteral}{"Foo finished. Executed in \%llu cycles and \%llu usecs\(\backslash\)n"},}
+\DoxyCodeLine{       mark.tsc, mark.sys\_clock);}
+\DoxyCodeLine{...}
+\end{DoxyCode}
+ \mbox{\label{group__libcpuid_gad6c337c82f669c5c158f25716c080f6c}} 
+\index{LibCPUID@{LibCPUID}!cpuid\_deserialize\_raw\_data@{cpuid\_deserialize\_raw\_data}}
+\index{cpuid\_deserialize\_raw\_data@{cpuid\_deserialize\_raw\_data}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpuid\_deserialize\_raw\_data()}
+{\footnotesize\ttfamily int cpuid\+\_\+deserialize\+\_\+raw\+\_\+data (\begin{DoxyParamCaption}\item[{struct \textbf{ cpu\+\_\+raw\+\_\+data\+\_\+t} $\ast$}]{data,  }\item[{const char $\ast$}]{filename }\end{DoxyParamCaption})}
+
+
+
+Reads raw C\+P\+U\+ID data from file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & -\/ a pointer to \doxyref{cpu\+\_\+raw\+\_\+data\+\_\+t}{p.}{structcpu__raw__data__t} structure. The deserialized data will be written here. \\
+\hline
+{\em filename} & -\/ the path of the file, containing the serialized raw data. If empty, stdin will be used. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This function may fail, if the file is created by different version of the library. Also, see the notes on cpuid\+\_\+serialize\+\_\+raw\+\_\+data. 
+\end{DoxyNote}
+\begin{DoxyReturn}{Returns}
+zero if successful, and some negative number on error. The error message can be obtained by calling \doxyref{cpuid\+\_\+error}{p.}{group__libcpuid_gaa9e877c240b70b78f0781aad37f4c169}. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\doxyref{cpu\+\_\+error\+\_\+t}{p.}{group__libcpuid_gaaaad3aee57ed8705424f5884fb15849f} 
+\end{DoxySeeAlso}
+\mbox{\label{group__libcpuid_gaa9e877c240b70b78f0781aad37f4c169}} 
+\index{LibCPUID@{LibCPUID}!cpuid\_error@{cpuid\_error}}
+\index{cpuid\_error@{cpuid\_error}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpuid\_error()}
+{\footnotesize\ttfamily const char$\ast$ cpuid\+\_\+error (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns textual description of the last error. 
+
+libcpuid stores an `errno'-\/style error status, whose description can be obtained with this function. \begin{DoxyNote}{Note}
+This function is not thread-\/safe 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{cpu\+\_\+error\+\_\+t}{p.}{group__libcpuid_gaaaad3aee57ed8705424f5884fb15849f} 
+\end{DoxySeeAlso}
+\mbox{\label{group__libcpuid_ga7fe37f4d3025587d30ec82287ebfe236}} 
+\index{LibCPUID@{LibCPUID}!cpuid\_free\_cpu\_list@{cpuid\_free\_cpu\_list}}
+\index{cpuid\_free\_cpu\_list@{cpuid\_free\_cpu\_list}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpuid\_free\_cpu\_list()}
+{\footnotesize\ttfamily void cpuid\+\_\+free\+\_\+cpu\+\_\+list (\begin{DoxyParamCaption}\item[{struct \textbf{ cpu\+\_\+list\+\_\+t} $\ast$}]{list }\end{DoxyParamCaption})}
+
+
+
+Frees a C\+PU list. 
+
+This function deletes all the memory associated with a C\+PU list, as obtained by \doxyref{cpuid\+\_\+get\+\_\+cpu\+\_\+list()}{p.}{group__libcpuid_ga1b0131f6d12aca2d002175abcd9a1d20}
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & -\/ the list to be free()\textquotesingle{}d. \\
+\hline
+\end{DoxyParams}
+\mbox{\label{group__libcpuid_ga1b0131f6d12aca2d002175abcd9a1d20}} 
+\index{LibCPUID@{LibCPUID}!cpuid\_get\_cpu\_list@{cpuid\_get\_cpu\_list}}
+\index{cpuid\_get\_cpu\_list@{cpuid\_get\_cpu\_list}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpuid\_get\_cpu\_list()}
+{\footnotesize\ttfamily void cpuid\+\_\+get\+\_\+cpu\+\_\+list (\begin{DoxyParamCaption}\item[{\textbf{ cpu\+\_\+vendor\+\_\+t}}]{vendor,  }\item[{struct \textbf{ cpu\+\_\+list\+\_\+t} $\ast$}]{list }\end{DoxyParamCaption})}
+
+
+
+Gets a list of all known C\+PU names from a specific vendor. 
+
+This function compiles a list of all known C\+PU (code)names (i.\+e. the possible values of \doxyref{cpu\+\_\+id\+\_\+t\+::cpu\+\_\+codename}{p.}{structcpu__id__t_adec5c2819d5ab82676a39f6cae26d89c}) for the given vendor.
+
+There are about 100 entries for Intel and A\+MD, and a few for the other vendors. The list is written out in approximate chronological introduction order of the parts.
+
+
+\begin{DoxyParams}{Parameters}
+{\em vendor} & the vendor to be queried \\
+\hline
+{\em list} & [out] the resulting list will be written here. N\+O\+TE\+: As the memory is dynamically allocated, be sure to call \doxyref{cpuid\+\_\+free\+\_\+cpu\+\_\+list()}{p.}{group__libcpuid_ga7fe37f4d3025587d30ec82287ebfe236} after you\textquotesingle{}re done with the data \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\doxyref{cpu\+\_\+list\+\_\+t}{p.}{structcpu__list__t} 
+\end{DoxySeeAlso}
+\mbox{\label{group__libcpuid_gad973835515aa3b0d807b07279f03b965}} 
+\index{LibCPUID@{LibCPUID}!cpuid\_get\_epc@{cpuid\_get\_epc}}
+\index{cpuid\_get\_epc@{cpuid\_get\_epc}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpuid\_get\_epc()}
+{\footnotesize\ttfamily struct \textbf{ cpu\+\_\+epc\+\_\+t} cpuid\+\_\+get\+\_\+epc (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{const struct \textbf{ cpu\+\_\+raw\+\_\+data\+\_\+t} $\ast$}]{raw }\end{DoxyParamCaption})}
+
+
+
+Fetches information about an E\+PC (Enclave Page Cache) area. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & -\/ zero-\/based index, valid range [0..cpu\+\_\+id\+\_\+t.\+egx.\+num\+\_\+epc\+\_\+sections) \\
+\hline
+{\em raw} & -\/ a pointer to fetched raw C\+P\+U\+ID data. Needed only for testing, you can safely pass N\+U\+LL here (if you pass a real structure, it will be used for fetching the leaf 12h data if index $<$ 2; otherwise the real C\+P\+U\+ID instruction will be used). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the requested data. If the C\+PU doesn\textquotesingle{}t support S\+GX, or if index $>$= cpu\+\_\+id\+\_\+t.\+egx.\+num\+\_\+epc\+\_\+sections, both fields of the returned structure will be zeros. 
+\end{DoxyReturn}
+\mbox{\label{group__libcpuid_gacfc107ea367e6b918ca17fdf2c492746}} 
+\index{LibCPUID@{LibCPUID}!cpuid\_get\_raw\_data@{cpuid\_get\_raw\_data}}
+\index{cpuid\_get\_raw\_data@{cpuid\_get\_raw\_data}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpuid\_get\_raw\_data()}
+{\footnotesize\ttfamily int cpuid\+\_\+get\+\_\+raw\+\_\+data (\begin{DoxyParamCaption}\item[{struct \textbf{ cpu\+\_\+raw\+\_\+data\+\_\+t} $\ast$}]{data }\end{DoxyParamCaption})}
+
+
+
+Obtains the raw C\+P\+U\+ID data from the current C\+PU. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & -\/ a pointer to \doxyref{cpu\+\_\+raw\+\_\+data\+\_\+t}{p.}{structcpu__raw__data__t} structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+zero if successful, and some negative number on error. The error message can be obtained by calling \doxyref{cpuid\+\_\+error}{p.}{group__libcpuid_gaa9e877c240b70b78f0781aad37f4c169}. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\doxyref{cpu\+\_\+error\+\_\+t}{p.}{group__libcpuid_gaaaad3aee57ed8705424f5884fb15849f} 
+\end{DoxySeeAlso}
+\mbox{\label{group__libcpuid_ga1951ec0d29f43037df5e2e14cbae44b3}} 
+\index{LibCPUID@{LibCPUID}!cpuid\_get\_total\_cpus@{cpuid\_get\_total\_cpus}}
+\index{cpuid\_get\_total\_cpus@{cpuid\_get\_total\_cpus}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpuid\_get\_total\_cpus()}
+{\footnotesize\ttfamily int cpuid\+\_\+get\+\_\+total\+\_\+cpus (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns the total number of logical C\+PU threads (even if C\+P\+U\+ID is not present). 
+
+Under VM, this number (and total\+\_\+logical\+\_\+cpus, since they are fetched with the same code) may be nonsensical, i.\+e. might not equal Num\+Physical\+C\+P\+Us$\ast$\+Num\+Cores\+Per\+C\+P\+U$\ast$\+Hyper\+Threading. This is because no matter how many logical threads the host machine has, you may limit them in the VM to any number you like. {\bfseries{This}} is the number returned by \doxyref{cpuid\+\_\+get\+\_\+total\+\_\+cpus()}{p.}{group__libcpuid_ga1951ec0d29f43037df5e2e14cbae44b3}.
+
+\begin{DoxyReturn}{Returns}
+Number of logical C\+PU threads available. Equals the \doxyref{cpu\+\_\+id\+\_\+t\+::total\+\_\+logical\+\_\+cpus}{p.}{structcpu__id__t_ae7ad9a6544e5fd9b5610824d1c66896e}. 
+\end{DoxyReturn}
+\mbox{\label{group__libcpuid_ga71b269fd7a481e1204bdc2bc0277cc47}} 
+\index{LibCPUID@{LibCPUID}!cpuid\_get\_vendor@{cpuid\_get\_vendor}}
+\index{cpuid\_get\_vendor@{cpuid\_get\_vendor}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpuid\_get\_vendor()}
+{\footnotesize\ttfamily \textbf{ cpu\+\_\+vendor\+\_\+t} cpuid\+\_\+get\+\_\+vendor (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Obtains the C\+PU vendor from C\+P\+U\+ID from the current C\+PU. 
+
+\begin{DoxyNote}{Note}
+The result is cached. 
+\end{DoxyNote}
+\begin{DoxyReturn}{Returns}
+V\+E\+N\+D\+O\+R\+\_\+\+U\+N\+K\+N\+O\+WN if failed, otherwise the C\+PU vendor type. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\doxyref{cpu\+\_\+vendor\+\_\+t}{p.}{group__libcpuid_gaee3591049f485bb93dbd26dd91684d28} 
+\end{DoxySeeAlso}
+\mbox{\label{group__libcpuid_ga0517d3660baee30704cc3a28b0b69d10}} 
+\index{LibCPUID@{LibCPUID}!cpuid\_lib\_version@{cpuid\_lib\_version}}
+\index{cpuid\_lib\_version@{cpuid\_lib\_version}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpuid\_lib\_version()}
+{\footnotesize\ttfamily const char$\ast$ cpuid\+\_\+lib\+\_\+version (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns the libcpuid version. 
+
+\begin{DoxyReturn}{Returns}
+the string representation of the libcpuid version, like \char`\"{}0.\+1.\+1\char`\"{} 
+\end{DoxyReturn}
+\mbox{\label{group__libcpuid_ga2b686ad8bf6d231de8d8383090022b4f}} 
+\index{LibCPUID@{LibCPUID}!cpuid\_present@{cpuid\_present}}
+\index{cpuid\_present@{cpuid\_present}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpuid\_present()}
+{\footnotesize\ttfamily int cpuid\+\_\+present (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Checks if the C\+P\+U\+ID instruction is supported. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em 1} & if C\+P\+U\+ID is present \\
+\hline
+{\em 0} & the C\+PU doesn\textquotesingle{}t have C\+P\+U\+ID. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\label{group__libcpuid_ga454db9d6dcf13250280cf9b64314235e}} 
+\index{LibCPUID@{LibCPUID}!cpuid\_serialize\_raw\_data@{cpuid\_serialize\_raw\_data}}
+\index{cpuid\_serialize\_raw\_data@{cpuid\_serialize\_raw\_data}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpuid\_serialize\_raw\_data()}
+{\footnotesize\ttfamily int cpuid\+\_\+serialize\+\_\+raw\+\_\+data (\begin{DoxyParamCaption}\item[{struct \textbf{ cpu\+\_\+raw\+\_\+data\+\_\+t} $\ast$}]{data,  }\item[{const char $\ast$}]{filename }\end{DoxyParamCaption})}
+
+
+
+Writes the raw C\+P\+U\+ID data to a text file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & -\/ a pointer to \doxyref{cpu\+\_\+raw\+\_\+data\+\_\+t}{p.}{structcpu__raw__data__t} structure \\
+\hline
+{\em filename} & -\/ the path of the file, where the serialized data should be written. If empty, stdout will be used. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This is intended primarily for debugging. On some processor, which is not currently supported or not completely recognized by cpu\+\_\+identify, one can still successfully get the raw data and write it to a file. libcpuid developers can later import this file and debug the detection code as if running on the actual hardware. The file is simple text format of \char`\"{}something=value\char`\"{} pairs. Version info is also written, but the format is not intended to be neither backward-\/ nor forward compatible. 
+\end{DoxyNote}
+\begin{DoxyReturn}{Returns}
+zero if successful, and some negative number on error. The error message can be obtained by calling \doxyref{cpuid\+\_\+error}{p.}{group__libcpuid_gaa9e877c240b70b78f0781aad37f4c169}. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\doxyref{cpu\+\_\+error\+\_\+t}{p.}{group__libcpuid_gaaaad3aee57ed8705424f5884fb15849f} 
+\end{DoxySeeAlso}
+\mbox{\label{group__libcpuid_ga97fe8a0702c19a1826cbfe8f69e5e264}} 
+\index{LibCPUID@{LibCPUID}!cpuid\_set\_verbosiness\_level@{cpuid\_set\_verbosiness\_level}}
+\index{cpuid\_set\_verbosiness\_level@{cpuid\_set\_verbosiness\_level}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpuid\_set\_verbosiness\_level()}
+{\footnotesize\ttfamily void cpuid\+\_\+set\+\_\+verbosiness\+\_\+level (\begin{DoxyParamCaption}\item[{int}]{level }\end{DoxyParamCaption})}
+
+
+
+Sets the verbosiness level. 
+
+When the verbosiness level is above zero, some functions might print diagnostic information about what are they doing. The higher the level is, the more detail is printed. Level zero is guaranteed to omit all such output. The output is written using the same machinery as the warnings, \begin{DoxySeeAlso}{See also}
+\doxyref{cpuid\+\_\+set\+\_\+warn\+\_\+function()}{p.}{group__libcpuid_gaa403016f62608ba42d910f7e560c2f2a}
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em level} & the desired verbosiness level. Useful values 0..2 inclusive \\
+\hline
+\end{DoxyParams}
+\mbox{\label{group__libcpuid_gaa403016f62608ba42d910f7e560c2f2a}} 
+\index{LibCPUID@{LibCPUID}!cpuid\_set\_warn\_function@{cpuid\_set\_warn\_function}}
+\index{cpuid\_set\_warn\_function@{cpuid\_set\_warn\_function}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{cpuid\_set\_warn\_function()}
+{\footnotesize\ttfamily libcpuid\+\_\+warn\+\_\+fn\+\_\+t cpuid\+\_\+set\+\_\+warn\+\_\+function (\begin{DoxyParamCaption}\item[{libcpuid\+\_\+warn\+\_\+fn\+\_\+t}]{warn\+\_\+fun }\end{DoxyParamCaption})}
+
+
+
+Sets the warning print function. 
+
+In some cases, the internal libcpuid machinery would like to emit useful debug warnings. By default, these warnings are written to stderr. However, you can set a custom function that will receive those warnings.
+
+
+\begin{DoxyParams}{Parameters}
+{\em warn\+\_\+fun} & -\/ the warning function you want to set. If N\+U\+LL, warnings are disabled. The function takes const char$\ast$ argument.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the current warning function. You can use the return value to keep the previous warning function and restore it at your discretion. 
+\end{DoxyReturn}
+\mbox{\label{group__libcpuid_gaa7b1d6fc07f6019f0912057a2320c3e6}} 
+\index{LibCPUID@{LibCPUID}!msr\_serialize\_raw\_data@{msr\_serialize\_raw\_data}}
+\index{msr\_serialize\_raw\_data@{msr\_serialize\_raw\_data}!LibCPUID@{LibCPUID}}
+\doxysubsubsection{msr\_serialize\_raw\_data()}
+{\footnotesize\ttfamily int msr\+\_\+serialize\+\_\+raw\+\_\+data (\begin{DoxyParamCaption}\item[{struct msr\+\_\+driver\+\_\+t $\ast$}]{handle,  }\item[{const char $\ast$}]{filename }\end{DoxyParamCaption})}
+
+
+
+Writes the raw M\+SR data to a text file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & -\/ a handle to the M\+SR reader driver, as created by cpu\+\_\+msr\+\_\+driver\+\_\+open \\
+\hline
+{\em filename} & -\/ the path of the file, where the serialized data should be written. If empty, stdout will be used. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This is intended primarily for debugging. On some processor, which is not currently supported or not completely recognized by cpu\+\_\+identify, one can still successfully get the raw data and write it to a file. libcpuid developers can later import this file and debug the detection code as if running on the actual hardware. The file is simple text format of \char`\"{}something=value\char`\"{} pairs. Version info is also written, but the format is not intended to be neither backward-\/ nor forward compatible. 
+\end{DoxyNote}
+\begin{DoxyReturn}{Returns}
+zero if successful, and some negative number on error. The error message can be obtained by calling \doxyref{cpuid\+\_\+error}{p.}{group__libcpuid_gaa9e877c240b70b78f0781aad37f4c169}. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\doxyref{cpu\+\_\+error\+\_\+t}{p.}{group__libcpuid_gaaaad3aee57ed8705424f5884fb15849f} 
+\end{DoxySeeAlso}

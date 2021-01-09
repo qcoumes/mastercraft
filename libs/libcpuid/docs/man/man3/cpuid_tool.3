@@ -1,0 +1,30 @@
+.TH "cpuid_tool" 3 "Wed Mar 25 2020" "libcpuid" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cpuid_tool \- Command line interface to libcpuid
+.PP
+\fBDate\fP
+.RS 4
+2008-11-19 
+.RE
+.PP
+\fBAuthor\fP
+.RS 4
+Veselin Georgiev
+.RE
+.PP
+This file is provides a direct interface to libcpuid\&. See the usage() function (or just run the program with the `--help' switch) for a short command line options reference\&.
+.PP
+This file has several purposes:
+.PP
+.IP "1." 4
+When started with no arguments, the program outputs the RAW and decoded CPU data to files (`raw\&.txt' and `report\&.txt', respectively) - this is intended to be a dumb, doubleclicky tool for non-developer users, that can provide debug info about unrecognized processors to libcpuid developers\&.
+.IP "2." 4
+When operated from the terminal with the `--report' option, it is a generic CPU-info utility\&.
+.IP "3." 4
+Can be used in shell scripts, e\&.g\&. to get the name of the CPU, cache sizes, features, with query options like `--cache', `--brandstr', etc\&.
+.IP "4." 4
+Finally, it serves to self-document libcpiud itself :) 
+.PP
+
