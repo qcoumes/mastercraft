@@ -31,8 +31,10 @@ namespace app {
             std::unique_ptr<tool::Window> window = nullptr;
             std::unique_ptr<tool::Camera> camera = nullptr;
             std::unique_ptr<tool::Input> input = nullptr;
-        
+            
             std::unique_ptr<world::ChunkManager> chunkManager = nullptr;
+            GLboolean underwater = false;
+            GLint tickCycle = 0;
         
         private:
             

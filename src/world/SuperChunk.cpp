@@ -34,8 +34,9 @@ namespace world {
         assert(y < Y);
         assert(z < Z);
         
-        return this->chunks[x / Chunk::X][y / Chunk::Y][z / Chunk::Z]
-            .get(x % Chunk::X, y % Chunk::Y, z % Chunk::Z);
+        return this->chunks[x / Chunk::X][y / Chunk::Y][z / Chunk::Z].get(
+            x % Chunk::X, y % Chunk::Y, z % Chunk::Z
+        );
     }
     
     
@@ -44,8 +45,9 @@ namespace world {
         assert(y < Y);
         assert(z < Z);
         
-        this->chunks[x / Chunk::X][y / Chunk::Y][z / Chunk::Z]
-            .set(x % Chunk::X, y % Chunk::Y, z % Chunk::Z, type);
+        this->chunks[x / Chunk::X][y / Chunk::Y][z / Chunk::Z].set(
+            x % Chunk::X, y % Chunk::Y, z % Chunk::Z, type
+        );
         this->modified = true;
     }
     

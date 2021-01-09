@@ -8,6 +8,14 @@
 #include <app/Config.hpp>
 
 
+static GLfloat changeIntervalTo01(GLfloat x, GLfloat oldMin, GLfloat oldMax) {
+    GLfloat oldRange = (oldMax - oldMin);
+    GLfloat newRange = (1.f - 0.f);
+    
+    return std::min(1.f, std::max(0.f, (((x - oldMin) * newRange) / oldRange)));
+}
+
+
 namespace app {
     
     Config *Config::getInstance() {
@@ -20,10 +28,11 @@ namespace app {
         this->GPUInfo = reinterpret_cast<const char *>(glGetString(GL_RENDERER));
         this->GPUDriver = reinterpret_cast<const char *>(glGetString(GL_VERSION));
         this->GLEWVersion = reinterpret_cast<const char *>(glewGetString(GLEW_VERSION));
-        std::istringstream iss = std::istringstream(reinterpret_cast<const char *>(glGetString(GL_EXTENSIONS)));
+        std::istringstream
+            iss = std::istringstream(reinterpret_cast<const char *>(glGetString(GL_EXTENSIONS)));
         this->GPUExtensions = std::vector<std::string>(
-                std::istream_iterator<std::string> { iss },
-                std::istream_iterator<std::string>()
+            std::istream_iterator<std::string> { iss },
+            std::istream_iterator<std::string>()
         );
         this->setFramerate(Framerate::FRAMERATE_VSYNC);
         this->setFov(70, window, camera);
@@ -43,93 +52,94 @@ namespace app {
         }
         else {
             std::stringstream ss;
-            ss << data.brand_str << " - " << data.num_cores << " cores (" << data.num_logical_cpus << " threads)";
+            ss << data.brand_str << " - " << data.num_cores << " cores (" << data.num_logical_cpus
+               << " threads)";
             this->CPUInfo = ss.str();
         }
     }
     
     
-    std::string Config::getGPUDriver() const {
+    [[maybe_unused]] std::string Config::getGPUDriver() const {
         return this->GPUDriver;
     }
     
     
-    std::string Config::getGPUInfo() const {
+    [[maybe_unused]] std::string Config::getGPUInfo() const {
         return this->GPUInfo;
     }
     
     
-    std::vector<std::string> Config::getGPUExtensions() const {
+    [[maybe_unused]] std::vector<std::string> Config::getGPUExtensions() const {
         return this->GPUExtensions;
     }
     
     
-    std::string Config::getGlewVersion() const {
+    [[maybe_unused]] [[maybe_unused]]std::string Config::getGlewVersion() const {
         return this->GLEWVersion;
     }
     
     
-    std::string Config::getCpuInfo() const {
+    [[maybe_unused]] std::string Config::getCpuInfo() const {
         return this->CPUInfo;
     }
     
     
-    GLfloat Config::getMouseSensitivity() const {
+    [[maybe_unused]] GLfloat Config::getMouseSensitivity() const {
         return mouseSensitivity;
     }
     
     
-    void Config::setMouseSensitivity(GLfloat mouseSensitivity) {
+    [[maybe_unused]] void Config::setMouseSensitivity(GLfloat mouseSensitivity) {
         this->mouseSensitivity = mouseSensitivity;
     }
     
     
-    GLfloat Config::getSpeed() const {
+    [[maybe_unused]] GLfloat Config::getSpeed() const {
         return this->speed;
     }
     
     
-    void Config::setSpeed(GLfloat speed) {
+    [[maybe_unused]] void Config::setSpeed(GLfloat speed) {
         this->speed = speed;
     }
     
     
-    void Config::setWidth(GLint width) {
+    [[maybe_unused]] void Config::setWidth(GLint width) {
         this->width = width;
     }
     
     
-    void Config::setHeight(GLint height) {
+    [[maybe_unused]] void Config::setHeight(GLint height) {
         this->height = height;
     }
     
     
-    GLint Config::getWidth() const {
+    [[maybe_unused]] GLint Config::getWidth() const {
         return this->width;
     }
     
     
-    GLint Config::getHeight() const {
+    [[maybe_unused]] GLint Config::getHeight() const {
         return this->height;
     }
     
     
-    GLuint Config::getFramerate() const {
+    [[maybe_unused]] GLuint Config::getFramerate() const {
         return framerate;
     }
     
     
-    GLuint Config::getFramerateInv() const {
+    [[maybe_unused]] GLuint Config::getFramerateInv() const {
         return usPerFrame;
     }
     
     
-    Framerate Config::getFramerateOpt() const {
+    [[maybe_unused]] Framerate Config::getFramerateOpt() const {
         return this->framerateOpt;
     }
     
     
-    std::string Config::getFramerateString(GLint fps) const {
+    [[maybe_unused]] std::string Config::getFramerateString(GLint fps) const {
         if (fps == -1) {
             fps = this->framerateOpt;
         }
@@ -157,7 +167,7 @@ namespace app {
     }
     
     
-    void Config::setFramerate(Framerate framerate) {
+    [[maybe_unused]] void Config::setFramerate(Framerate framerate) {
         this->framerateOpt = framerate;
         
         switch (framerate) {
@@ -197,7 +207,7 @@ namespace app {
     }
     
     
-    void Config::cycleFramerate() {
+    [[maybe_unused]] void Config::cycleFramerate() {
         switch (this->framerateOpt) {
             case Framerate::FRAMERATE_60:
                 this->setFramerate(Framerate::FRAMERATE_75);
@@ -227,90 +237,377 @@ namespace app {
     }
     
     
-    GLfloat Config::getFov() const {
+    [[maybe_unused]] GLfloat Config::getFov() const {
         return fov;
     }
     
     
-    void Config::setFov(GLfloat fov, const tool::Window &window, tool::Camera &camera) {
+    [[maybe_unused]] void Config::setFov(GLfloat fov, const tool::Window &window,
+                                         tool::Camera &camera) {
         this->fov = fov;
         SDL_DisplayMode display = window.getDisplayMode();
         camera.setProjMatrix(fov, display.w, display.h);
     }
     
     
-    GLboolean Config::getFreeMouse() const {
+    [[maybe_unused]] GLint Config::getDistanceView() const {
+        return distanceView;
+    }
+    
+    
+    [[maybe_unused]] void Config::setDistanceView(GLint distanceView) {
+        this->distanceView = distanceView;
+    }
+    
+    
+    [[maybe_unused]] GLboolean Config::getFreeMouse() const {
         return freeMouse;
     }
     
     
-    void Config::setFreeMouse(GLboolean freeMouse) {
+    [[maybe_unused]] void Config::setFreeMouse(GLboolean freeMouse) {
         this->freeMouse = freeMouse;
         SDL_SetRelativeMouseMode(freeMouse ? SDL_FALSE : SDL_TRUE);
     }
     
     
-    void Config::switchFreeMouse() {
+    [[maybe_unused]] void Config::switchFreeMouse() {
         this->setFreeMouse(!this->freeMouse);
     }
     
     
-    GLboolean Config::getFaceCulling() const {
+    [[maybe_unused]] GLboolean Config::getFaceCulling() const {
         return faceCulling;
     }
     
     
-    void Config::setFaceCulling(GLboolean faceCulling) {
+    [[maybe_unused]] void Config::setFaceCulling(GLboolean faceCulling) {
         this->faceCulling = faceCulling;
     }
     
     
-    void Config::switchFaceCulling() {
+    [[maybe_unused]] void Config::switchFaceCulling() {
         this->faceCulling = !this->faceCulling;
     }
     
     
-    GLboolean Config::getOcclusionCulling() const {
+    [[maybe_unused]] GLboolean Config::getOcclusionCulling() const {
         return occlusionCulling;
     }
     
     
-    void Config::setOcclusionCulling(GLboolean occlusionCulling) {
+    [[maybe_unused]] void Config::setOcclusionCulling(GLboolean occlusionCulling) {
         this->occlusionCulling = occlusionCulling;
     }
     
     
-    void Config::switchOcclusionCulling() {
+    [[maybe_unused]] void Config::switchOcclusionCulling() {
         this->occlusionCulling = !this->occlusionCulling;
     }
     
     
-    GLboolean Config::getFrustumCulling() const {
+    [[maybe_unused]] GLboolean Config::getFrustumCulling() const {
         return frustumCulling;
     }
     
     
-    void Config::setFrustumCulling(GLboolean frustumCulling) {
+    [[maybe_unused]] void Config::setFrustumCulling(GLboolean frustumCulling) {
         this->frustumCulling = frustumCulling;
     }
     
     
-    void Config::switchFrustumCulling() {
+    [[maybe_unused]] void Config::switchFrustumCulling() {
         this->frustumCulling = !this->frustumCulling;
     }
     
     
-    GLboolean Config::getDebug() const {
+    [[maybe_unused]] GLboolean Config::getDebug() const {
         return debug;
     }
     
     
-    void Config::setDebug(GLboolean debug) {
+    [[maybe_unused]] void Config::setDebug(GLboolean debug) {
         this->debug = debug;
     }
     
     
-    void Config::switchDebug() {
+    [[maybe_unused]] void Config::switchDebug() {
         this->debug = !this->debug;
+    }
+    
+    
+    [[maybe_unused]] glm::vec3 Config::getLightColor(GLint tick) {
+        GLfloat value;
+        
+        // Day
+        if (DUSK_START - DAWN_END < 0
+            && ((tick >= DAWN_END && tick <= TICK_DAY_NIGHT_CYCLE) || tick <= DUSK_START)) {
+            return DAY_LIGHT_COL;
+        }
+        if (tick >= DAWN_END && tick <= DUSK_START) {
+            return DAY_LIGHT_COL;
+        }
+        
+        // Night
+        if (DAWN_START - DUSK_END < 0
+            && ((tick >= DUSK_END && tick <= TICK_DAY_NIGHT_CYCLE) || tick <= DAWN_START)) {
+            return NIGHT_LIGHT_COL;
+        }
+        if (tick >= DUSK_END && tick <= DAWN_START) {
+            return NIGHT_LIGHT_COL;
+        }
+        
+        // Day to Dusk
+        if (DUSK - DUSK_START < 0
+            && ((tick >= DUSK_START && tick <= TICK_DAY_NIGHT_CYCLE) || tick <= DUSK)) {
+            if (tick > 0 && 0 < DUSK) {
+                tick += TICK_DAY_NIGHT_CYCLE;
+            }
+            
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DAWN_START,
+                                       DUSK + TICK_DAY_NIGHT_CYCLE
+            );
+            return glm::mix(DAY_LIGHT_COL, DAWN_DUSK_LIGHT_COL, value);
+        }
+        if (tick >= DUSK_START && tick <= DUSK) {
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DUSK_START, DUSK);
+            return glm::mix(DAY_LIGHT_COL, DAWN_DUSK_LIGHT_COL, value);
+        }
+        
+        // Dusk to Night
+        if (DUSK_END - DUSK < 0
+            && ((tick >= DUSK && tick <= TICK_DAY_NIGHT_CYCLE) || tick <= DUSK_END)) {
+            if (tick > 0 && 0 < DUSK_END) {
+                tick += TICK_DAY_NIGHT_CYCLE;
+            }
+            
+            value =
+                changeIntervalTo01(static_cast<GLfloat>(tick), DAWN_START,
+                                   DUSK_END + TICK_DAY_NIGHT_CYCLE
+                );
+            return glm::mix(DAWN_DUSK_LIGHT_COL, NIGHT_LIGHT_COL, value);
+        }
+        if (tick >= DUSK && tick <= DUSK_END) {
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DUSK, DUSK_END);
+            return glm::mix(DAWN_DUSK_LIGHT_COL, NIGHT_LIGHT_COL, value);
+        }
+        
+        // Night to Dawn
+        if (DAWN - DAWN_START < 0
+            && ((tick >= DAWN_START && tick <= TICK_DAY_NIGHT_CYCLE) || tick <= DAWN)) {
+            if (tick > 0 && 0 < DAWN) {
+                tick += TICK_DAY_NIGHT_CYCLE;
+            }
+            
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DAWN_START,
+                                       DAWN + TICK_DAY_NIGHT_CYCLE
+            );
+            return glm::mix(NIGHT_LIGHT_COL, DAWN_DUSK_LIGHT_COL, value);
+        }
+        if (tick >= DAWN_START && tick <= DAWN) {
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DAWN_START, DAWN);
+            return glm::mix(NIGHT_LIGHT_COL, DAWN_DUSK_LIGHT_COL, value);
+        }
+        
+        // Dawn to Day
+        if (DAWN_END - DAWN < 0
+            && ((tick >= DAWN && tick <= TICK_DAY_NIGHT_CYCLE) || tick <= DAWN_END)) {
+            if (tick > 0 && 0 < DAWN_END) {
+                tick += TICK_DAY_NIGHT_CYCLE;
+            }
+            
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DAWN,
+                                       DAWN_END + TICK_DAY_NIGHT_CYCLE
+            );
+            return glm::mix(DAWN_DUSK_LIGHT_COL, DAY_LIGHT_COL, value);
+        }
+        else {
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DAWN, DAWN_END);
+            return glm::mix(DAWN_DUSK_LIGHT_COL, DAY_LIGHT_COL, value);
+        }
+    }
+    
+    
+    [[maybe_unused]] GLfloat Config::getLightDirIntensity(GLint tick) {
+        GLfloat value;
+        
+        // Day
+        if (DUSK_START - DAWN_END < 0
+            && ((tick >= DAWN_END && tick <= TICK_DAY_NIGHT_CYCLE) || tick <= DUSK_START)) {
+            return DAY_LIGHT_DIR_INTENSITY;
+        }
+        if (tick >= DAWN_END && tick <= DUSK_START) {
+            return DAY_LIGHT_DIR_INTENSITY;
+        }
+        
+        // Night
+        if (DAWN_START - DUSK_END < 0
+            && ((tick >= DUSK_END && tick <= TICK_DAY_NIGHT_CYCLE) || tick <= DAWN_START)) {
+            return NIGHT_LIGHT_DIR_INTENSITY;
+        }
+        if (tick >= DUSK_END && tick <= DAWN_START) {
+            return NIGHT_LIGHT_DIR_INTENSITY;
+        }
+        
+        // Day to Dusk
+        if (DUSK - DUSK_START < 0
+            && ((tick >= DUSK_START && tick <= TICK_DAY_NIGHT_CYCLE) || tick <= DUSK)) {
+            if (tick > 0 && 0 < DUSK) {
+                tick += TICK_DAY_NIGHT_CYCLE;
+            }
+            
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DAWN_START,
+                                       DUSK + TICK_DAY_NIGHT_CYCLE
+            );
+            return glm::mix(DAY_LIGHT_DIR_INTENSITY, DAWN_DUSK_LIGHT_DIR_INTENSITY, value);
+        }
+        if (tick >= DUSK_START && tick <= DUSK) {
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DUSK_START, DUSK);
+            return glm::mix(DAY_LIGHT_DIR_INTENSITY, DAWN_DUSK_LIGHT_DIR_INTENSITY, value);
+        }
+        
+        // Dusk to Night
+        if (DUSK_END - DUSK < 0
+            && ((tick >= DUSK && tick <= TICK_DAY_NIGHT_CYCLE) || tick <= DUSK_END)) {
+            if (tick > 0 && 0 < DUSK_END) {
+                tick += TICK_DAY_NIGHT_CYCLE;
+            }
+            
+            value =
+                changeIntervalTo01(static_cast<GLfloat>(tick), DAWN_START,
+                                   DUSK_END + TICK_DAY_NIGHT_CYCLE
+                );
+            return glm::mix(DAWN_DUSK_LIGHT_DIR_INTENSITY, NIGHT_LIGHT_DIR_INTENSITY, value);
+        }
+        if (tick >= DUSK && tick <= DUSK_END) {
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DUSK, DUSK_END);
+            return glm::mix(DAWN_DUSK_LIGHT_DIR_INTENSITY, NIGHT_LIGHT_DIR_INTENSITY, value);
+        }
+        
+        // Night to Dawn
+        if (DAWN - DAWN_START < 0
+            && ((tick >= DAWN_START && tick <= TICK_DAY_NIGHT_CYCLE) || tick <= DAWN)) {
+            if (tick > 0 && 0 < DAWN) {
+                tick += TICK_DAY_NIGHT_CYCLE;
+            }
+            
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DAWN_START,
+                                       DAWN + TICK_DAY_NIGHT_CYCLE
+            );
+            return glm::mix(NIGHT_LIGHT_DIR_INTENSITY, DAWN_DUSK_LIGHT_DIR_INTENSITY, value);
+        }
+        if (tick >= DAWN_START && tick <= DAWN) {
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DAWN_START, DAWN);
+            return glm::mix(NIGHT_LIGHT_DIR_INTENSITY, DAWN_DUSK_LIGHT_DIR_INTENSITY, value);
+        }
+        
+        // Dawn to Day
+        if (DAWN_END - DAWN < 0
+            && ((tick >= DAWN && tick <= TICK_DAY_NIGHT_CYCLE) || tick <= DAWN_END)) {
+            if (tick > 0 && 0 < DAWN_END) {
+                tick += TICK_DAY_NIGHT_CYCLE;
+            }
+            
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DAWN,
+                                       DAWN_END + TICK_DAY_NIGHT_CYCLE
+            );
+            return glm::mix(DAWN_DUSK_LIGHT_DIR_INTENSITY, DAY_LIGHT_DIR_INTENSITY, value);
+        }
+        else {
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DAWN, DAWN_END);
+            return glm::mix(DAWN_DUSK_LIGHT_DIR_INTENSITY, DAY_LIGHT_DIR_INTENSITY, value);
+        }
+    }
+    
+    
+    [[maybe_unused]] GLfloat Config::getLightAmbIntensity(GLint tick) {
+        GLfloat value;
+        
+        // Day
+        if (DUSK_START - DAWN_END < 0
+            && ((tick >= DAWN_END && tick <= TICK_DAY_NIGHT_CYCLE) || tick <= DUSK_START)) {
+            return DAY_LIGHT_AMB_INTENSITY;
+        }
+        if (tick >= DAWN_END && tick <= DUSK_START) {
+            return DAY_LIGHT_AMB_INTENSITY;
+        }
+        
+        // Night
+        if (DAWN_START - DUSK_END < 0
+            && ((tick >= DUSK_END && tick <= TICK_DAY_NIGHT_CYCLE) || tick <= DAWN_START)) {
+            return NIGHT_LIGHT_AMB_INTENSITY;
+        }
+        if (tick >= DUSK_END && tick <= DAWN_START) {
+            return NIGHT_LIGHT_AMB_INTENSITY;
+        }
+        
+        // Day to Dusk
+        if (DUSK - DUSK_START < 0
+            && ((tick >= DUSK_START && tick <= TICK_DAY_NIGHT_CYCLE) || tick <= DUSK)) {
+            if (tick > 0 && 0 < DUSK) {
+                tick += TICK_DAY_NIGHT_CYCLE;
+            }
+            
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DAWN_START,
+                                       DUSK + TICK_DAY_NIGHT_CYCLE
+            );
+            return glm::mix(DAY_LIGHT_AMB_INTENSITY, DAWN_DUSK_LIGHT_AMB_INTENSITY, value);
+        }
+        if (tick >= DUSK_START && tick <= DUSK) {
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DUSK_START, DUSK);
+            return glm::mix(DAY_LIGHT_AMB_INTENSITY, DAWN_DUSK_LIGHT_AMB_INTENSITY, value);
+        }
+        
+        // Dusk to Night
+        if (DUSK_END - DUSK < 0
+            && ((tick >= DUSK && tick <= TICK_DAY_NIGHT_CYCLE) || tick <= DUSK_END)) {
+            if (tick > 0 && 0 < DUSK_END) {
+                tick += TICK_DAY_NIGHT_CYCLE;
+            }
+            
+            value =
+                changeIntervalTo01(static_cast<GLfloat>(tick), DAWN_START,
+                                   DUSK_END + TICK_DAY_NIGHT_CYCLE
+                );
+            return glm::mix(DAWN_DUSK_LIGHT_AMB_INTENSITY, NIGHT_LIGHT_AMB_INTENSITY, value);
+        }
+        if (tick >= DUSK && tick <= DUSK_END) {
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DUSK, DUSK_END);
+            return glm::mix(DAWN_DUSK_LIGHT_AMB_INTENSITY, NIGHT_LIGHT_AMB_INTENSITY, value);
+        }
+        
+        // Night to Dawn
+        if (DAWN - DAWN_START < 0
+            && ((tick >= DAWN_START && tick <= TICK_DAY_NIGHT_CYCLE) || tick <= DAWN)) {
+            if (tick > 0 && 0 < DAWN) {
+                tick += TICK_DAY_NIGHT_CYCLE;
+            }
+            
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DAWN_START,
+                                       DAWN + TICK_DAY_NIGHT_CYCLE
+            );
+            return glm::mix(NIGHT_LIGHT_AMB_INTENSITY, DAWN_DUSK_LIGHT_AMB_INTENSITY, value);
+        }
+        if (tick >= DAWN_START && tick <= DAWN) {
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DAWN_START, DAWN);
+            return glm::mix(NIGHT_LIGHT_AMB_INTENSITY, DAWN_DUSK_LIGHT_AMB_INTENSITY, value);
+        }
+        
+        // Dawn to Day
+        if (DAWN_END - DAWN < 0
+            && ((tick >= DAWN && tick <= TICK_DAY_NIGHT_CYCLE) || tick <= DAWN_END)) {
+            if (tick > 0 && 0 < DAWN_END) {
+                tick += TICK_DAY_NIGHT_CYCLE;
+            }
+            
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DAWN,
+                                       DAWN_END + TICK_DAY_NIGHT_CYCLE
+            );
+            return glm::mix(DAWN_DUSK_LIGHT_AMB_INTENSITY, DAY_LIGHT_AMB_INTENSITY, value);
+        }
+        else {
+            value = changeIntervalTo01(static_cast<GLfloat>(tick), DAWN, DAWN_END);
+            return glm::mix(DAWN_DUSK_LIGHT_AMB_INTENSITY, DAY_LIGHT_AMB_INTENSITY, value);
+        }
     }
 }

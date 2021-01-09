@@ -23,7 +23,7 @@ namespace world {
             static constexpr GLint Z = Chunk::Z * CHUNK_Z;
             static constexpr GLint SIZE = CHUNK_SIZE * Chunk::SIZE;
             
-            static_assert(app::Config::GEN_MAX_HEIGHT <= Y);
+            static_assert(app::Config::GEN_MAX_H <= Y);
         
         private:
             Chunk chunks[CHUNK_X][CHUNK_Y][CHUNK_Z];
