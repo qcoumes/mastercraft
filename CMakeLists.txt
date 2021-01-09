@@ -76,6 +76,7 @@ ENDIF ()
 TARGET_COMPILE_OPTIONS(
     ${TARGET_NAME} PRIVATE
     -Wno-unused-parameter
+    -Wno-switch-enum
     -Wno-shadow
 )
 IF (CMAKE_CXX_COMPILER_ID MATCHES "[Cc]lang")

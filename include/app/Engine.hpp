@@ -13,6 +13,7 @@
 #include <tool/Input.hpp>
 #include <tool/ImGuiHandler.hpp>
 #include <tool/Rendered.hpp>
+#include <world/ChunkManager.hpp>
 
 
 namespace app {
@@ -30,6 +31,8 @@ namespace app {
             std::unique_ptr<tool::Window> window = nullptr;
             std::unique_ptr<tool::Camera> camera = nullptr;
             std::unique_ptr<tool::Input> input = nullptr;
+        
+            std::unique_ptr<world::ChunkManager> chunkManager = nullptr;
         
         private:
             
