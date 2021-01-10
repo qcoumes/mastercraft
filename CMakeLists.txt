@@ -1,13 +1,13 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
 
-PROJECT(OpenGL)
+PROJECT(Mastercraft)
 
 SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
 SET(THIRD_PARTY_PATH ${CMAKE_SOURCE_DIR}/libs)
 
 ################################### PROJECT ####################################
 
-SET(TARGET_NAME app)
+SET(TARGET_NAME mastercraft)
 SET(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include/)
 
 FILE(GLOB_RECURSE SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp)
@@ -78,13 +78,13 @@ TARGET_COMPILE_OPTIONS(
     -Wno-unused-parameter
     -Wno-switch-enum
     -Wno-shadow
+    -Wno-exit-time-destructors
+    -Wno-c++98-compat
+    -Wno-weak-vtables
+    -Wno-padded
 )
 IF (CMAKE_CXX_COMPILER_ID MATCHES "[Cc]lang")
     TARGET_COMPILE_OPTIONS(
         ${TARGET_NAME} PRIVATE
-        -Wno-exit-time-destructors
-        -Wno-c++98-compat
-        -Wno-weak-vtables
-        -Wno-padded
     )
 ENDIF ()

@@ -214,7 +214,7 @@ namespace app {
         
         // FPS
         ImGui::SetNextWindowPos({ 50, 50 }, ImGuiCond_Always);
-        ImGui::SetNextWindowSize({ 600, 800 }, ImGuiCond_Once);
+        ImGui::SetNextWindowSize({ 600, 600 }, ImGuiCond_Once);
         ImGui::Begin("Debug");
         ImGui::Text("FPS: %d / %s", stats->fps, config->getFramerateString().c_str());
         ImGui::SameLine();
