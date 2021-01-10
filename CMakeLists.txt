@@ -57,34 +57,34 @@ TARGET_COMPILE_OPTIONS(
     ${TARGET_NAME} PRIVATE
     -g
     -O2
-    -Wall
-    -Wextra
-    -Wfatal-errors
+#    -Wall
+#    -Wextra
+#    -Wfatal-errors
     -std=c++17
 )
 
 # Adding as much warning as possible on GNU gcc/g++ and Clang
-IF (CMAKE_CXX_COMPILER_ID MATCHES "[Cc]lang")
-    TARGET_COMPILE_OPTIONS(
-        ${TARGET_NAME} PRIVATE
-        -Weverything
-    )
-ENDIF ()
+#IF (CMAKE_CXX_COMPILER_ID MATCHES "[Cc]lang")
+#    TARGET_COMPILE_OPTIONS(
+#        ${TARGET_NAME} PRIVATE
+#        -Weverything
+#    )
+#ENDIF ()
 
 
 # Disable some warnings
-TARGET_COMPILE_OPTIONS(
-    ${TARGET_NAME} PRIVATE
-    -Wno-unused-parameter
-    -Wno-switch-enum
-    -Wno-shadow
-    -Wno-exit-time-destructors
-    -Wno-c++98-compat
-    -Wno-weak-vtables
-    -Wno-padded
-)
-IF (CMAKE_CXX_COMPILER_ID MATCHES "[Cc]lang")
-    TARGET_COMPILE_OPTIONS(
-        ${TARGET_NAME} PRIVATE
-    )
-ENDIF ()
+#TARGET_COMPILE_OPTIONS(
+#    ${TARGET_NAME} PRIVATE
+#    -Wno-unused-parameter
+#    -Wno-switch-enum
+#    -Wno-shadow
+#    -Wno-exit-time-destructors
+#    -Wno-c++98-compat
+#    -Wno-weak-vtables
+#    -Wno-padded
+#)
+#IF (CMAKE_CXX_COMPILER_ID MATCHES "[Cc]lang")
+#    TARGET_COMPILE_OPTIONS(
+#        ${TARGET_NAME} PRIVATE
+#    )
+#ENDIF ()
