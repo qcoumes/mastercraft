@@ -14,9 +14,9 @@ namespace cube {
     class SuperChunk : public misc::INonCopyable {
         
         public:
-            static constexpr GLint CHUNK_X = 2;
+            static constexpr GLint CHUNK_X = 4;
             static constexpr GLint CHUNK_Y = 16;
-            static constexpr GLint CHUNK_Z = 2;
+            static constexpr GLint CHUNK_Z = 4;
             static constexpr GLint CHUNK_SIZE = CHUNK_X * CHUNK_Y * CHUNK_Z;
             static constexpr GLint X = Chunk::X * CHUNK_X;
             static constexpr GLint Y = Chunk::Y * CHUNK_Y;

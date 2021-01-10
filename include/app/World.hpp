@@ -16,7 +16,7 @@ namespace app {
             std::unique_ptr<entity::Skybox> skybox;
             std::unique_ptr<entity::Sun> sun = nullptr;
             GLboolean underwater = false;
-            GLint tickCycle = 0;
+            GLfloat tickCycle = 0;
 
             World();
         

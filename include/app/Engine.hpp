@@ -55,7 +55,7 @@ namespace app {
             
             void cleanup();
             
-            [[nodiscard]] GLboolean isRunning();
+            [[nodiscard]] GLboolean isRunning() const;
     };
 }
 

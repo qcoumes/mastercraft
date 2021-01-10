@@ -15,6 +15,7 @@
 namespace app {
     
     enum Framerate {
+        FRAMERATE_30,
         FRAMERATE_60,
         FRAMERATE_75,
         FRAMERATE_120,
@@ -34,8 +35,6 @@ namespace app {
             
             // Time
             static constexpr GLint64 TICK_PER_SEC = 60;
-            static constexpr GLint SECONDS_DAY_CYCLE = 40;
-            static constexpr GLint TICK_PER_DAY_CYCLE = SECONDS_DAY_CYCLE * TICK_PER_SEC;
             static constexpr GLint64 MS_PER_TICK = static_cast<GLint64>(1. / TICK_PER_SEC * 1000.);
             
             // Terrain generation
@@ -47,46 +46,40 @@ namespace app {
             static constexpr GLubyte GEN_INTERVAL_H = GEN_MAX_H - GEN_MIN_H;
             static constexpr GLubyte GEN_WATER_LEVEL = GEN_MIN_H + 22;
             
-            // Skybox and lighting
-            static constexpr GLint DAWN_START = TICK_PER_DAY_CYCLE / 360 * 0;
-            static constexpr GLint DAWN = TICK_PER_DAY_CYCLE / 360 * 15;
-            static constexpr GLint DAWN_END = TICK_PER_DAY_CYCLE / 360 * 30;
-            
-            static constexpr GLint DUSK_START = TICK_PER_DAY_CYCLE / 360 * 190;
-            static constexpr GLint DUSK = TICK_PER_DAY_CYCLE / 360 * 205;
-            static constexpr GLint DUSK_END = TICK_PER_DAY_CYCLE / 360 * 220;
-            
-            static constexpr glm::vec3 DAWN_DUSK_SKYBOX_COL = glm::vec3(255.f, 188.f, 60.f) / 255.f;
-            static constexpr glm::vec3 DAY_SKYBOX_COL = glm::vec3(42.f, 102.f, 175.f) / 255.f;
-            static constexpr glm::vec3 NIGHT_SKYBOX_COL = glm::vec3(0.f, 0.f, 0.f) / 255.f;
-            
-            static constexpr glm::vec3 DAWN_DUSK_LIGHT_COL = glm::vec3(255.f, 60.f, 60.f) / 255.f;
-            static constexpr glm::vec3 DAY_LIGHT_COL = glm::vec3(255.f, 255.f, 220.f) / 255.f;
-            static constexpr glm::vec3 NIGHT_LIGHT_COL = glm::vec3(20.f, 60.f, 180.f) / 255.f;
-            
-            static constexpr GLfloat DAWN_DUSK_LIGHT_DIR_INTENSITY = .4f;
-            static constexpr GLfloat DAY_LIGHT_DIR_INTENSITY = 1.f;
-            static constexpr GLfloat NIGHT_LIGHT_DIR_INTENSITY = 0.f;
-            
-            static constexpr GLfloat DAWN_DUSK_LIGHT_AMB_INTENSITY = .35f;
-            static constexpr GLfloat DAY_LIGHT_AMB_INTENSITY = .5f;
-            static constexpr GLfloat NIGHT_LIGHT_AMB_INTENSITY = .25f;
-            
             static_assert(GEN_MIN_H < GEN_MAX_H);
-            
-            // Stats
-            GLuint l_superchunk = 0;        /**< Number of SuperChunk loaded. */
-            GLuint l_chunk = 0;             /**< Number of Chunk loaded. */
-            GLuint l_cube = 0;              /**< Number of cube loaded. */
-            GLuint l_face = 0;              /**< Number of face loaded. */
-            GLuint r_superchunk = 0;        /**< Number of SuperChunk rendered. */
-            GLuint r_chunk = 0;             /**< Number of Chunk rendered. */
-            GLuint r_cube = 0;              /**< Number of cube rendered. */
-            GLuint r_face = 0;              /**< Number of face rendered. */
-            GLuint64 occludedFace = 0;      /**< Number of face occluded. */
-            GLuint64 frustumCulledFace = 0; /**< Number of face culled. */
         
         private:
+            // Time
+            GLint seconds_per_day = 40;
+            GLfloat tick_per_day = static_cast<GLfloat>(seconds_per_day * TICK_PER_SEC);
+            GLfloat tick_dawn_start = tick_per_day / 360 * 0;
+            GLfloat tick_dawn = tick_per_day / 360 * 15;
+            GLfloat tick_dawn_end = tick_per_day / 360 * 30;
+            GLfloat tick_dusk_start = tick_per_day / 360 * 190;
+            GLfloat tick_dusk = tick_per_day / 360 * 205;
+            GLfloat tick_dusk_end = tick_per_day / 360 * 220;
+            GLuint framerate = 0;      /**< Framerate value. */
+            GLuint vSyncFramerate = 0; /**< Framerate when VSYNC is enable. */
+            GLuint usPerFrame = 0;     /**< Number of microseconds between frame. */
+            Framerate framerateOpt = Framerate::FRAMERATE_VSYNC;  /**< Chosen Framerate. */
+            
+            // Skybox and lighting
+            glm::vec3 dawn_dusk_skybox_col = glm::vec3(255.f, 188.f, 60.f) / 255.f;
+            glm::vec3 day_skybox_col = glm::vec3(42.f, 102.f, 175.f) / 255.f;
+            glm::vec3 night_skybox_col = glm::vec3(0.f, 0.f, 0.f) / 255.f;
+            
+            glm::vec3 dawn_dusk_light_col = glm::vec3(255.f, 60.f, 60.f) / 255.f;
+            glm::vec3 day_light_col = glm::vec3(255.f, 255.f, 220.f) / 255.f;
+            glm::vec3 night_light_col = glm::vec3(20.f, 60.f, 180.f) / 255.f;
+            
+            GLfloat dawn_dusk_light_dir_intensity = .4f;
+            GLfloat day_light_dir_intensity = 1.f;
+            GLfloat night_light_dir_intensity = 0.f;
+            
+            GLfloat dawn_dusk_light_amb_intensity = .35f;
+            GLfloat day_light_amb_intensity = .5f;
+            GLfloat night_light_amb_intensity = .25f;
+            
             
             // Hardware
             std::string GPUInfo;     /**< GPU brand information. */
@@ -99,19 +92,13 @@ namespace app {
             GLint width = 800;      /**< Width of the window. */
             GLint height = 600;     /**< Height of the window. */
             GLfloat fov = 70;       /**< Field of view, default to 70. */
-            GLint distanceView = 1; /**< Draw distance as the radius of SuperChunk rendered. */
+            GLint distanceView = 2; /**< Draw distance as the radius of SuperChunk rendered. */
             GLboolean debug = true; /**< Display debug or not. */
             
             // Control
             GLboolean freeMouse = false;    /**< Allow to freely move the mouse. */
             GLfloat mouseSensitivity = 1.f; /**< Sensitivity of the mouse. */
-            GLfloat speed = 0.2f;           /**< Speed of the camera. */
-            
-            // Time
-            GLuint framerate = 0;      /**< Framerate value. */
-            GLuint vSyncFramerate = 0; /**< Framerate when VSYNC is enable. */
-            GLuint usPerFrame = 0;     /**< Number of microseconds between frame. */
-            Framerate framerateOpt = Framerate::FRAMERATE_VSYNC;  /**< Chosen Framerate. */
+            GLfloat speed = 0.8f;           /**< Speed of the camera. */
             
             // Optimization
             GLboolean faceCulling = true;      /**< Whether face culling is enabled. */
@@ -125,6 +112,8 @@ namespace app {
             static Config *getInstance();
             
             void init(const tool::Window &window, tool::Camera &camera);
+            
+            [[maybe_unused]] void setSecondsPerDay(GLint seconds);
             
             [[maybe_unused]] void setMouseSensitivity(GLfloat mouseSensitivity);
             
@@ -163,7 +152,35 @@ namespace app {
             
             [[maybe_unused]] void switchDebug();
             
+            [[maybe_unused]] void setDawnDuskSkyboxCol(const glm::vec3 &dawnDuskSkyboxCol);
+            
+            [[maybe_unused]] void setDaySkyboxCol(const glm::vec3 &daySkyboxCol);
+            
+            [[maybe_unused]] void setNightSkyboxCol(const glm::vec3 &nightSkyboxCol);
+            
+            [[maybe_unused]] void setDawnDuskLightCol(const glm::vec3 &dawnDuskLightCol);
+            
+            [[maybe_unused]] void setDayLightCol(const glm::vec3 &dayLightCol);
+            
+            [[maybe_unused]] void setNightLightCol(const glm::vec3 &nightLightCol);
+            
+            [[maybe_unused]] void setDawnDuskLightDirIntensity(GLfloat dawnDuskLightDirIntensity);
+            
+            [[maybe_unused]] void setDayLightDirIntensity(GLfloat dayLightDirIntensity);
+            
+            [[maybe_unused]] void setNightLightDirIntensity(GLfloat nightLightDirIntensity);
+            
+            [[maybe_unused]] void setDawnDuskLightAmbIntensity(GLfloat dawnDuskLightAmbIntensity);
+            
+            [[maybe_unused]] void setDayLightAmbIntensity(GLfloat dayLightAmbIntensity);
+            
+            [[maybe_unused]] void setNightLightAmbIntensity(GLfloat nightLightAmbIntensity);
+            
             [[nodiscard, maybe_unused]] std::string getGPUInfo() const;
+            
+            [[nodiscard, maybe_unused]] GLint getSecondsPerDay() const;
+            
+            [[nodiscard, maybe_unused]] GLfloat getTickPerDay() const;
             
             [[nodiscard, maybe_unused]] std::string getGPUDriver() const;
             
@@ -203,13 +220,49 @@ namespace app {
             
             [[nodiscard, maybe_unused]] GLboolean getDebug() const;
             
-            [[nodiscard, maybe_unused]] static glm::vec3 getSkyboxColor(GLint tick);
+            [[nodiscard, maybe_unused]] glm::vec3 getSkyboxColor(GLfloat tick);
             
-            [[nodiscard, maybe_unused]] static glm::vec3 getLightColor(GLint tick);
+            [[nodiscard, maybe_unused]] glm::vec3 getLightColor(GLfloat tick);
             
-            [[nodiscard, maybe_unused]] static GLfloat getLightDirIntensity(GLint tick);
+            [[nodiscard, maybe_unused]] GLfloat getLightDirIntensity(GLfloat tick) const;
             
-            [[nodiscard, maybe_unused]] static GLfloat getLightAmbIntensity(GLint tick);
+            [[nodiscard, maybe_unused]] GLfloat getLightAmbIntensity(GLfloat tick) const;
+            
+            [[nodiscard, maybe_unused]] GLfloat getTickDawnStart() const;
+            
+            [[nodiscard, maybe_unused]] GLfloat getTickDawn() const;
+            
+            [[nodiscard, maybe_unused]] GLfloat getTickDawnEnd() const;
+            
+            [[nodiscard, maybe_unused]] GLfloat getTickDuskStart() const;
+            
+            [[nodiscard, maybe_unused]] GLfloat getTickDusk() const;
+            
+            [[nodiscard, maybe_unused]] GLfloat getTickDuskEnd() const;
+            
+            [[nodiscard, maybe_unused]] glm::vec3 getDawnDuskSkyboxCol() const;
+            
+            [[nodiscard, maybe_unused]] glm::vec3 getDaySkyboxCol() const;
+            
+            [[nodiscard, maybe_unused]] glm::vec3 getNightSkyboxCol() const;
+            
+            [[nodiscard, maybe_unused]] glm::vec3 getDawnDuskLightCol() const;
+            
+            [[nodiscard, maybe_unused]] glm::vec3 getDayLightCol() const;
+            
+            [[nodiscard, maybe_unused]] glm::vec3 getNightLightCol() const;
+            
+            [[nodiscard, maybe_unused]] GLfloat getDawnDuskLightDirIntensity() const;
+            
+            [[nodiscard, maybe_unused]] GLfloat getDayLightDirIntensity() const;
+            
+            [[nodiscard, maybe_unused]] GLfloat getNightLightDirIntensity() const;
+            
+            [[nodiscard, maybe_unused]] GLfloat getDawnDuskLightAmbIntensity() const;
+            
+            [[nodiscard, maybe_unused]] GLfloat getDayLightAmbIntensity() const;
+            
+            [[nodiscard, maybe_unused]] GLfloat getNightLightAmbIntensity() const;
     };
 }
 

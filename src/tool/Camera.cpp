@@ -15,18 +15,19 @@
 namespace tool {
     
     Camera::Camera() :
-            position(glm::vec3(0, 0, 0)), pitch(0.0), yaw(M_PIf32) {
+        position(glm::vec3(0, 0, 0)), pitch(0.0), yaw(M_PIf32) {
         computeDirectionVectors();
     }
     
     
     void Camera::computeDirectionVectors() {
         this->frontVector = {
-                std::cos(this->pitch) * std::sin(this->yaw),
-                std::sin(this->pitch),
-                std::cos(this->pitch) * std::cos(this->yaw)
+            std::cos(this->pitch) * std::sin(this->yaw),
+            std::sin(this->pitch),
+            std::cos(this->pitch) * std::cos(this->yaw)
         };
-        this->leftVector = { std::sin(this->yaw + M_PI_2f32), 0.f, std::cos(this->yaw + M_PI_2f32) };
+        this->leftVector =
+            { std::sin(this->yaw + M_PI_2f32), 0.f, std::cos(this->yaw + M_PI_2f32) };
         this->upVector = glm::cross(this->frontVector, this->leftVector);
     }
     
@@ -82,7 +83,7 @@ namespace tool {
     
     void Camera::setProjMatrix(float fov, int width, int height) {
         this->projMatrix = glm::perspective(
-                glm::radians(fov), static_cast<float>(width) / static_cast<float>(height), 0.1f, 256.f
+            glm::radians(fov), static_cast<float>(width) / static_cast<float>(height), 0.1f, 4096.f
         );
     }
     

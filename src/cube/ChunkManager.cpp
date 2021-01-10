@@ -8,6 +8,7 @@
 #include <cube/ChunkManager.hpp>
 #include <cube/ColumnGenerator.hpp>
 #include <cube/TreeGenerator.hpp>
+#include <app/Stats.hpp>
 
 
 using Random = effolkronium::random_static;
@@ -292,7 +293,7 @@ namespace cube {
     
     
     void ChunkManager::update() {
-        app::Config *config = app::Config::getInstance();
+        app::Stats *stats = app::Stats::getInstance();
         
         this->textureVerticalOffset = (this->textureVerticalOffset + 1) % 32;
         
@@ -326,34 +327,34 @@ namespace cube {
             [](const auto &entry) { entry.second->update(); }
         );
         
-        config->l_superchunk = static_cast<GLuint>(this->chunks.size());
-        config->l_chunk = config->l_superchunk * SuperChunk::CHUNK_SIZE;
-        config->l_cube = config->l_superchunk * SuperChunk::SIZE;
-        config->l_face = config->l_cube * 6;
+        stats->l_superchunk = static_cast<GLuint>(this->chunks.size());
+        stats->l_chunk = stats->l_superchunk * SuperChunk::CHUNK_SIZE;
+        stats->l_cube = stats->l_superchunk * SuperChunk::SIZE;
+        stats->l_face = stats->l_cube * 6;
     }
     
     
     void ChunkManager::render() {
         app::Engine *engine = app::Engine::getInstance();
         app::Config *config = app::Config::getInstance();
-    
-        config->getFaceCulling() ? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
-        config->r_superchunk = 0;
-        config->r_chunk = 0;
-        config->r_cube = 0;
-        config->r_face = 0;
+        app::Stats *stats = app::Stats::getInstance();
+        
+        stats->r_superchunk = 0;
+        stats->r_chunk = 0;
+        stats->r_cube = 0;
+        stats->r_face = 0;
         
         glm::mat4 MVMatrix = engine->camera->getViewMatrix();
         glm::mat4 MVPMatrix = engine->camera->getProjMatrix() * MVMatrix;
         glm::mat4 normalMatrix = glm::transpose(glm::inverse(MVMatrix));
         
         glm::vec3 lightPos = glm::vec3(MVMatrix * glm::vec4(engine->world->sun->getPosition(), 0));
-        glm::vec3 lightColor = app::Config::getLightColor(engine->world->tickCycle);
+        glm::vec3 lightColor = config->getLightColor(engine->world->tickCycle);
         if (engine->world->underwater) {
             lightColor *= glm::vec3(0.36, 0.56, 1);
         }
-        GLfloat lightDirIntensity = app::Config::getLightDirIntensity(engine->world->tickCycle);
-        GLfloat lightAmbIntensity = app::Config::getLightAmbIntensity(engine->world->tickCycle);
+        GLfloat lightDirIntensity = config->getLightDirIntensity(engine->world->tickCycle);
+        GLfloat lightAmbIntensity = config->getLightAmbIntensity(engine->world->tickCycle);
         
         this->cubeShader->use();
         this->cubeShader->loadUniform("uMV", glm::value_ptr(MVMatrix));
@@ -365,15 +366,15 @@ namespace cube {
         this->cubeShader->loadUniform("uLightDirIntensity", &lightDirIntensity);
         this->cubeShader->loadUniform("uLightAmbIntensity", &lightAmbIntensity);
         this->cubeShader->bindTexture(this->cubeTexture);
-        
+        config->getFaceCulling() ? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
         std::for_each(
             this->chunks.begin(), this->chunks.end(),
-            [&config](const auto &entry) { config->r_face += entry.second->render(false); }
+            [&stats](const auto &entry) { stats->r_face += entry.second->render(false); }
         );
         glDisable(GL_CULL_FACE);
         std::for_each(
             this->chunks.begin(), this->chunks.end(),
-            [&config](const auto &entry) { config->r_face += entry.second->render(true); }
+            [&stats](const auto &entry) { stats->r_face += entry.second->render(true); }
         );
         glEnable(GL_CULL_FACE);
         

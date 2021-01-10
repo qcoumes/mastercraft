@@ -8,7 +8,8 @@
 
 namespace entity {
     
-    Skybox::Skybox() {
+    Skybox::Skybox() :
+        vbo(0), vao(0) {
         std::unique_ptr<misc::Image> texture[6] = {
             std::unique_ptr<misc::Image>(
                 misc::Image::loadPNG("../assets/entity/skybox/negative_right.png")
@@ -65,6 +66,8 @@ namespace entity {
     
     GLuint Skybox::render() {
         app::Engine *engine = app::Engine::getInstance();
+        app::Config *config = app::Config::getInstance();
+        
         // Remove translation from the MV
         glm::mat4 MVMatrix = glm::mat4(glm::mat3(engine->camera->getViewMatrix()));
         glm::mat4 MVPMatrix = engine->camera->getProjMatrix() * MVMatrix;
@@ -73,7 +76,9 @@ namespace entity {
         this->shader->use();
         this->shader->loadUniform("uMVP", glm::value_ptr(MVPMatrix));
         this->shader->loadUniform(
-            "uSkyColor", glm::value_ptr(app::Config::getSkyboxColor(engine->world->tickCycle))
+            "uSkyColor", glm::value_ptr(config->getSkyboxColor(
+                static_cast<GLfloat>(engine->world->tickCycle))
+            )
         );
         this->shader->bindCubemap(*this->negativeSky);
         glBindVertexArray(this->vao);

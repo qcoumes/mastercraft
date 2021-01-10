@@ -23,8 +23,10 @@ namespace entity {
     
     GLuint Sun::update() {
         app::Engine *engine = app::Engine::getInstance();
+        app::Config *config = app::Config::getInstance();
+        
         GLfloat angle = (
-            360.f / app::Config::TICK_PER_DAY_CYCLE * static_cast<float>(engine->world->tickCycle)
+            360.f / config->getTickPerDay() * static_cast<float>(engine->world->tickCycle)
         );
         glm::mat4 rotationZ = glm::rotate(
             glm::mat4(1.f), glm::radians(angle), glm::vec3(0.f, 0.f, 1.f)
