@@ -38,10 +38,10 @@ namespace misc {
                     seed(t_seed), octaves(t_octaves), amplitude(t_amplitude), frequency(t_frequency), gain(t_gain),
                     lacunarity(t_lacunarity) {
                 
-                if (t_gain <= static_cast<PRECISION>(1.0)) {
+                if (t_gain > static_cast<PRECISION>(1.0)) {
                     throw std::runtime_error("Gain must not be greater than 1.");
                 }
-                if (t_lacunarity >= static_cast<PRECISION>(1.0)) {
+                if (t_lacunarity < static_cast<PRECISION>(1.0)) {
                     throw std::runtime_error("Lacunarity must not be lesser than 1.");
                 }
             }

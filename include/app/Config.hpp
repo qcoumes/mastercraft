@@ -34,8 +34,8 @@ namespace app {
             
             // Time
             static constexpr GLint64 TICK_PER_SEC = 60;
-            static constexpr GLint SECONDS_DAY_NIGHT_CYCLE = 40;
-            static constexpr GLint TICK_DAY_NIGHT_CYCLE = SECONDS_DAY_NIGHT_CYCLE * TICK_PER_SEC;
+            static constexpr GLint SECONDS_DAY_CYCLE = 40;
+            static constexpr GLint TICK_PER_DAY_CYCLE = SECONDS_DAY_CYCLE * TICK_PER_SEC;
             static constexpr GLint64 MS_PER_TICK = static_cast<GLint64>(1. / TICK_PER_SEC * 1000.);
             
             // Terrain generation
@@ -48,13 +48,13 @@ namespace app {
             static constexpr GLubyte GEN_WATER_LEVEL = GEN_MIN_H + 22;
             
             // Skybox and lighting
-            static constexpr GLint DAWN_START = TICK_DAY_NIGHT_CYCLE / 360 * 0;
-            static constexpr GLint DAWN = TICK_DAY_NIGHT_CYCLE / 360 * 15;
-            static constexpr GLint DAWN_END = TICK_DAY_NIGHT_CYCLE / 360 * 30;
+            static constexpr GLint DAWN_START = TICK_PER_DAY_CYCLE / 360 * 0;
+            static constexpr GLint DAWN = TICK_PER_DAY_CYCLE / 360 * 15;
+            static constexpr GLint DAWN_END = TICK_PER_DAY_CYCLE / 360 * 30;
             
-            static constexpr GLint DUSK_START = TICK_DAY_NIGHT_CYCLE / 360 * 190;
-            static constexpr GLint DUSK = TICK_DAY_NIGHT_CYCLE / 360 * 205;
-            static constexpr GLint DUSK_END = TICK_DAY_NIGHT_CYCLE / 360 * 220;
+            static constexpr GLint DUSK_START = TICK_PER_DAY_CYCLE / 360 * 190;
+            static constexpr GLint DUSK = TICK_PER_DAY_CYCLE / 360 * 205;
+            static constexpr GLint DUSK_END = TICK_PER_DAY_CYCLE / 360 * 220;
             
             static constexpr glm::vec3 DAWN_DUSK_SKYBOX_COL = glm::vec3(255.f, 188.f, 60.f) / 255.f;
             static constexpr glm::vec3 DAY_SKYBOX_COL = glm::vec3(42.f, 102.f, 175.f) / 255.f;
@@ -75,11 +75,14 @@ namespace app {
             static_assert(GEN_MIN_H < GEN_MAX_H);
             
             // Stats
-            GLuint superchunk = 0;          /**< Number of SuperChunk loaded. */
-            GLuint chunk = 0;               /**< Number of Chunk loaded. */
-            GLuint cube = 0;                /**< Number of cube loaded. */
-            GLuint face = 0;                /**< Number of face loaded. */
-            GLuint rendered_face = 0;       /**< Number of face rendered. */
+            GLuint l_superchunk = 0;        /**< Number of SuperChunk loaded. */
+            GLuint l_chunk = 0;             /**< Number of Chunk loaded. */
+            GLuint l_cube = 0;              /**< Number of cube loaded. */
+            GLuint l_face = 0;              /**< Number of face loaded. */
+            GLuint r_superchunk = 0;        /**< Number of SuperChunk rendered. */
+            GLuint r_chunk = 0;             /**< Number of Chunk rendered. */
+            GLuint r_cube = 0;              /**< Number of cube rendered. */
+            GLuint r_face = 0;              /**< Number of face rendered. */
             GLuint64 occludedFace = 0;      /**< Number of face occluded. */
             GLuint64 frustumCulledFace = 0; /**< Number of face culled. */
         
@@ -96,7 +99,7 @@ namespace app {
             GLint width = 800;      /**< Width of the window. */
             GLint height = 600;     /**< Height of the window. */
             GLfloat fov = 70;       /**< Field of view, default to 70. */
-            GLint distanceView = 6; /**< Draw distance as the radius of SuperChunk rendered. */
+            GLint distanceView = 3; /**< Draw distance as the radius of SuperChunk rendered. */
             GLboolean debug = true; /**< Display debug or not. */
             
             // Control
@@ -199,6 +202,8 @@ namespace app {
             [[nodiscard, maybe_unused]] GLboolean getFrustumCulling() const;
             
             [[nodiscard, maybe_unused]] GLboolean getDebug() const;
+            
+            [[nodiscard, maybe_unused]] static glm::vec3 getSkyboxColor(GLint tick);
             
             [[nodiscard, maybe_unused]] static glm::vec3 getLightColor(GLint tick);
             

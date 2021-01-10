@@ -5,20 +5,20 @@ using namespace app;
 
 
 int main(int argc, char **argv) {
-    Engine *game = Engine::getInstance();
+    Engine *engine = Engine::getInstance();
     
-    game->init();
+    engine->init();
     
-    while (game->isRunning()) {
+    while (engine->isRunning()) {
         
-        if (game->tick()) {
-            game->update();
+        if (engine->tick()) {
+            engine->update();
         }
         
-        game->render();
+        engine->render();
     }
     
-    game->cleanup();
+    engine->cleanup();
     
     return EXIT_SUCCESS;
 }
