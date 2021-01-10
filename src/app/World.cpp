@@ -17,7 +17,7 @@ namespace app {
     
     void World::update() {
         app::Engine *engine = app::Engine::getInstance();
-    
+        
         this->chunkManager->update();
         this->sun->update();
     
@@ -28,8 +28,11 @@ namespace app {
     
     
     void World::render() const {
-        this->chunkManager->render();
+        glDisable(GL_DEPTH_TEST);
         this->skybox->render();
+        glEnable(GL_DEPTH_TEST);
         this->sun->render();
+        glClear(GL_DEPTH_BUFFER_BIT);
+        this->chunkManager->render();
     }
 }

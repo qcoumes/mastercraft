@@ -2,13 +2,13 @@
 
 #include <entity/Sun.hpp>
 #include <app/Engine.hpp>
+#include <iostream>
 
 
 namespace entity {
     
     Sun::Sun() :
-        shader(std::make_unique<shader::Shader>("../shader/sun.vs.glsl", "../shader/sun.fs.glsl")),
-        position(0), vbo(0), vao(0) {
+        shader(std::make_unique<shader::Shader>("../shader/sun.vs.glsl", "../shader/sun.fs.glsl")) {
         this->shader->addUniform("uMVP", shader::UNIFORM_MATRIX_4F);
         glGenBuffers(1, &this->vbo);
         glGenVertexArrays(1, &this->vao);
@@ -40,7 +40,8 @@ namespace entity {
         for (GLuint i = 0; i < 36; i++) {
             position = glm::vec3(
                 rotationY * rotationZ * glm::vec4(this->vertices[i] + glm::vec3(20, 0, 0), 1)
-            ) + camera;
+            );
+            position += camera;
             vertices[i] = position;
         }
         
@@ -53,8 +54,8 @@ namespace entity {
         glBindVertexArray(this->vao);
         glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
         glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
-        glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3),
-                              nullptr
+        glVertexAttribPointer(
+            VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), nullptr
         );
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
@@ -66,7 +67,6 @@ namespace entity {
     GLuint Sun::render() {
         app::Engine *engine = app::Engine::getInstance();
         glm::mat4 MVMatrix = engine->camera->getViewMatrix();
-        //        glm::mat4 MVMatrix = glm::mat4(glm::mat3(engine->camera->getViewMatrix())); // Remove translation from the MV
         glm::mat4 MVPMatrix = engine->camera->getProjMatrix() * MVMatrix;
         
         this->shader->use();

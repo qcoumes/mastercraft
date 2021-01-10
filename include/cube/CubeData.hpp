@@ -21,7 +21,7 @@ namespace cube {
     /**
      * Offset for the the face direction bits.
      */
-    static constexpr GLubyte BIT_FACE_OFFSET = 8;
+    static constexpr GLushort BIT_FACE_OFFSET = 8u;
     
     /**
      * Location of the texture in the atlas.

@@ -55,8 +55,6 @@ namespace cube {
             
             [[nodiscard]] static cube::CubeData getBiome(GLuint height, GLfloat temperature);
             
-            [[nodiscard]] static glm::ivec3 getSuperChunkCoordinates(const glm::ivec3 &position);
-            
             [[nodiscard]] cube::SuperChunk *createSuperChunk(glm::ivec3 position);
         
         public:
@@ -64,6 +62,8 @@ namespace cube {
             explicit ChunkManager(const misc::Image *t_cubeTexture);
             
             void clearChunks();
+        
+            [[nodiscard]] static glm::ivec3 getSuperChunkCoordinates(const glm::ivec3 &position);
             
             [[nodiscard]] cube::CubeData get(const glm::ivec3 &position) const;
             

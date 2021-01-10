@@ -162,12 +162,12 @@ namespace app {
         Config *config = Config::getInstance();
         Engine *engine = Engine::getInstance();
         
-        
         glm::dvec3 position = engine->camera->getPosition();
+        glm::ivec3 superchunk = cube::ChunkManager::getSuperChunkCoordinates(position);
         glm::dvec3 lookingAt = engine->camera->getFrontVector();
         
         glm::mat4 MVMatrix = engine->camera->getViewMatrix();
-        glm::vec3 lightPos = glm::vec3(MVMatrix * glm::vec4(engine->world->sun->getPosition(), 0));
+        glm::dvec3 lightPos = glm::vec3(MVMatrix * glm::vec4(engine->world->sun->getPosition(), 0));
         glm::vec3 lightColor = Config::getLightColor(engine->world->tickCycle);
         GLfloat lightDirIntensity = Config::getLightDirIntensity(engine->world->tickCycle);
         GLfloat lightAmbIntensity = Config::getLightAmbIntensity(engine->world->tickCycle);
@@ -206,7 +206,10 @@ namespace app {
            << "/" << Config::TICK_PER_DAY_CYCLE << " (Cycle of " << Config::SECONDS_DAY_CYCLE
            << " seconds)";
         ImGui::Text("%s", ss.str().c_str());
-        ImGui::Text("Position: (%.2f, %.2f, %.2f)", position.x, position.y, position.z);
+        ImGui::Text(
+            "Position: (%.2f, %.2f, %.2f) - SuperChunk : (%d, %d, %d)",
+            position.x, position.y, position.z, superchunk.x, superchunk.y, superchunk.z
+            );
         ImGui::Text("Looking at: (%.2f, %.2f, %.2f)", lookingAt.x, lookingAt.y, lookingAt.z);
         ImGui::Dummy({ 0.0f, 6.0f });
         
@@ -228,31 +231,30 @@ namespace app {
         }
         
         if (ImGui::CollapsingHeader("Lightning", ImGuiTreeNodeFlags_DefaultOpen)) {
-            ss.str(std::string());
-            ss << "Light position: (" << lightPos.x << ", " << lightPos.y << ", " << lightPos.z
-               << ")";
-            ImGui::Text("%s", ss.str().c_str());
+            ImGui::Text("Light position: (%.2f, %.2f, %.2f)",  lightPos.x, lightPos.y, lightPos.z);
             
-            ss.str(std::string());
-            ss << "Light color: ";
-            ImGui::Text("%s", ss.str().c_str());
+            ImGui::Text("Light color: ");
             ImGui::SameLine(215);
             ImGui::ColorEdit3("", reinterpret_cast<float *>(&lightColor));
             
-            ss.str(std::string());
-            ss << "Directional light intensity: ";
-            ImGui::Text("%s", ss.str().c_str());
+            ImGui::Text("Directional light intensity: ");
             ImGui::SameLine(215);
             ImGui::SliderFloat("", &lightDirIntensity, 0, 1.f);
             
-            ss.str(std::string());
-            ss << "Ambient light intensity: ";
-            ImGui::Text("%s", ss.str().c_str());
+            ImGui::Text("Ambient light intensity:");
             ImGui::SameLine(215);
             ImGui::SliderFloat("", &lightAmbIntensity, 0, 1.f);
         }
+    
+        if (ImGui::CollapsingHeader("Settings")) {
+            bool faceCulling = config->getFaceCulling();
+            ImGui::Checkbox("Face Culling", &faceCulling);
+            if (faceCulling != config->getFaceCulling()) {
+                config->switchFaceCulling();
+            }
+        }
         
-        if (ImGui::CollapsingHeader("Stats", ImGuiTreeNodeFlags_DefaultOpen)) {
+        if (ImGui::CollapsingHeader("Stats")) {
             ss.str(std::string());
             ss << "Superchunk : " << config->l_superchunk;
             ImGui::Text("%s", ss.str().c_str());
@@ -296,14 +298,6 @@ namespace app {
             ImGui::Text("GLEW Version:");
             ImGui::SameLine(offset);
             ImGui::Text("%s", config->getGlewVersion().c_str());
-        }
-        
-        if (ImGui::CollapsingHeader("Settings")) {
-            bool faceCulling = config->getFaceCulling();
-            ImGui::Checkbox("Face Culling", &faceCulling);
-            if (faceCulling != config->getFaceCulling()) {
-                config->switchFaceCulling();
-            }
         }
         
         ImGui::End();

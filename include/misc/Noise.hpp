@@ -42,7 +42,7 @@ namespace misc {
                     throw std::runtime_error("Gain must not be greater than 1.");
                 }
                 if (t_lacunarity < static_cast<PRECISION>(1.0)) {
-                    throw std::runtime_error("Lacunarity must not be lesser than 1.");
+                    throw std::runtime_error("Lacunarity must not be less than 1.");
                 }
             }
             

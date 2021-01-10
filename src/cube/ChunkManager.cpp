@@ -53,6 +53,7 @@ namespace cube {
         GLint startz = position.z - distanceView * SuperChunk::Z;
         GLint endx = position.x + distanceView * SuperChunk::X;
         GLint endz = position.z + distanceView * SuperChunk::Z;
+        
         std::vector<glm::ivec3> keys = std::vector<glm::ivec3>();
         for (GLint x = startx; x <= endx; x += SuperChunk::X) {
             for (GLint z = startz; z <= endz; z += SuperChunk::Z) {

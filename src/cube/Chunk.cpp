@@ -260,7 +260,7 @@ namespace cube {
             }
         }
         
-        // Fill the VBO
+        // Fill the VBOs
         glBindBuffer(GL_ARRAY_BUFFER, this->vboAlpha);
         glBufferData(
             GL_ARRAY_BUFFER, sizeof(CubeFace) * this->countAlpha, drawnAlpha, GL_STATIC_DRAW
@@ -270,7 +270,7 @@ namespace cube {
         glBufferData(GL_ARRAY_BUFFER, sizeof(CubeFace) * this->count, drawn, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         
-        // Set the VAO
+        // Set the VAOs
         glBindVertexArray(this->vaoAlpha);
         glBindBuffer(GL_ARRAY_BUFFER, this->vboAlpha);
         glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
@@ -329,7 +329,6 @@ namespace cube {
     GLuint Chunk::render(bool alpha) const {
         assert(!modified);
     
-//        std::cout << this->position.x << " " << this->position.y << " " << this->position.z << std::endl;
         
         if (this->count + this->countAlpha == 0) {
             return 0;

@@ -56,7 +56,7 @@ TARGET_LINK_LIBRARIES(
 TARGET_COMPILE_OPTIONS(
     ${TARGET_NAME} PRIVATE
     -g
-    -O3
+    -O2
     -Wall
     -Wextra
     -Wfatal-errors
@@ -82,10 +82,9 @@ TARGET_COMPILE_OPTIONS(
 IF (CMAKE_CXX_COMPILER_ID MATCHES "[Cc]lang")
     TARGET_COMPILE_OPTIONS(
         ${TARGET_NAME} PRIVATE
-        -Wno-padded
+        -Wno-exit-time-destructors
         -Wno-c++98-compat
         -Wno-weak-vtables
-        -Wno-unknown-pragmas
-        -Wno-exit-time-destructors
+        -Wno-padded
     )
 ENDIF ()

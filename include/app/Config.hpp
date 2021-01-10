@@ -68,9 +68,9 @@ namespace app {
             static constexpr GLfloat DAY_LIGHT_DIR_INTENSITY = 1.f;
             static constexpr GLfloat NIGHT_LIGHT_DIR_INTENSITY = 0.f;
             
-            static constexpr GLfloat DAWN_DUSK_LIGHT_AMB_INTENSITY = .3f;
-            static constexpr GLfloat DAY_LIGHT_AMB_INTENSITY = .4f;
-            static constexpr GLfloat NIGHT_LIGHT_AMB_INTENSITY = .15f;
+            static constexpr GLfloat DAWN_DUSK_LIGHT_AMB_INTENSITY = .35f;
+            static constexpr GLfloat DAY_LIGHT_AMB_INTENSITY = .5f;
+            static constexpr GLfloat NIGHT_LIGHT_AMB_INTENSITY = .25f;
             
             static_assert(GEN_MIN_H < GEN_MAX_H);
             
@@ -91,7 +91,7 @@ namespace app {
             // Hardware
             std::string GPUInfo;     /**< GPU brand information. */
             std::string GPUDriver;   /**< Version of the GPU's driver. */
-            std::vector<std::string> GPUExtensions; /**< Version of the GPU's driver. */
+            std::vector<std::string> GPUExtensions; /**< Extensions of the GPU's driver. */
             std::string GLEWVersion; /**< Version of GLEW. */
             std::string CPUInfo;     /**< CPU brand and core information. */
             
@@ -99,7 +99,7 @@ namespace app {
             GLint width = 800;      /**< Width of the window. */
             GLint height = 600;     /**< Height of the window. */
             GLfloat fov = 70;       /**< Field of view, default to 70. */
-            GLint distanceView = 3; /**< Draw distance as the radius of SuperChunk rendered. */
+            GLint distanceView = 1; /**< Draw distance as the radius of SuperChunk rendered. */
             GLboolean debug = true; /**< Display debug or not. */
             
             // Control
