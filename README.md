@@ -1,4 +1,4 @@
-# Master-craft
+# Mastercraft
 
 The goal of this project is to realize a 3D voxel world represented only by 3D cubes in the spirit of **Minecraft**.
 
